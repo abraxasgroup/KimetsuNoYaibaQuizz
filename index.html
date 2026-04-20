@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>鬼滅の刃 — Quiz Definitivo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Fondo decorativo con patrón Tanjiro -->
+  <div class="bg-pattern" aria-hidden="true"></div>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <!-- Partículas flotantes -->
+  <div class="particles" aria-hidden="true" id="particles"></div>
+
+  <main id="app">
+
+    <!-- ===========================
+         PANTALLA: MENÚ PRINCIPAL
+    =========================== -->
+    <section id="menu-screen" class="screen active">
+      <header class="menu-header">
+        <div class="japanese-title" aria-hidden="true">鬼滅の刃</div>
+        <h1 class="main-title">KIMETSU<br /><span>NO YAIBA</span></h1>
+        <p class="subtitle">Quiz Definitivo · Pon a prueba tu conocimiento del universo del Cazador de Demonios</p>
+      </header>
+
+      <div class="mode-grid">
+        <!-- Modo 1: Trivia -->
+        <button class="mode-card" data-mode="trivia" aria-label="Trivia General">
+          <div class="card-glow trivia-glow"></div>
+          <div class="card-icon">⚔️</div>
+          <div class="card-body">
+            <h2>Trivia General</h2>
+            <p>10 preguntas del anime. ¿Cuánto sabes sobre la Corporación de Cazadores de Demonios?</p>
+          </div>
+          <div class="card-badge">10 Preguntas</div>
+        </button>
+
+        <!-- Modo 2: Respiración -->
+        <button class="mode-card" data-mode="respiracion" aria-label="Test de Respiración">
+          <div class="card-glow breath-glow"></div>
+          <div class="card-icon">💧</div>
+          <div class="card-body">
+            <h2>¿Qué Respiración Eres?</h2>
+            <p>Descubre si tu alma vibra con el Agua, Fuego, Trueno, Bestia o Insecto.</p>
+          </div>
+          <div class="card-badge">Test Personalidad</div>
+        </button>
+
+        <!-- Modo 3: Pilar -->
+        <button class="mode-card" data-mode="hashira" aria-label="Test Hashira">
+          <div class="card-glow hashira-glow"></div>
+          <div class="card-icon">🏯</div>
+          <div class="card-body">
+            <h2>¿Qué Pilar (Hashira) Eres?</h2>
+            <p>Nueve pilares. Una sola alma que resuena con la tuya. ¿Cuál es?</p>
+          </div>
+          <div class="card-badge">Test Personalidad</div>
+        </button>
+
+        <!-- Modo 4: Luna Demoníaca -->
+        <button class="mode-card" data-mode="luna" aria-label="Test Luna Demoníaca">
+          <div class="card-glow demon-glow"></div>
+          <div class="card-icon">🌙</div>
+          <div class="card-body">
+            <h2>¿Qué Luna Demoníaca Eres?</h2>
+            <p>Sumérgete en la oscuridad. Para los que admiran el poder desde las sombras.</p>
+          </div>
+          <div class="card-badge">Lado Oscuro</div>
+        </button>
+      </div>
+
+      <footer class="menu-footer">
+        <p>「 無限の力を示せ — Demuestra un poder infinito 」</p>
+      </footer>
+    </section>
+
+    <!-- ===========================
+         PANTALLA: QUIZ / TEST
+    =========================== -->
+    <section id="quiz-screen" class="screen hidden">
+      <div class="quiz-container">
+        <!-- Encabezado del quiz -->
+        <div class="quiz-header">
+          <button class="btn-back" id="btn-back" aria-label="Volver al menú">
+            ← Menú
+          </button>
+          <div class="quiz-meta">
+            <span id="quiz-mode-label" class="mode-label">Trivia</span>
+            <span id="quiz-progress" class="progress-text">1 / 10</span>
+          </div>
+        </div>
+
+        <!-- Barra de progreso -->
+        <div class="progress-bar-container" aria-label="Progreso del quiz">
+          <div class="progress-bar-fill" id="progress-bar-fill"></div>
+        </div>
+
+        <!-- Pregunta -->
+        <div class="question-area">
+          <p id="question-counter" class="question-number">Pregunta 1</p>
+          <h2 id="question-text" class="question-text"></h2>
+        </div>
+
+        <!-- Opciones de respuesta -->
+        <div class="options-grid" id="options-grid" role="list"></div>
+
+        <!-- Botón siguiente (aparece después de responder) -->
+        <div class="next-container" id="next-container" style="display:none;">
+          <button class="btn-next" id="btn-next">
+            Siguiente <span>→</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================
+         PANTALLA: RESULTADO
+    =========================== -->
+    <section id="result-screen" class="screen hidden">
+      <div class="result-container">
+        <!-- Efecto de partículas del resultado -->
+        <div class="result-particles" aria-hidden="true" id="result-particles"></div>
+
+        <!-- Imagen del resultado -->
+        <div class="result-image-wrapper" id="result-image-wrapper">
+          <img id="result-img" src="" alt="" class="result-img" />
+          <div class="result-img-fallback hidden" id="result-img-fallback"></div>
+        </div>
+
+        <!-- Contenido del resultado -->
+        <div class="result-content">
+          <div class="result-category" id="result-category"></div>
+          <h2 class="result-name" id="result-name"></h2>
+          <div class="result-score" id="result-score"></div>
+          <p class="result-description" id="result-description"></p>
+
+          <!-- Tags de rasgos -->
+          <div class="result-tags" id="result-tags"></div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="result-actions">
+          <button class="btn-primary" id="btn-restart">Jugar de Nuevo</button>
+          <button class="btn-secondary" id="btn-menu">← Menú Principal</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
