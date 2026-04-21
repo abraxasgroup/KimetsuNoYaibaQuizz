@@ -586,14 +586,20 @@ const MODE_LABELS = {
  * @param {string} screenId - ID de la sección a mostrar
  */
 function showScreen(screenId) {
-  [DOM.menuScreen, DOM.quizScreen, DOM.resultScreen].forEach(s => {
-    s.classList.remove('active');
-    s.classList.add('hidden');
+  // Ocultar todas las pantallas conocidas (quiz + minijuegos)
+  const ALL_SCREEN_IDS = [
+    'menu-screen', 'quiz-screen', 'result-screen',
+    'hangman-screen', 'tateti-screen', 'katana-screen',
+  ];
+  ALL_SCREEN_IDS.forEach(sid => {
+    const el = document.getElementById(sid);
+    if (el) { el.classList.remove('active'); el.classList.add('hidden'); }
   });
   const target = document.getElementById(screenId);
-  target.classList.remove('hidden');
-  target.classList.add('active');
-  // Scroll al inicio
+  if (target) {
+    target.classList.remove('hidden');
+    target.classList.add('active');
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
