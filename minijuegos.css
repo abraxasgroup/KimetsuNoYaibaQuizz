@@ -1,0 +1,551 @@
+/* ================================================
+   KIMETSU NO YAIBA — MINIJUEGOS
+   minijuegos.css
+   Coherente con style.css existente.
+   ================================================ */
+
+/* ── Contenedor base compartido ── */
+.mini-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.mini-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Las nuevas pantallas reutilizan .screen, .btn-back, .mode-label
+   y .btn-primary / .btn-secondary del style.css principal */
+
+/* ════════════════════════════════════════════════
+   MENÚ — tarjetas nuevas
+════════════════════════════════════════════════ */
+.mode-card.hangman-card .card-glow { background: radial-gradient(ellipse at top right, rgba(201,168,76,0.14), transparent 70%); }
+.mode-card.tateti-card  .card-glow { background: radial-gradient(ellipse at top right, rgba(108,52,131,0.16), transparent 70%); }
+.mode-card.katana-card  .card-glow { background: radial-gradient(ellipse at top right, rgba(192,57,43,0.14), transparent 70%); }
+
+/* ════════════════════════════════════════════════
+   AHORCADO DEL CAZADOR
+════════════════════════════════════════════════ */
+.hm-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.hm-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.hm-canvas {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(192,57,43,0.2);
+  border-radius: 8px;
+}
+
+.hm-hint {
+  font-family: var(--font-body, 'Crimson Pro', serif);
+  font-size: 0.9rem;
+  color: var(--text-muted, #8A7A6A);
+  font-style: italic;
+  text-align: center;
+  max-width: 160px;
+}
+
+.hm-errors {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--red, #C0392B);
+  text-transform: uppercase;
+}
+
+.hm-right {
+  flex: 1;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Palabra a adivinar */
+.hm-word-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.hm-letter {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 700;
+  color: var(--text-primary, #F0E6D3);
+  min-width: 1.8ch;
+  text-align: center;
+  border-bottom: 2px solid rgba(192,57,43,0.4);
+  padding-bottom: 2px;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.hm-letter.revealed {
+  color: var(--red-bright, #E74C3C);
+  border-color: var(--red-bright, #E74C3C);
+  text-shadow: 0 0 10px rgba(231,76,60,0.4);
+}
+
+/* Status */
+.hm-status {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 0.95rem;
+  text-align: center;
+  min-height: 1.5em;
+  transition: all 0.4s ease;
+}
+.hm-status.win  { color: #27AE60; }
+.hm-status.lose { color: var(--red-bright, #E74C3C); }
+.hm-status strong { color: var(--gold, #C9A84C); }
+
+/* Teclado virtual */
+.hm-keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.hm-kb-row {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hm-key {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 0.75rem;
+  font-weight: 700;
+  width: 36px;
+  height: 36px;
+  background: var(--bg-card, #0F1015);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text-primary, #F0E6D3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hm-key:hover:not(:disabled) {
+  background: rgba(192,57,43,0.15);
+  border-color: var(--red, #C0392B);
+  color: var(--red-bright, #E74C3C);
+  transform: translateY(-2px);
+}
+
+.hm-key.correct {
+  background: rgba(39,174,96,0.15);
+  border-color: #27AE60;
+  color: #7DCEA0;
+}
+
+.hm-key.wrong {
+  background: rgba(192,57,43,0.12);
+  border-color: rgba(192,57,43,0.3);
+  color: rgba(231,76,60,0.5);
+}
+
+.hm-key:disabled { cursor: default; opacity: 0.5; }
+.hm-key.correct:disabled,
+.hm-key.wrong:disabled { opacity: 1; }
+
+.hm-restart {
+  align-self: center;
+  margin-top: 0.5rem;
+}
+
+/* ════════════════════════════════════════════════
+   TATETI — DEMONIOS VS CAZADORES
+════════════════════════════════════════════════ */
+.tt-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+.tt-sel-title {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  font-weight: 700;
+  color: var(--text-primary, #F0E6D3);
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+
+.tt-bando-grid {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tt-bando-btn {
+  background: var(--bg-card, #0F1015);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  cursor: pointer;
+  text-align: center;
+  color: var(--text-primary, #F0E6D3);
+  font-family: var(--font-body, 'Crimson Pro', serif);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 180px;
+}
+
+.tt-bando-btn:hover {
+  border-color: var(--red, #C0392B);
+  box-shadow: 0 0 30px rgba(192,57,43,0.25);
+  transform: translateY(-4px);
+}
+
+.tt-bando-emoji {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.tt-bando-name {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary, #F0E6D3);
+}
+
+.tt-bando-sub {
+  font-size: 0.85rem;
+  color: var(--gold, #C9A84C);
+  font-style: italic;
+}
+
+.tt-bando-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted, #8A7A6A);
+  line-height: 1.5;
+}
+
+.tt-vs {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--red, #C0392B);
+  text-shadow: 0 0 15px rgba(192,57,43,0.5);
+}
+
+/* Juego */
+.tt-game-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.tt-legend {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted, #8A7A6A);
+}
+
+.tt-leg-item { display: flex; align-items: center; gap: 0.4rem; }
+.tt-leg-ico  { font-size: 1.1rem; }
+.tt-leg-sep  { color: var(--red, #C0392B); font-size: 0.7rem; }
+
+.tt-status {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--text-primary, #F0E6D3);
+  min-height: 1.6em;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+.tt-status.win  { color: #27AE60; }
+.tt-status.lose { color: var(--red-bright, #E74C3C); }
+.tt-status.draw { color: var(--gold, #C9A84C); }
+
+/* Tablero 3×3 */
+.tt-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  width: min(320px, 90vw);
+  background: rgba(192,57,43,0.08);
+  border: 1px solid rgba(192,57,43,0.15);
+  border-radius: 10px;
+  padding: 6px;
+}
+
+.tt-cell {
+  aspect-ratio: 1;
+  background: var(--bg-card, #0F1015);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.8rem, 8vw, 2.8rem);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+  user-select: none;
+}
+
+.tt-cell:hover:not(.taken) {
+  background: rgba(192,57,43,0.1);
+  border-color: rgba(192,57,43,0.3);
+  transform: scale(1.04);
+}
+
+.tt-cell.taken { cursor: default; }
+
+.tt-cell.winning-cell {
+  background: rgba(192,57,43,0.2);
+  border-color: var(--red, #C0392B);
+  box-shadow: 0 0 15px rgba(192,57,43,0.3);
+  animation: winning-pulse 0.8s ease-in-out 2;
+}
+
+@keyframes winning-pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.08); }
+}
+
+.tt-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ════════════════════════════════════════════════
+   FORJA TU KATANA
+════════════════════════════════════════════════ */
+.kf-container { max-width: 900px; }
+
+.kf-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.kf-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.kf-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.kf-section-title {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red, #C0392B);
+  opacity: 0.8;
+}
+
+/* Grid de colores de hoja */
+.kf-blade-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.kf-blade-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kf-blade-btn:hover {
+  transform: scale(1.2);
+}
+
+.kf-blade-btn.active {
+  border-color: #fff;
+  transform: scale(1.25);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.15);
+}
+
+.kf-lore {
+  font-family: var(--font-body, 'Crimson Pro', serif);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-muted, #8A7A6A);
+  line-height: 1.5;
+  min-height: 2.2em;
+  transition: opacity 0.3s ease;
+}
+
+/* Opciones de Tsuba */
+.kf-option-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.kf-opt-btn {
+  background: var(--bg-card, #0F1015);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  transition: all 0.2s ease;
+  color: var(--text-muted, #8A7A6A);
+  min-width: 72px;
+}
+
+.kf-opt-btn:hover {
+  border-color: rgba(192,57,43,0.4);
+  color: var(--text-primary, #F0E6D3);
+}
+
+.kf-opt-btn.active {
+  border-color: var(--red, #C0392B);
+  background: rgba(192,57,43,0.12);
+  color: var(--text-primary, #F0E6D3);
+}
+
+.kf-opt-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.kf-opt-lbl {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Grid de colores de ito */
+.kf-ito-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.kf-ito-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.kf-ito-btn:hover { transform: scale(1.2); }
+.kf-ito-btn.active {
+  border-color: #fff;
+  transform: scale(1.2);
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.2);
+}
+
+/* Preview de la katana */
+.kf-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  position: sticky;
+  top: 2rem;
+}
+
+.kf-canvas-wrap {
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(192,57,43,0.15);
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kf-canvas-wrap::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 18px,
+      rgba(30,107,68,0.04) 18px, rgba(30,107,68,0.04) 20px),
+    repeating-linear-gradient(-45deg, transparent, transparent 18px,
+      rgba(30,107,68,0.04) 18px, rgba(30,107,68,0.04) 20px);
+}
+
+.kf-canvas {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  height: auto;
+}
+
+.kf-blade-name {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted, #8A7A6A);
+  text-align: center;
+}
+
+.kf-download {
+  width: 100%;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .hm-layout    { flex-direction: column; align-items: center; }
+  .hm-right     { width: 100%; }
+  .kf-layout    { grid-template-columns: 1fr; }
+  .kf-preview   { position: static; }
+  .tt-bando-grid{ gap: 0.75rem; }
+  .tt-bando-btn { min-width: 140px; padding: 1rem; }
+}
