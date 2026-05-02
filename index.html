@@ -149,19 +149,41 @@
     50%      { box-shadow:0 0 20px rgba(192,57,43,.5),0 0 40px rgba(192,57,43,.3); }
   }
 
+  /* 🟢 CORREGIDO: carrusel de slogans sin cortes */
   .hero-slogan-wrap {
-    height:2.2em; overflow:hidden; position:relative;
-    width:100%; animation: hg-fadeup .8s .5s ease both;
+    position: relative;
+    width: 100%;
+    min-height: 3.5em; /* altura mínima para 2 líneas */
+    animation: hg-fadeup .8s .5s ease both;
+    overflow: visible; /* antes era hidden, lo que cortaba frases */
   }
   .hero-slogan {
-    font-family:'Crimson Pro',serif; font-size:clamp(1rem,2.5vw,1.35rem);
-    font-style:italic; color:#7A6A5A; letter-spacing:.05em;
-    text-align:center; position:absolute; width:100%;
-    opacity:0; transform:translateY(20px);
-    transition: opacity .6s ease, transform .6s ease;
+    font-family:'Crimson Pro',serif;
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    font-style: italic;
+    color: #7A6A5A;
+    letter-spacing: .05em;
+    text-align: center;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    /* 🟢 Se elimina position:absolute para que el texto fluya y no se corte */
+    position: static;
+    display: none;
+    margin: 0;
+    padding: 0.3em 0;
   }
-  .hero-slogan.active { opacity:1; transform:translateY(0); }
-  .hero-slogan .hs-name { color:#C9A84C; font-style:normal; font-weight:600; }
+  .hero-slogan.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    /* 🟢 Las frases ahora ocupan el espacio real que necesitan */
+  }
+  .hero-slogan .hs-name {
+    color: #C9A84C;
+    font-style: normal;
+    font-weight: 600;
+  }
 
   .hero-stats {
     display:flex; gap:1.5rem; flex-wrap:wrap; justify-content:center;
@@ -335,6 +357,7 @@
     </header>
 
     <div class="mode-grid">
+      <!-- Tarjetas de quiz (data-mode) -->
       <button class="mode-card" data-mode="trivia">
         <div class="card-glow trivia-glow"></div>
         <div class="card-icon">⚔️</div>
@@ -374,9 +397,8 @@
         </div>
         <div class="card-badge">Lado Oscuro</div>
       </button>
-    </div>
 
-      <!-- ── Minijuegos ── -->
+      <!-- 🟢 CORREGIDO: Minijuegos con IDs y navegación funcional -->
       <button class="mode-card hangman-card" id="btn-hangman">
         <div class="card-glow hangman-card-glow"></div>
         <div class="card-icon">🪢</div>
@@ -406,7 +428,7 @@
         </div>
         <div class="card-badge">Creativo</div>
       </button>
-    </div><!-- /mode-grid cierre -->
+    </div><!-- /mode-grid -->
 
     <footer class="menu-footer">
       <p>「 無限の力を示せ — Demuestra un poder infinito 」</p>
@@ -459,25 +481,36 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════
-       PANTALLA: AHORCADO
-  ══════════════════════════════ -->
+  <!-- 🟢 NUEVAS PANTALLAS DE MINIJUEGOS CON BOTÓN DE VOLVER -->
   <section id="hangman-screen" class="screen hidden">
-    <!-- Contenido generado dinámicamente por Hangman.init() -->
+    <div class="minigame-header">
+      <button class="btn-back-minigame" data-back="menu-screen">← Menú</button>
+      <h2 class="minigame-title">🪢 Ahorcado del Cazador</h2>
+    </div>
+    <div id="hangman-container" class="minigame-container">
+      <!-- Contenido generado dinámicamente por Hangman.init() -->
+      <p style="text-align:center;color:#7A6A5A;padding:2rem;">Cargando minijuego...</p>
+    </div>
   </section>
 
-  <!-- ══════════════════════════════
-       PANTALLA: TATETI
-  ══════════════════════════════ -->
   <section id="tateti-screen" class="screen hidden">
-    <!-- Contenido generado dinámicamente por Tateti.init() -->
+    <div class="minigame-header">
+      <button class="btn-back-minigame" data-back="menu-screen">← Menú</button>
+      <h2 class="minigame-title">♟️ Tateti: Demonios vs Cazadores</h2>
+    </div>
+    <div id="tateti-container" class="minigame-container">
+      <p style="text-align:center;color:#7A6A5A;padding:2rem;">Cargando minijuego...</p>
+    </div>
   </section>
 
-  <!-- ══════════════════════════════
-       PANTALLA: FORJA DE KATANA
-  ══════════════════════════════ -->
   <section id="katana-screen" class="screen hidden">
-    <!-- Contenido generado dinámicamente por KatanaForge.init() -->
+    <div class="minigame-header">
+      <button class="btn-back-minigame" data-back="menu-screen">← Menú</button>
+      <h2 class="minigame-title">⚒️ Forja tu Katana</h2>
+    </div>
+    <div id="katana-container" class="minigame-container">
+      <p style="text-align:center;color:#7A6A5A;padding:2rem;">Cargando minijuego...</p>
+    </div>
   </section>
 
 </main>
@@ -488,7 +521,7 @@
 ══════════════════════════════════════ -->
 <script>
 (function() {
-  /* Slogans */
+  /* Slogans - CORREGIDO: sin position:absolute ni overflow:hidden */
   var SLOGANS = [
     { char:'Tanjiro', text:'"Sin importar cuántas veces me rompa, me volveré a levantar."' },
     { char:'Rengoku', text:'"¡Pon todo tu corazón en llamas y avanza!"' },
@@ -501,14 +534,21 @@
   ];
   var wrap = document.querySelector('.hero-slogan-wrap');
   var idx  = 0;
+  // Crear elementos con display:none por defecto
   SLOGANS.forEach(function(s, i) {
     var el = document.createElement('p');
-    el.className = 'hero-slogan' + (i === 0 ? ' active' : '');
+    el.className = 'hero-slogan';
     el.innerHTML = '<span class="hs-name">' + s.char + '</span> — ' + s.text;
     wrap.appendChild(el);
   });
+  // Activar el primero
+  var items = wrap.querySelectorAll('.hero-slogan');
+  if (items.length > 0) {
+    items[0].classList.add('active');
+  }
+  // Rotación automática
   setInterval(function() {
-    var items = wrap.querySelectorAll('.hero-slogan');
+    if (items.length === 0) return;
     items[idx].classList.remove('active');
     idx = (idx + 1) % items.length;
     items[idx].classList.add('active');
@@ -605,10 +645,59 @@
       'font-size:.9rem;text-align:center;">炭 治 郎</div></div>';
   };
 
-  /* Scroll al quiz — expuesto globalmente para el onclick */
+  /* Scroll al quiz */
   window.heroGoToQuiz = function() {
     document.getElementById('app').scrollIntoView({ behavior:'smooth' });
   };
+})();
+</script>
+
+<!-- 🟢 NUEVO: Navegación para minijuegos y botones "volver al menú" -->
+<script>
+(function() {
+  // Función para ocultar todas las pantallas y mostrar una específica
+  function showScreen(screenId) {
+    var screens = document.querySelectorAll('.screen');
+    screens.forEach(function(s) { s.classList.add('hidden'); s.classList.remove('active'); });
+    var target = document.getElementById(screenId);
+    if (target) {
+      target.classList.remove('hidden');
+      target.classList.add('active');
+    }
+  }
+
+  // Navegación a minijuegos desde el menú
+  document.getElementById('btn-hangman').addEventListener('click', function() {
+    showScreen('hangman-screen');
+    // Inicializar el minijuego si el script existe
+    if (typeof Hangman !== 'undefined' && typeof Hangman.init === 'function') {
+      Hangman.init();
+    }
+  });
+
+  document.getElementById('btn-tateti').addEventListener('click', function() {
+    showScreen('tateti-screen');
+    if (typeof Tateti !== 'undefined' && typeof Tateti.init === 'function') {
+      Tateti.init();
+    }
+  });
+
+  document.getElementById('btn-katana').addEventListener('click', function() {
+    showScreen('katana-screen');
+    if (typeof KatanaForge !== 'undefined' && typeof KatanaForge.init === 'function') {
+      KatanaForge.init();
+    }
+  });
+
+  // Botones "volver al menú" en minijuegos
+  document.querySelectorAll('.btn-back-minigame').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      showScreen('menu-screen');
+    });
+  });
+
+  // También exponer showScreen globalmente por si script.js lo necesita
+  window.showScreen = showScreen;
 })();
 </script>
 
