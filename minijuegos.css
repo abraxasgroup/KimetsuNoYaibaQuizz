@@ -30,7 +30,9 @@
 .mode-card.hangman-card .card-glow { background: radial-gradient(ellipse at top right, rgba(201,168,76,0.14), transparent 70%); }
 .mode-card.tateti-card  .card-glow { background: radial-gradient(ellipse at top right, rgba(108,52,131,0.16), transparent 70%); }
 .mode-card.katana-card  .card-glow { background: radial-gradient(ellipse at top right, rgba(192,57,43,0.14), transparent 70%); }
-
+.mode-card.arcos-card .card-glow {
+  background: radial-gradient(ellipse at top right, rgba(218,165,32,0.18), transparent 70%);
+}
 /* ════════════════════════════════════════════════
    AHORCADO DEL CAZADOR
 ════════════════════════════════════════════════ */
