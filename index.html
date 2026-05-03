@@ -6,433 +6,1510 @@
   <title>Kimetsu no Yaiba — Quiz Definitivo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Permanent+Marker&family=Fira+Mono:wght@500&display=swap" rel="stylesheet" />
   <style>
-    /* ========== ESTILOS GLOBALES ========== */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Crimson Pro', serif;
-      background: #0a0a0e;
-      color: #F0E6D3;
-      overflow-x: hidden;
+    /* ===== RESET & VARIABLES ===== */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --bg-deep:#030507;--bg-dark:#0A0A0E;--bg-card:#0F1015;--bg-card-hover:#141620;
+      --red:#C0392B;--red-bright:#E74C3C;--red-glow:rgba(192,57,43,0.4);
+      --green:#1E6B44;--green-bright:#27AE60;--green-glow:rgba(30,107,68,0.4);
+      --gold:#C9A84C;--gold-glow:rgba(201,168,76,0.3);--purple:#6C3483;
+      --text-primary:#F0E6D3;--text-muted:#8A7A6A;--text-dim:#4A4040;
+      --border:rgba(255,255,255,0.06);--border-red:rgba(192,57,43,0.4);
+      --shadow-red:0 0 40px rgba(192,57,43,0.25);--shadow-deep:0 20px 60px rgba(0,0,0,0.8);
+      --font-display:'Cinzel',serif;--font-body:'Crimson Pro',serif;
+      --radius:8px;--radius-lg:16px;--transition:0.3s cubic-bezier(0.4,0,0.2,1);
     }
-    :root {
-      --primary: #C0392B;
-      --gold: #C9A84C;
-      --text-muted: #8A7A6A;
-      --bg-card: #0F1015;
-      --border: rgba(255,255,255,0.08);
+    html{font-size:16px;scroll-behavior:smooth;}
+    body{background-color:var(--bg-deep);color:var(--text-primary);font-family:var(--font-body);font-size:1.05rem;line-height:1.6;min-height:100vh;overflow-x:hidden;}
+    ::-webkit-scrollbar{width:6px;}
+    ::-webkit-scrollbar-track{background:var(--bg-deep);}
+    ::-webkit-scrollbar-thumb{background:var(--red);border-radius:3px;}
+    :focus-visible{outline:2px solid var(--red-bright);outline-offset:3px;}
+
+    /* ===== HERO ===== */
+    .hero{position:relative;width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:2rem 1.5rem 5rem;}
+    .hero-pattern{position:absolute;inset:0;z-index:0;background-image:repeating-linear-gradient(45deg,transparent,transparent 22px,rgba(30,107,68,0.055) 22px,rgba(30,107,68,0.055) 24px),repeating-linear-gradient(-45deg,transparent,transparent 22px,rgba(30,107,68,0.055) 22px,rgba(30,107,68,0.055) 24px);}
+    .hero-vignette{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse 80% 80% at 50% 50%,transparent 20%,rgba(0,0,0,0.75) 100%);}
+    .hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);width:700px;height:500px;z-index:1;pointer-events:none;background:radial-gradient(ellipse,rgba(192,57,43,0.18) 0%,rgba(192,57,43,0.06) 40%,transparent 70%);animation:hg-pulse 4s ease-in-out infinite;}
+    @keyframes hg-pulse{0%,100%{opacity:.8;transform:translate(-50%,-55%) scale(1);}50%{opacity:1;transform:translate(-50%,-55%) scale(1.08);}}
+    .hero-tanjiro-wrap{position:absolute;bottom:0;right:5%;z-index:4;width:clamp(220px,28vw,380px);animation:hg-float 6s ease-in-out infinite;}
+    @keyframes hg-float{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+    .hero-tanjiro-img{width:100%;display:block;filter:drop-shadow(0 0 30px rgba(192,57,43,.5)) drop-shadow(0 0 80px rgba(192,57,43,.2));}
+    .hero-content{position:relative;z-index:5;text-align:center;max-width:750px;display:flex;flex-direction:column;align-items:center;gap:1.5rem;padding-right:clamp(0px,20vw,200px);}
+    .hero-kanji{font-family:'Cinzel',serif;font-size:clamp(.9rem,2vw,1.1rem);letter-spacing:.6em;color:#C0392B;opacity:.7;}
+    .hero-title{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(3rem,9vw,7rem);line-height:.88;text-transform:uppercase;}
+    .ht-line1{display:block;background:linear-gradient(170deg,#F5E6C8 0%,#C9A84C 45%,#8B5E1A 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .ht-line2{display:block;font-size:.62em;letter-spacing:.22em;background:linear-gradient(170deg,#E74C3C 0%,#8B1010 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .hero-divider{display:flex;align-items:center;gap:1rem;width:100%;max-width:400px;}
+    .hero-divider::before,.hero-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(192,57,43,.5));}
+    .hero-divider::after{background:linear-gradient(270deg,transparent,rgba(192,57,43,.5));}
+    .hero-diamond{width:8px;height:8px;background:#C0392B;transform:rotate(45deg);animation:hg-diamond 2s ease-in-out infinite;}
+    @keyframes hg-diamond{0%,100%{box-shadow:0 0 8px rgba(192,57,43,.5);}50%{box-shadow:0 0 20px rgba(192,57,43,.5),0 0 40px rgba(192,57,43,.3);}}
+    .hero-slogan-wrap{position:relative;width:100%;min-height:3.5em;overflow:visible;}
+    .hero-slogan{font-family:'Crimson Pro',serif;font-size:clamp(1rem,2.5vw,1.35rem);font-style:italic;color:#7A6A5A;text-align:center;width:100%;opacity:0;transition:opacity .6s;display:none;margin:0;padding:0.3em 0;}
+    .hero-slogan.active{display:block;opacity:1;}
+    .hs-name{color:#C9A84C;font-style:normal;font-weight:600;}
+    .btn-hero-p{font-family:'Cinzel',serif;font-size:.9rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#F0E6D3;background:linear-gradient(135deg,#C0392B,#7A1515);border:none;padding:1rem 2.5rem;border-radius:4px;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 30px rgba(192,57,43,.35);display:inline-flex;align-items:center;gap:.6rem;}
+    .btn-hero-p:hover{transform:translateY(-3px);box-shadow:0 8px 40px rgba(192,57,43,.55);}
+    .hero-stats{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;margin:1.5rem 0;}
+    .hero-stat-num{font-family:'Cinzel',serif;font-size:1.8rem;font-weight:900;color:var(--gold);}
+
+    /* ===== CHARACTER CARDS SECTION ===== */
+    .chars-section{
+      background:#080808;
+      padding:5rem 2rem;
+      position:relative;
+      overflow:hidden;
     }
-    /* ========== HERO (sin cambios) ========== */
-    .hero {
-      position: relative; width: 100%; min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      overflow: hidden; padding: 2rem 1.5rem 5rem;
+    .chars-section::before{
+      content:'PERSONAJES';
+      position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      font-family:'Cinzel',serif;font-size:clamp(4rem,12vw,10rem);font-weight:900;
+      color:rgba(192,57,43,0.04);letter-spacing:.3em;pointer-events:none;
+      white-space:nowrap;
     }
-    .hero-pattern {
-      position: absolute; inset: 0; z-index: 0;
-      background-image:
-        repeating-linear-gradient(45deg, transparent, transparent 22px, rgba(30,107,68,0.055) 22px, rgba(30,107,68,0.055) 24px),
-        repeating-linear-gradient(-45deg, transparent, transparent 22px, rgba(30,107,68,0.055) 22px, rgba(30,107,68,0.055) 24px);
+    .chars-title{
+      text-align:center;margin-bottom:3rem;
     }
-    .hero-vignette {
-      position: absolute; inset: 0; z-index: 1;
-      background: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 20%, rgba(0,0,0,0.75) 100%);
+    .chars-title h2{
+      font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,2rem);
+      background:linear-gradient(170deg,#F5E6C8,#C9A84C);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      letter-spacing:.2em;text-transform:uppercase;
     }
-    .hero-glow {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-55%);
-      width: 700px; height: 500px; z-index: 1; pointer-events: none;
-      background: radial-gradient(ellipse, rgba(192,57,43,0.18) 0%, rgba(192,57,43,0.06) 40%, transparent 70%);
-      animation: hg-pulse 4s ease-in-out infinite;
+    .chars-title p{color:var(--text-muted);font-style:italic;margin-top:.5rem;}
+    .cards-wrap{
+      display:flex;flex-wrap:wrap;justify-content:center;gap:2rem;
+      max-width:1100px;margin:0 auto;position:relative;z-index:1;
     }
-    @keyframes hg-pulse { 0%,100% { opacity:.8; transform:translate(-50%,-55%) scale(1); } 50% { opacity:1; transform:translate(-50%,-55%) scale(1.08); } }
-    .hero-breath-lines { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
-    .hero-breath-line {
-      position: absolute; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(192,57,43,0.4), transparent);
-      transform-origin: left center; animation: hg-sweep linear infinite; opacity: 0;
+    .char-card{
+      overflow:hidden;text-align:center;position:relative;
+      width:280px;height:280px;
+      background-position:center;background-repeat:no-repeat;background-size:cover;
+      border-radius:50px;
+      box-shadow:30px 30px 40px #141313,-30px -30px 40px #1c1919;
+      transform:scale(1.05);cursor:pointer;
+      transition:border-radius .7s;
     }
-    @keyframes hg-sweep { 0%{opacity:0;transform:scaleX(0) rotate(var(--angle));} 15%{opacity:1;} 85%{opacity:.6;} 100%{opacity:0;transform:scaleX(1.4) rotate(var(--angle));} }
-    .hero-tanjiro-wrap {
-      position: absolute; bottom: 0; right: 5%; z-index: 4;
-      width: clamp(220px,28vw,380px); animation: hg-float 6s ease-in-out infinite;
+    .char-card.tanjiro{background-image:url("https://namratapdrjs.netlify.app/scrolling-animations/assets-card/tanjiro.png");}
+    .char-card.nezuko{background-image:url("https://namratapdrjs.netlify.app/scrolling-animations/assets-card/nezuko.jpg");}
+    .char-card.zenitsu{background-image:url("https://namratapdrjs.netlify.app/scrolling-animations/assets-card/zenitsu.jpg");}
+    .char-card.rengoku{background-image:url("rengoku.png");background-color:#1a0a00;}
+    .char-card.inosuke{background-image:url("inosuke.png");background-color:#0a1a0a;}
+    .char-card.shinobu{background-image:url("shinobu.png");background-color:#0a0a1a;}
+    .char-colour{
+      position:absolute;width:100%;height:15%;
+      right:120px;top:40px;
+      transform:rotate(-45deg) translateY(-90px);
+      transition:transform .7s ease-in-out;
     }
-    @keyframes hg-float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-14px);} }
-    .hero-tanjiro-img {
-      width: 100%; display: block;
-      filter: drop-shadow(0 0 30px rgba(192,57,43,.5)) drop-shadow(0 0 80px rgba(192,57,43,.2));
+    .char-colour::before{
+      content:'';position:absolute;width:100%;height:100%;bottom:40px;
+      transform:translateX(-145px);
     }
-    .hero-content {
-      position: relative; z-index: 5; text-align: center;
-      max-width: 750px; display: flex; flex-direction: column;
-      align-items: center; gap: 1.5rem; padding-right: clamp(0px,20vw,200px);
+    .char-colour-bottom{
+      position:absolute;width:100%;height:15%;
+      left:140px;top:245px;
+      transform:rotate(-45deg) translateY(95px);
+      transition:transform .7s ease-in-out;
     }
-    .hero-kanji { font-family:'Cinzel',serif; font-size:clamp(.9rem,2vw,1.1rem); letter-spacing:.6em; color:#C0392B; opacity:.7; }
-    .hero-title { font-family:'Cinzel',serif; font-weight:900; font-size:clamp(3rem,9vw,7rem); line-height:.88; text-transform:uppercase; }
-    .ht-line1 { display:block; background:linear-gradient(170deg,#F5E6C8 0%,#C9A84C 45%,#8B5E1A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-    .ht-line2 { display:block; font-size:.62em; letter-spacing:.22em; background:linear-gradient(170deg,#E74C3C 0%,#8B1010 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-    .hero-divider { display:flex; align-items:center; gap:1rem; width:100%; max-width:400px; }
-    .hero-divider::before,.hero-divider::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,transparent,rgba(192,57,43,.5)); }
-    .hero-divider::after { background:linear-gradient(270deg,transparent,rgba(192,57,43,.5)); }
-    .hero-diamond { width:8px; height:8px; background:#C0392B; transform:rotate(45deg); animation: hg-diamond 2s ease-in-out infinite; }
-    @keyframes hg-diamond { 0%,100%{box-shadow:0 0 8px rgba(192,57,43,.5);} 50%{box-shadow:0 0 20px rgba(192,57,43,.5),0 0 40px rgba(192,57,43,.3);} }
-    .hero-slogan-wrap { position: relative; width: 100%; min-height: 3.5em; animation: hg-fadeup .8s .5s ease both; overflow: visible; }
-    .hero-slogan { font-family:'Crimson Pro',serif; font-size: clamp(1rem, 2.5vw, 1.35rem); font-style: italic; color: #7A6A5A; text-align: center; width: 100%; opacity: 0; transition: opacity .6s; display: none; margin: 0; padding: 0.3em 0; }
-    .hero-slogan.active { display: block; opacity: 1; }
-    .hs-name { color: #C9A84C; font-style: normal; font-weight: 600; }
-    .btn-hero-p { font-family:'Cinzel',serif; font-size:.9rem; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:#F0E6D3; background:linear-gradient(135deg,#C0392B,#7A1515); border:none; padding:1rem 2.5rem; border-radius:4px; cursor:pointer; transition:transform .2s,box-shadow .2s; box-shadow:0 4px 30px rgba(192,57,43,.35); display:inline-flex; align-items:center; gap:.6rem; }
-    .btn-hero-p:hover { transform:translateY(-3px); box-shadow:0 8px 40px rgba(192,57,43,.55); }
-    /* ========== PANTALLAS ========== */
-    .screen { display: none; opacity: 0; transition: opacity 0.25s; }
-    .screen.active { display: block; opacity: 1; }
-    .screen.hidden { display: none; opacity: 0; }
-    .menu-header { text-align: center; padding: 3rem 1rem 2rem; }
-    .japanese-title { font-family:'Cinzel',serif; font-size:1.5rem; color:var(--primary); letter-spacing:.5em; margin-bottom:.5rem; }
-    .main-title { font-family:'Cinzel',serif; font-size:3rem; line-height:1; background:linear-gradient(170deg,#F5E6C8,#C9A84C); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-    .main-title span { font-size:.5em; color:var(--primary); -webkit-text-fill-color:var(--primary); }
-    .subtitle { color:var(--text-muted); margin-top:.5rem; }
-    .mode-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap:1.5rem; max-width:1000px; margin:0 auto; padding:1rem 2rem 3rem; }
-    .mode-card {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
-      padding: 1.5rem; cursor: pointer; transition: all 0.3s; display: flex;
-      flex-direction: column; align-items: center; text-align: center; position: relative;
-      overflow: hidden;
+    .char-colour-bottom::before{
+      content:'';position:absolute;width:100%;height:100%;bottom:40px;
+      transform:translateX(-147px);
     }
-    .mode-card:hover { border-color: var(--primary); transform: translateY(-4px); box-shadow: 0 8px 32px rgba(192,57,43,0.2); }
-    .card-glow { position: absolute; top: 0; right: 0; width: 100%; height: 100%; pointer-events: none; }
-    .card-icon { font-size: 2rem; margin-bottom: .5rem; }
-    .card-body h2 { font-family:'Cinzel',serif; font-size:1.2rem; color:var(--text-primary); margin-bottom:.3rem; }
-    .card-body p { font-size:.9rem; color:var(--text-muted); }
-    .card-badge { margin-top:.5rem; font-size:.7rem; padding:.2rem .8rem; border-radius:20px; background:rgba(192,57,43,0.15); color:var(--primary); font-family:'Cinzel',serif; }
-    .menu-footer { text-align:center; padding:2rem; color:var(--text-muted); font-style:italic; }
-    .mini-container { max-width:700px; margin:0 auto; padding:2rem 1rem; }
-    .btn-back { background:none; border:1px solid var(--border); color:var(--text-muted); padding:.5rem 1rem; border-radius:6px; cursor:pointer; font-family:'Cinzel',serif; }
-    .btn-back:hover { border-color:var(--primary); color:var(--primary); }
-    .option-btn { display:block; width:100%; padding:1rem; margin:.5rem 0; background:var(--bg-card); border:1px solid var(--border); color:var(--text-primary); text-align:left; font-size:1rem; cursor:pointer; transition:.2s; border-radius:8px; }
-    .option-btn:hover:not(:disabled) { border-color:var(--primary); background:rgba(192,57,43,0.1); }
-    .option-btn.correct { border-color:#27AE60; background:rgba(39,174,96,0.1); }
-    .option-btn.incorrect { border-color:var(--primary); background:rgba(192,57,43,0.1); }
-    .option-btn:disabled { opacity:.6; cursor:default; }
-    .btn-primary { background:linear-gradient(135deg,#C0392B,#7A1515); color:#F0E6D3; border:none; padding:.8rem 2rem; border-radius:6px; cursor:pointer; font-family:'Cinzel',serif; font-weight:700; letter-spacing:.1em; }
-    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(192,57,43,.4); }
-    .btn-secondary { background:transparent; border:1px solid var(--border); color:var(--text-muted); padding:.6rem 1.5rem; border-radius:6px; cursor:pointer; font-family:'Cinzel',serif; }
-    .progress-bar-container { width:100%; height:4px; background:var(--border); border-radius:2px; margin-bottom:1rem; }
-    .progress-bar-fill { height:100%; background:var(--primary); border-radius:2px; transition:width .3s; }
-    .result-container { text-align:center; padding:2rem; background:var(--bg-card); border-radius:16px; max-width:500px; margin:2rem auto; }
-    .result-img { max-width:200px; border-radius:12px; margin-bottom:1rem; }
-    .result-name { font-family:'Cinzel',serif; font-size:2rem; margin:.5rem 0; }
-    .result-description { color:var(--text-muted); margin-bottom:1rem; }
-    .result-tags { display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; margin:1rem 0; }
-    .result-tag { background:rgba(201,168,76,0.15); color:var(--gold); padding:.3rem .7rem; border-radius:20px; font-size:.8rem; }
-    /* ========== MINIJUEGOS ========== */
-    .hm-layout { display:flex; gap:2rem; flex-wrap:wrap; align-items:flex-start; }
-    .hm-left { text-align:center; }
-    .hm-canvas { background:rgba(0,0,0,0.4); border:1px solid rgba(192,57,43,0.2); border-radius:8px; }
-    .hm-word-row { display:flex; gap:.5rem; flex-wrap:wrap; justify-content:center; }
-    .hm-letter { font-family:'Cinzel',serif; font-size:clamp(1.4rem,4vw,2rem); font-weight:700; min-width:1.8ch; text-align:center; border-bottom:2px solid rgba(192,57,43,0.4); padding-bottom:2px; }
-    .hm-letter.revealed { color:#E74C3C; border-color:#E74C3C; }
-    .hm-keyboard { display:flex; flex-direction:column; gap:.3rem; align-items:center; }
-    .hm-kb-row { display:flex; gap:.3rem; flex-wrap:wrap; justify-content:center; }
-    .hm-key { width:32px; height:32px; background:var(--bg-card); border:1px solid var(--border); color:inherit; border-radius:4px; cursor:pointer; font-family:'Cinzel',serif; font-size:.7rem; }
-    .hm-key:disabled { opacity:.5; cursor:default; }
-    .hm-key.correct { background:rgba(39,174,96,0.2); border-color:#27AE60; }
-    .hm-key.wrong { background:rgba(192,57,43,0.2); border-color:var(--primary); }
-    .tt-board { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; width:min(300px,90vw); background:rgba(192,57,43,0.08); border:1px solid rgba(192,57,43,0.15); border-radius:10px; padding:6px; margin:0 auto; }
-    .tt-cell { aspect-ratio:1; background:var(--bg-card); border:1px solid var(--border); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:2.5rem; cursor:pointer; transition:.2s; }
-    .tt-cell:hover:not(.taken) { background:rgba(192,57,43,0.1); transform:scale(1.04); }
-    .tt-cell.taken { cursor:default; }
-    .tt-cell.winning-cell { background:rgba(192,57,43,0.2); border-color:var(--primary); }
-    .kf-layout { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
-    .kf-blade-grid { display:flex; gap:.5rem; flex-wrap:wrap; }
-    .kf-blade-btn { width:32px; height:32px; border-radius:50%; border:2px solid transparent; cursor:pointer; }
-    .kf-blade-btn.active { border-color:#fff; transform:scale(1.2); }
-    @media (max-width:640px) {
-      .hero-content { padding-right:0; }
-      .hero-tanjiro-wrap { position:relative; right:auto; bottom:auto; width:clamp(140px,50vw,220px); margin-top:-1rem; order:-1; }
-      .hm-layout { flex-direction:column; align-items:center; }
-      .kf-layout { grid-template-columns:1fr; }
+    /* Tanjiro colours */
+    .tanjiro .char-colour{background:linear-gradient(125deg,rgba(255,60,14,1) 28%,rgba(255,255,102,1) 89%);}
+    .tanjiro .char-colour::before{background-color:#FF3C0E;}
+    .tanjiro .char-colour-bottom{background-color:rgba(97,34,28,1);}
+    .tanjiro .char-colour-bottom::before{background:linear-gradient(331deg,rgba(97,34,28,1) 40%,rgba(125,215,178,1) 66%);}
+    /* Nezuko colours */
+    .nezuko .char-colour{background:linear-gradient(125deg,rgba(227,121,130,1) 28%,rgba(172,24,69,1) 89%);}
+    .nezuko .char-colour::before{background:rgba(172,24,69,1);}
+    .nezuko .char-colour-bottom{background:rgba(128,23,34,1);}
+    .nezuko .char-colour-bottom::before{background:linear-gradient(125deg,rgba(128,23,34,1) 40%,rgba(60,29,40,1) 66%);}
+    /* Zenitsu colours */
+    .zenitsu .char-colour{background:linear-gradient(125deg,rgba(254,241,163,1) 40%,rgba(254,233,88,1) 59%);}
+    .zenitsu .char-colour::before{background:rgba(254,233,88,1);}
+    .zenitsu .char-colour-bottom{background:rgb(224,153,45);}
+    .zenitsu .char-colour-bottom::before{background:linear-gradient(125deg,rgba(224,153,45,1) 40%,rgba(176,123,0,1) 60%);}
+    /* Rengoku colours */
+    .rengoku .char-colour{background:linear-gradient(125deg,rgba(255,140,0,1) 28%,rgba(255,215,0,1) 89%);}
+    .rengoku .char-colour::before{background:#FF8C00;}
+    .rengoku .char-colour-bottom{background:rgba(139,40,0,1);}
+    .rengoku .char-colour-bottom::before{background:linear-gradient(331deg,rgba(139,40,0,1) 40%,rgba(255,100,0,1) 66%);}
+    /* Inosuke colours */
+    .inosuke .char-colour{background:linear-gradient(125deg,rgba(100,200,100,1) 28%,rgba(200,255,100,1) 89%);}
+    .inosuke .char-colour::before{background:#64C864;}
+    .inosuke .char-colour-bottom{background:rgba(20,80,20,1);}
+    .inosuke .char-colour-bottom::before{background:linear-gradient(331deg,rgba(20,80,20,1) 40%,rgba(80,160,80,1) 66%);}
+    /* Shinobu colours */
+    .shinobu .char-colour{background:linear-gradient(125deg,rgba(147,112,219,1) 28%,rgba(221,160,221,1) 89%);}
+    .shinobu .char-colour::before{background:#9370DB;}
+    .shinobu .char-colour-bottom{background:rgba(75,0,130,1);}
+    .shinobu .char-colour-bottom::before{background:linear-gradient(331deg,rgba(75,0,130,1) 40%,rgba(147,112,219,1) 66%);}
+
+    .char-text{
+      opacity:0;position:relative;top:70px;
+      font-family:'Fira Mono',monospace;
+      transition:opacity .4s ease;
+    }
+    .char-text h3{font-family:'Permanent Marker',cursive;font-size:1.4rem;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.8);}
+    .char-text p{font-size:.8rem;color:rgba(255,255,255,.85);margin-top:.3rem;text-shadow:0 1px 4px rgba(0,0,0,.9);}
+    .char-text b{color:#FFD700;}
+
+    .char-card:hover{
+      border-radius:50px;
+      background-color:rgba(0,0,0,0.2);
+      box-shadow:30px 30px 40px #141313,-30px -30px 40px #1c1919;
+      animation:card-shrink .7s ease-in-out forwards;
+    }
+    @keyframes card-shrink{100%{transform:scale(.9);}}
+    .char-card:hover .char-text{opacity:1;}
+    .char-card:hover .char-colour{transform:rotate(-45deg) translateY(0px);}
+    .char-card:hover .char-colour-bottom{transform:rotate(-45deg) translateY(0px);}
+
+    /* ===== APP SCREENS ===== */
+    #app{position:relative;z-index:10;}
+    .screen{min-height:100vh;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:2rem 1.5rem;transition:opacity .3s ease,visibility .3s ease;}
+    .screen.active{opacity:1;visibility:visible;pointer-events:auto;display:flex;}
+    .screen.hidden{opacity:0;visibility:hidden;pointer-events:none;position:absolute;top:0;left:0;right:0;display:none;}
+
+    /* ===== MENU ===== */
+    #menu-screen{justify-content:center;padding:3rem 1.5rem 2rem;}
+    .menu-header{text-align:center;margin-bottom:3rem;}
+    .japanese-title{font-family:var(--font-display);font-size:clamp(1.5rem,4vw,2.5rem);color:var(--red);letter-spacing:.4em;opacity:.5;margin-bottom:.5rem;text-shadow:0 0 30px var(--red-glow);animation:flicker 4s ease-in-out infinite;}
+    @keyframes flicker{0%,95%,100%{opacity:.5;}96%{opacity:.2;}97%{opacity:.5;}98%{opacity:.15;}99%{opacity:.5;}}
+    .main-title{font-family:var(--font-display);font-size:clamp(2.8rem,8vw,6rem);font-weight:900;line-height:.9;text-transform:uppercase;letter-spacing:.05em;background:linear-gradient(180deg,#F0E6D3 0%,#C9A84C 40%,#8B4513 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:1rem;}
+    .main-title span{display:block;font-size:.65em;letter-spacing:.25em;background:linear-gradient(180deg,#C0392B 0%,#922B21 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .subtitle{font-family:var(--font-body);font-size:clamp(.85rem,2vw,1rem);color:var(--text-muted);font-style:italic;max-width:440px;margin:0 auto;line-height:1.5;}
+    .mode-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;max-width:960px;width:100%;margin-bottom:2.5rem;}
+    .mode-card{position:relative;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem 1.5rem;cursor:pointer;text-align:left;color:var(--text-primary);font-family:var(--font-body);overflow:hidden;transition:transform var(--transition),border-color var(--transition),box-shadow var(--transition);display:flex;flex-direction:column;gap:.75rem;}
+    .mode-card:hover{transform:translateY(-4px) scale(1.01);border-color:var(--red);box-shadow:var(--shadow-red),var(--shadow-deep);}
+    .card-glow{position:absolute;inset:0;opacity:0;transition:opacity var(--transition);pointer-events:none;}
+    .mode-card:hover .card-glow{opacity:1;}
+    .card-icon{font-size:2rem;line-height:1;}
+    .card-body h2{font-family:var(--font-display);font-size:clamp(1rem,2.5vw,1.2rem);font-weight:700;margin-bottom:.4rem;}
+    .card-body p{font-size:.9rem;color:var(--text-muted);line-height:1.5;}
+    .card-badge{align-self:flex-start;background:rgba(192,57,43,.15);border:1px solid var(--border-red);color:var(--red-bright);font-family:var(--font-display);font-size:.68rem;letter-spacing:.1em;padding:.25rem .75rem;border-radius:100px;text-transform:uppercase;}
+    .menu-footer{text-align:center;color:var(--text-dim);font-style:italic;font-size:.85rem;letter-spacing:.05em;}
+
+    /* ===== QUIZ SCREEN ===== */
+    #quiz-screen{justify-content:flex-start;padding:1.5rem 1rem 2rem;}
+    .quiz-container{width:100%;max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:1.5rem;}
+    .quiz-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+    .btn-back{background:transparent;border:1px solid var(--border);color:var(--text-muted);font-family:var(--font-body);font-size:.9rem;padding:.5rem 1rem;border-radius:var(--radius);cursor:pointer;transition:all var(--transition);}
+    .btn-back:hover{border-color:var(--red);color:var(--red-bright);background:rgba(192,57,43,.08);}
+    .quiz-meta{display:flex;align-items:center;gap:.75rem;}
+    .mode-label{font-family:var(--font-display);font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);padding:.25rem .75rem;border-radius:100px;}
+    .progress-text{font-family:var(--font-display);font-size:.85rem;color:var(--text-muted);}
+    .progress-bar-container{width:100%;height:4px;background:rgba(255,255,255,.06);border-radius:100px;overflow:hidden;}
+    .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--red-bright));border-radius:100px;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 10px var(--red-glow);width:0%;}
+    .question-area{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem 1.75rem;position:relative;overflow:hidden;}
+    .question-area::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),transparent);}
+    .question-number{font-family:var(--font-display);font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:.75rem;opacity:.8;}
+    .question-text{font-family:var(--font-display);font-size:clamp(1.1rem,3vw,1.4rem);font-weight:700;line-height:1.4;color:var(--text-primary);}
+    .options-grid{display:flex;flex-direction:column;gap:.75rem;}
+    .option-btn{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;color:var(--text-primary);font-family:var(--font-body);font-size:1rem;text-align:left;cursor:pointer;transition:all var(--transition);position:relative;overflow:hidden;line-height:1.4;display:flex;align-items:center;gap:.75rem;}
+    .option-btn::before{content:attr(data-letter);flex-shrink:0;width:28px;height:28px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:.75rem;font-weight:700;color:var(--text-muted);transition:all var(--transition);}
+    .option-btn:hover:not(:disabled){border-color:var(--red);background:var(--bg-card-hover);box-shadow:0 0 20px rgba(192,57,43,.15);transform:translateX(4px);}
+    .option-btn:hover:not(:disabled)::before{background:var(--red);border-color:var(--red);color:white;}
+    .option-btn.correct{border-color:var(--green-bright);background:rgba(39,174,96,.1);color:#7DCEA0;}
+    .option-btn.correct::before{background:var(--green-bright);border-color:var(--green-bright);color:white;content:'✓';}
+    .option-btn.incorrect{border-color:var(--red-bright);background:rgba(231,76,60,.1);color:#F1948A;}
+    .option-btn.incorrect::before{background:var(--red-bright);border-color:var(--red-bright);color:white;content:'✗';}
+    .option-btn.revealed{opacity:.4;}
+    .option-btn:disabled{cursor:default;}
+    .next-container{display:flex;justify-content:flex-end;}
+    .btn-next{background:linear-gradient(135deg,var(--red),#8B2020);border:none;color:var(--text-primary);font-family:var(--font-display);font-size:.9rem;font-weight:700;letter-spacing:.1em;padding:.85rem 2rem;border-radius:var(--radius);cursor:pointer;transition:all var(--transition);box-shadow:0 4px 20px rgba(192,57,43,.3);}
+    .btn-next:hover{background:linear-gradient(135deg,var(--red-bright),var(--red));box-shadow:0 6px 30px rgba(192,57,43,.5);transform:translateY(-2px);}
+
+    /* ===== RESULT SCREEN ===== */
+    #result-screen{justify-content:center;padding:2rem 1.5rem;}
+    .result-container{position:relative;width:100%;max-width:600px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:1.75rem;animation:result-entrance .8s cubic-bezier(.4,0,.2,1) both;}
+    @keyframes result-entrance{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+    .result-image-wrapper{position:relative;width:180px;height:180px;flex-shrink:0;}
+    .result-img{width:100%;height:100%;object-fit:cover;border-radius:50%;border:3px solid var(--red);box-shadow:0 0 40px var(--red-glow),0 0 80px rgba(192,57,43,.15);}
+    .result-img.hidden{display:none;}
+    .result-img-fallback{width:100%;height:100%;border-radius:50%;border:3px solid var(--red);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:.85rem;font-weight:700;text-align:center;padding:1rem;color:var(--text-primary);line-height:1.3;}
+    .result-img-fallback.hidden{display:none;}
+    .result-content{text-align:center;display:flex;flex-direction:column;align-items:center;gap:.75rem;}
+    .result-category{font-family:var(--font-display);font-size:.75rem;letter-spacing:.25em;text-transform:uppercase;color:var(--red);background:rgba(192,57,43,.12);border:1px solid var(--border-red);padding:.3rem 1rem;border-radius:100px;}
+    .result-name{font-family:var(--font-display);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:900;color:var(--text-primary);text-shadow:0 0 30px rgba(201,168,76,.3);line-height:1.1;}
+    .result-score{font-family:var(--font-display);font-size:clamp(1.2rem,3vw,1.8rem);font-weight:700;color:var(--gold);text-shadow:0 0 20px var(--gold-glow);}
+    .result-description{font-family:var(--font-body);font-size:clamp(.95rem,2vw,1.1rem);color:var(--text-muted);max-width:440px;line-height:1.7;font-style:italic;}
+    .result-tags{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-top:.25rem;}
+    .result-tag{font-family:var(--font-display);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green-bright);background:rgba(39,174,96,.1);border:1px solid rgba(39,174,96,.25);padding:.25rem .75rem;border-radius:100px;}
+    .result-actions{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;width:100%;}
+    .btn-primary{background:linear-gradient(135deg,var(--red),#8B2020);border:none;color:var(--text-primary);font-family:var(--font-display);font-size:.9rem;font-weight:700;letter-spacing:.1em;padding:.85rem 2rem;border-radius:var(--radius);cursor:pointer;transition:all var(--transition);box-shadow:0 4px 20px rgba(192,57,43,.3);}
+    .btn-primary:hover{background:linear-gradient(135deg,var(--red-bright),var(--red));box-shadow:0 6px 30px rgba(192,57,43,.5);transform:translateY(-2px);}
+    .btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text-muted);font-family:var(--font-display);font-size:.9rem;font-weight:700;letter-spacing:.05em;padding:.85rem 2rem;border-radius:var(--radius);cursor:pointer;transition:all var(--transition);}
+    .btn-secondary:hover{border-color:var(--text-muted);color:var(--text-primary);background:rgba(255,255,255,.04);}
+
+    /* ===== MINIJUEGOS COMPARTIDO ===== */
+    .mini-container{width:100%;max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:1.5rem;padding:1.5rem 0;}
+    .mini-header{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+    .mini-title{font-family:var(--font-display);font-size:clamp(1.2rem,3vw,1.8rem);font-weight:700;color:var(--text-primary);}
+
+    /* ===== TRIVIA ARCOS ===== */
+    .arcos-hub{display:flex;flex-direction:column;gap:1.5rem;width:100%;max-width:700px;margin:0 auto;}
+    .arco-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;gap:1rem;}
+    .arco-card:hover:not(.locked){border-color:var(--red);box-shadow:var(--shadow-red);transform:translateX(6px);}
+    .arco-card.locked{opacity:.5;cursor:default;}
+    .arco-card.completed{border-color:var(--green-bright);opacity:.8;}
+    .arco-info{flex:1;}
+    .arco-nombre{font-family:var(--font-display);font-size:1rem;font-weight:700;}
+    .arco-dif{font-size:.8rem;color:var(--text-muted);}
+    .arco-pts{font-family:var(--font-display);font-size:.85rem;color:var(--gold);}
+    .vida-icon{font-size:1.4rem;}
+    .timer-bar{height:4px;background:var(--red);border-radius:2px;transition:width 1s linear;}
+    .timer-bar-container{width:100%;height:4px;background:rgba(255,255,255,.06);border-radius:2px;}
+
+    /* ===== AHORCADO ===== */
+    .hm-layout{display:flex;gap:2rem;align-items:flex-start;flex-wrap:wrap;}
+    .hm-left{display:flex;flex-direction:column;align-items:center;gap:.75rem;flex-shrink:0;}
+    .hm-canvas{background:rgba(0,0,0,.4);border:1px solid rgba(192,57,43,.2);border-radius:8px;}
+    .hm-right{flex:1;min-width:260px;display:flex;flex-direction:column;gap:1.25rem;}
+    .hm-hint{font-family:var(--font-body);font-size:.9rem;color:var(--text-muted);font-style:italic;text-align:center;max-width:160px;}
+    .hm-errors{font-family:var(--font-display);font-size:.75rem;letter-spacing:.1em;color:var(--red);text-transform:uppercase;}
+    .hm-word-row{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;}
+    .hm-letter{font-family:var(--font-display);font-size:clamp(1.4rem,4vw,2rem);font-weight:700;color:var(--text-primary);min-width:1.8ch;text-align:center;border-bottom:2px solid rgba(192,57,43,.4);padding-bottom:2px;transition:color .3s,border-color .3s;}
+    .hm-letter.revealed{color:#E74C3C;border-color:#E74C3C;text-shadow:0 0 10px rgba(231,76,60,.4);}
+    .hm-status{font-family:var(--font-display);font-size:.95rem;text-align:center;min-height:1.5em;transition:all .4s;}
+    .hm-status.win{color:#27AE60;}
+    .hm-status.lose{color:var(--red-bright);}
+    .hm-status strong{color:var(--gold);}
+    .hm-keyboard{display:flex;flex-direction:column;gap:.4rem;align-items:center;}
+    .hm-kb-row{display:flex;gap:.3rem;flex-wrap:wrap;justify-content:center;}
+    .hm-key{font-family:var(--font-display);font-size:.75rem;font-weight:700;width:36px;height:36px;background:var(--bg-card);border:1px solid rgba(255,255,255,.08);color:var(--text-primary);border-radius:4px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+    .hm-key:hover:not(:disabled){background:rgba(192,57,43,.15);border-color:var(--red);color:var(--red-bright);transform:translateY(-2px);}
+    .hm-key.correct{background:rgba(39,174,96,.15);border-color:#27AE60;color:#7DCEA0;}
+    .hm-key.wrong{background:rgba(192,57,43,.12);border-color:rgba(192,57,43,.3);color:rgba(231,76,60,.5);}
+    .hm-key:disabled{cursor:default;opacity:.5;}
+    .hm-key.correct:disabled,.hm-key.wrong:disabled{opacity:1;}
+
+    /* ===== TATETI ===== */
+    .tt-selection{display:flex;flex-direction:column;align-items:center;gap:2rem;padding:1rem 0;}
+    .tt-sel-title{font-family:var(--font-display);font-size:clamp(1.2rem,3vw,1.8rem);font-weight:700;text-align:center;letter-spacing:.1em;}
+    .tt-bando-grid{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;justify-content:center;}
+    .tt-bando-btn{background:var(--bg-card);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.5rem 1.75rem;cursor:pointer;text-align:center;color:var(--text-primary);font-family:var(--font-body);transition:all .3s;display:flex;flex-direction:column;gap:.4rem;min-width:180px;}
+    .tt-bando-btn:hover{border-color:var(--red);box-shadow:0 0 30px rgba(192,57,43,.25);transform:translateY(-4px);}
+    .tt-bando-emoji{font-size:2.5rem;line-height:1;}
+    .tt-bando-name{font-family:var(--font-display);font-size:1.1rem;font-weight:700;}
+    .tt-bando-sub{font-size:.85rem;color:var(--gold);font-style:italic;}
+    .tt-bando-desc{font-size:.82rem;color:var(--text-muted);line-height:1.5;}
+    .tt-vs{font-family:var(--font-display);font-size:1.5rem;font-weight:900;color:var(--red);text-shadow:0 0 15px rgba(192,57,43,.5);}
+    .tt-game-layout{display:flex;flex-direction:column;align-items:center;gap:1.25rem;}
+    .tt-status{font-family:var(--font-display);font-size:1rem;letter-spacing:.08em;min-height:1.6em;text-align:center;transition:color .3s;}
+    .tt-status.win{color:#27AE60;}
+    .tt-status.lose{color:var(--red-bright);}
+    .tt-status.draw{color:var(--gold);}
+    .tt-board{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:min(320px,90vw);background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.15);border-radius:10px;padding:6px;}
+    .tt-cell{aspect-ratio:1;background:var(--bg-card);border:1px solid rgba(255,255,255,.06);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:clamp(1.8rem,8vw,2.8rem);cursor:pointer;transition:background .2s,transform .15s,border-color .2s;user-select:none;}
+    .tt-cell:hover:not(.taken){background:rgba(192,57,43,.1);border-color:rgba(192,57,43,.3);transform:scale(1.04);}
+    .tt-cell.taken{cursor:default;}
+    .tt-cell.winning-cell{background:rgba(192,57,43,.2);border-color:var(--red);box-shadow:0 0 15px rgba(192,57,43,.3);animation:winning-pulse .8s ease-in-out 2;}
+    @keyframes winning-pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+    .tt-actions{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center;}
+    .tt-legend{display:flex;align-items:center;gap:1.25rem;font-family:var(--font-display);font-size:.8rem;letter-spacing:.1em;color:var(--text-muted);}
+
+    /* ===== KATANA FORGE ===== */
+    .kf-layout{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+    .kf-controls{display:flex;flex-direction:column;gap:1.5rem;}
+    .kf-section{display:flex;flex-direction:column;gap:.6rem;}
+    .kf-section-title{font-family:var(--font-display);font-size:.75rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);opacity:.8;}
+    .kf-blade-grid,.kf-ito-grid{display:flex;flex-wrap:wrap;gap:.5rem;}
+    .kf-blade-btn{width:32px;height:32px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;}
+    .kf-blade-btn:hover{transform:scale(1.2);}
+    .kf-blade-btn.active{border-color:#fff;transform:scale(1.25);box-shadow:0 0 0 3px rgba(255,255,255,.15);}
+    .kf-ito-btn{width:28px;height:28px;border-radius:4px;border:2px solid transparent;cursor:pointer;transition:transform .2s,border-color .2s;}
+    .kf-ito-btn:hover{transform:scale(1.2);}
+    .kf-ito-btn.active{border-color:#fff;transform:scale(1.2);box-shadow:0 0 0 2px rgba(255,255,255,.2);}
+    .kf-lore{font-family:var(--font-body);font-size:.85rem;font-style:italic;color:var(--text-muted);line-height:1.5;min-height:2.2em;transition:opacity .3s;}
+    .kf-opt-row{display:flex;gap:.5rem;flex-wrap:wrap;}
+    .kf-opt-btn{background:var(--bg-card);border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:.5rem .75rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.15rem;transition:all .2s;color:var(--text-muted);min-width:72px;}
+    .kf-opt-btn:hover{border-color:rgba(192,57,43,.4);color:var(--text-primary);}
+    .kf-opt-btn.active{border-color:var(--red);background:rgba(192,57,43,.12);color:var(--text-primary);}
+    .kf-opt-icon{font-size:1.1rem;line-height:1;}
+    .kf-opt-lbl{font-family:var(--font-display);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;}
+    .kf-preview{display:flex;flex-direction:column;align-items:center;gap:1rem;position:sticky;top:2rem;}
+    .kf-canvas-wrap{background:rgba(0,0,0,.5);border:1px solid rgba(192,57,43,.15);border-radius:12px;padding:1.5rem;width:100%;display:flex;align-items:center;justify-content:center;min-height:120px;}
+    .kf-blade-name{font-family:var(--font-display);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);text-align:center;}
+
+    /* ===== SHAKE ANIMATION ===== */
+    @keyframes shake-wrong{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px) rotate(-1deg);}40%{transform:translateX(8px) rotate(1deg);}60%{transform:translateX(-5px);}80%{transform:translateX(5px);}}
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:640px){
+      .hero-content{padding-right:0;}
+      .hero-tanjiro-wrap{position:relative;right:auto;bottom:auto;width:clamp(140px,50vw,220px);margin-top:-1rem;order:-1;}
+      .hm-layout{flex-direction:column;align-items:center;}
+      .kf-layout{grid-template-columns:1fr;}
+      .kf-preview{position:static;}
+      .tt-bando-grid{gap:.75rem;}
+      .tt-bando-btn{min-width:140px;padding:1rem;}
+    }
+    @media(max-width:600px){
+      .mode-grid{grid-template-columns:1fr;}
+      .btn-primary,.btn-secondary{width:100%;text-align:center;}
+    }
+    @media(min-width:900px){
+      .mode-grid{grid-template-columns:repeat(2,1fr);}
     }
   </style>
 </head>
 <body>
-  <!-- HERO -->
-  <section class="hero" id="hero">
-    <div class="hero-pattern" aria-hidden="true"></div>
-    <div class="hero-vignette" aria-hidden="true"></div>
-    <div class="hero-glow" aria-hidden="true"></div>
-    <div class="hero-breath-lines" id="hero-breath-lines" aria-hidden="true"></div>
-    <canvas id="hero-canvas" aria-hidden="true"></canvas>
 
-    <div class="hero-tanjiro-wrap" aria-hidden="true">
-      <img class="hero-tanjiro-img" src="tanjiro.png" alt="Tanjiro" id="hero-tanjiro-img" />
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <div class="hero-pattern" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-tanjiro-wrap" aria-hidden="true">
+    <img class="hero-tanjiro-img" src="tanjiro.png" alt="Tanjiro" onerror="this.src='https://namratapdrjs.netlify.app/scrolling-animations/assets-card/tanjiro.png'" />
+  </div>
+  <div class="hero-content">
+    <p class="hero-kanji">鬼滅の刃</p>
+    <h1 class="hero-title"><span class="ht-line1">Kimetsu</span><span class="ht-line2">no Yaiba</span></h1>
+    <div class="hero-divider" aria-hidden="true"><div class="hero-diamond"></div></div>
+    <div class="hero-slogan-wrap" id="hero-slogans" aria-live="polite"></div>
+    <div class="hero-stats">
+      <div><span class="hero-stat-num" data-target="207" data-suffix="+">0</span><br><small style="color:var(--text-muted)">Capítulos</small></div>
+      <div><span class="hero-stat-num" data-target="9">0</span><br><small style="color:var(--text-muted)">Pilares</small></div>
+      <div><span class="hero-stat-num" data-target="6">0</span><br><small style="color:var(--text-muted)">Lunas Sup.</small></div>
+      <div><span class="hero-stat-num" data-target="44">0</span><br><small style="color:var(--text-muted)">Técnicas</small></div>
     </div>
+    <button class="btn-hero-p" onclick="document.getElementById('chars-section').scrollIntoView({behavior:'smooth'})">⚔️ Comenzar Quiz</button>
+  </div>
+</section>
 
-    <div class="hero-content">
-      <p class="hero-kanji">鬼滅の刃</p>
-      <h1 class="hero-title"><span class="ht-line1">Kimetsu</span><span class="ht-line2">no Yaiba</span></h1>
-      <div class="hero-divider" aria-hidden="true"><div class="hero-diamond"></div></div>
-      <div class="hero-slogan-wrap" id="hero-slogans" aria-live="polite"></div>
-      <div class="hero-stats" style="display:flex; gap:1.5rem; flex-wrap:wrap; justify-content:center; margin:1.5rem 0;">
-        <div><span class="hero-stat-num" data-target="207" data-suffix="+">0</span><br><small style="color:var(--text-muted);">Capítulos</small></div>
-        <div><span class="hero-stat-num" data-target="9">0</span><br><small style="color:var(--text-muted);">Pilares</small></div>
-        <div><span class="hero-stat-num" data-target="6">0</span><br><small style="color:var(--text-muted);">Lunas Sup.</small></div>
-        <div><span class="hero-stat-num" data-target="44">0</span><br><small style="color:var(--text-muted);">Técnicas</small></div>
+<!-- ===== CHARACTER CARDS ===== -->
+<section class="chars-section" id="chars-section">
+  <div class="chars-title">
+    <h2>Cazadores y Demonios</h2>
+    <p>Pasa el mouse sobre cada personaje para revelar su poder</p>
+  </div>
+  <div class="cards-wrap">
+    <div class="char-card tanjiro">
+      <div class="char-colour"></div>
+      <div class="char-text">
+        <h3>Tanjiro</h3>
+        <p>Respiración: <b>Agua / Sol</b></p>
       </div>
-      <button class="btn-hero-p" onclick="document.getElementById('menu-screen').scrollIntoView({behavior:'smooth'})">⚔️ Comenzar Quiz</button>
+      <div class="char-colour-bottom"></div>
     </div>
+    <div class="char-card nezuko">
+      <div class="char-colour"></div>
+      <div class="char-text">
+        <h3>Nezuko</h3>
+        <p>Demonio: <b>Magia de Sangre</b></p>
+      </div>
+      <div class="char-colour-bottom"></div>
+    </div>
+    <div class="char-card zenitsu">
+      <div class="char-colour"></div>
+      <div class="char-text">
+        <h3>Zenitsu</h3>
+        <p>Respiración: <b>Trueno</b></p>
+      </div>
+      <div class="char-colour-bottom"></div>
+    </div>
+    <div class="char-card rengoku">
+      <div class="char-colour"></div>
+      <div class="char-text">
+        <h3>Rengoku</h3>
+        <p>Respiración: <b>Llama</b></p>
+      </div>
+      <div class="char-colour-bottom"></div>
+    </div>
+    <div class="char-card inosuke">
+      <div class="char-colour"></div>
+      <div class="char-text">
+        <h3>Inosuke</h3>
+        <p>Respiración: <b>Bestia</b></p>
+      </div>
+      <div class="char-colour-bottom"></div>
+    </div>
+    <div class="char-card shinobu">
+      <div class="char-colour"></div>
+      <div class="char-text">
+        <h3>Shinobu</h3>
+        <p>Respiración: <b>Insecto</b></p>
+      </div>
+      <div class="char-colour-bottom"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== APP PRINCIPAL ===== -->
+<main id="app">
+  <!-- MENÚ -->
+  <section id="menu-screen" class="screen active">
+    <header class="menu-header">
+      <div class="japanese-title">鬼滅の刃</div>
+      <h1 class="main-title">QUIZ<br><span>DEFINITIVO</span></h1>
+      <p class="subtitle">Pon a prueba tu conocimiento del Cazador de Demonios</p>
+    </header>
+    <div class="mode-grid">
+      <div class="mode-card" id="btn-arcos">
+        <div class="card-glow" style="background:radial-gradient(ellipse at top right,rgba(218,165,32,.18),transparent 70%)"></div>
+        <div class="card-icon">🏯</div>
+        <div class="card-body"><h2>Trivia por Arcos</h2><p>5 arcos, vidas, timer y bonus por velocidad.</p></div>
+        <div class="card-badge">Quiz Principal</div>
+      </div>
+      <div class="mode-card" data-mode="respiracion">
+        <div class="card-glow" style="background:radial-gradient(ellipse at top right,rgba(46,134,171,.2),transparent 70%)"></div>
+        <div class="card-icon">💧</div>
+        <div class="card-body"><h2>¿Qué Respiración Eres?</h2><p>Test de personalidad. Agua, Fuego, Trueno…</p></div>
+        <div class="card-badge">Test</div>
+      </div>
+      <div class="mode-card" data-mode="hashira">
+        <div class="card-glow" style="background:radial-gradient(ellipse at top right,rgba(192,57,43,.2),transparent 70%)"></div>
+        <div class="card-icon">⚔️</div>
+        <div class="card-body"><h2>¿Qué Pilar Eres?</h2><p>Descubre tu Hashira interior entre los 9 pilares.</p></div>
+        <div class="card-badge">Test</div>
+      </div>
+      <div class="mode-card" data-mode="luna">
+        <div class="card-glow" style="background:radial-gradient(ellipse at top right,rgba(108,52,131,.2),transparent 70%)"></div>
+        <div class="card-icon">🌙</div>
+        <div class="card-body"><h2>¿Qué Luna Demoníaca Eres?</h2><p>Para los que abrazan la oscuridad.</p></div>
+        <div class="card-badge">Test</div>
+      </div>
+      <div class="mode-card" id="btn-hangman">
+        <div class="card-glow" style="background:radial-gradient(ellipse at top right,rgba(201,168,76,.14),transparent 70%)"></div>
+        <div class="card-icon">🪢</div>
+        <div class="card-body"><h2>Ahorcado</h2><p>Adivina personajes y técnicas del anime.</p></div>
+        <div class="card-badge">Minijuego</div>
+      </div>
+      <div class="mode-card" id="btn-tateti">
+        <div class="card-glow" style="background:radial-gradient(ellipse at top right,rgba(108,52,131,.16),transparent 70%)"></div>
+        <div class="card-icon">♟️</div>
+        <div class="card-body"><h2>Tateti</h2><p>Rengoku 🔥 vs Akaza 🌸 — Tú contra la IA.</p></div>
+        <div class="card-badge">Minijuego</div>
+      </div>
+      <div class="mode-card" id="btn-katana">
+        <div class="card-glow" style="background:radial-gradient(ellipse at top right,rgba(192,57,43,.14),transparent 70%)"></div>
+        <div class="card-icon">⚒️</div>
+        <div class="card-body"><h2>Forja tu Katana</h2><p>Diseña tu espada Nichirin personalizada.</p></div>
+        <div class="card-badge">Creativo</div>
+      </div>
+    </div>
+    <footer class="menu-footer">「 無限の力を示せ 」 — Muestra tu poder ilimitado</footer>
   </section>
 
-  <!-- APP PRINCIPAL -->
-  <main id="app">
-    <!-- MENÚ -->
-    <section id="menu-screen" class="screen active">
-      <header class="menu-header">
-        <div class="japanese-title">鬼滅の刃</div>
-        <h1 class="main-title">QUIZ<br><span>DEFINITIVO</span></h1>
-        <p class="subtitle">Pon a prueba tu conocimiento del Cazador de Demonios</p>
-      </header>
-      <div class="mode-grid">
-        <div class="mode-card" id="btn-arcos">
-          <div class="card-glow" style="background:radial-gradient(ellipse at top right, rgba(218,165,32,.18), transparent 70%);"></div>
-          <div class="card-icon">🏯</div>
-          <div class="card-body"><h2>Trivia por Arcos</h2><p>5 arcos, vidas, timer y bonus.</p></div>
-          <div class="card-badge">Quiz principal</div>
-        </div>
-        <div class="mode-card" data-mode="respiracion">
-          <div class="card-glow" style="background:radial-gradient(ellipse at top right, rgba(46,134,171,.2), transparent 70%);"></div>
-          <div class="card-icon">💧</div>
-          <div class="card-body"><h2>¿Qué Respiración Eres?</h2><p>Test de personalidad.</p></div>
-          <div class="card-badge">Test</div>
-        </div>
-        <div class="mode-card" data-mode="hashira">
-          <div class="card-glow" style="background:radial-gradient(ellipse at top right, rgba(192,57,43,.2), transparent 70%);"></div>
-          <div class="card-icon">🏯</div>
-          <div class="card-body"><h2>¿Qué Pilar Eres?</h2><p>Descubre tu Hashira interior.</p></div>
-          <div class="card-badge">Test</div>
-        </div>
-        <div class="mode-card" data-mode="luna">
-          <div class="card-glow" style="background:radial-gradient(ellipse at top right, rgba(108,52,131,.2), transparent 70%);"></div>
-          <div class="card-icon">🌙</div>
-          <div class="card-body"><h2>¿Qué Luna Demoníaca Eres?</h2><p>Para los que abrazan la oscuridad.</p></div>
-          <div class="card-badge">Test</div>
-        </div>
-        <div class="mode-card" id="btn-hangman">
-          <div class="card-glow" style="background:radial-gradient(ellipse at top right, rgba(201,168,76,.14), transparent 70%);"></div>
-          <div class="card-icon">🪢</div>
-          <div class="card-body"><h2>Ahorcado</h2><p>Adivina personajes y técnicas.</p></div>
-          <div class="card-badge">Minijuego</div>
-        </div>
-        <div class="mode-card" id="btn-tateti">
-          <div class="card-glow" style="background:radial-gradient(ellipse at top right, rgba(108,52,131,.16), transparent 70%);"></div>
-          <div class="card-icon">♟️</div>
-          <div class="card-body"><h2>Tateti</h2><p>Rengoku vs Akaza.</p></div>
-          <div class="card-badge">Minijuego</div>
-        </div>
-        <div class="mode-card" id="btn-katana">
-          <div class="card-glow" style="background:radial-gradient(ellipse at top right, rgba(192,57,43,.14), transparent 70%);"></div>
-          <div class="card-icon">⚒️</div>
-          <div class="card-body"><h2>Forja tu Katana</h2><p>Diseña tu Nichirin.</p></div>
-          <div class="card-badge">Creativo</div>
+  <!-- QUIZ PERSONALIDAD -->
+  <section id="quiz-screen" class="screen hidden"></section>
+  <section id="result-screen" class="screen hidden"></section>
+
+  <!-- TRIVIA ARCOS -->
+  <section id="trivia-arcos-screen" class="screen hidden"></section>
+
+  <!-- MINIJUEGOS -->
+  <section id="hangman-screen" class="screen hidden"></section>
+  <section id="tateti-screen" class="screen hidden"></section>
+  <section id="katana-screen" class="screen hidden"></section>
+</main>
+
+<!-- OVERLAY TANJIRO SORPRENDIDO -->
+<div id="tanjiro-surprised-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:9999;justify-content:center;align-items:center;flex-direction:column;gap:1rem;">
+  <img src="tanjirosorprendido.png" alt="Tanjiro sorprendido" style="max-width:60vw;max-height:60vh;filter:drop-shadow(0 0 30px rgba(192,57,43,.8));" onerror="this.style.display='none'" />
+  <p style="font-family:'Cinzel',serif;color:#E74C3C;font-size:1.2rem;letter-spacing:.1em;">¡Respuesta incorrecta!</p>
+</div>
+
+<script>
+'use strict';
+
+// ===================== UTILS =====================
+function shuffleArray(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function mostrarTanjiroSorprendido(cb){
+  const o=document.getElementById('tanjiro-surprised-overlay');
+  o.style.display='flex';
+  setTimeout(()=>{o.style.display='none';if(cb)cb();},1500);
+}
+function shakeElement(el){el.style.animation='none';el.offsetHeight;el.style.animation='shake-wrong .4s ease';el.addEventListener('animationend',()=>{el.style.animation='';},{once:true});}
+
+// ===================== ROUTER =====================
+const SCREENS=['menu-screen','quiz-screen','result-screen','hangman-screen','tateti-screen','katana-screen','trivia-arcos-screen'];
+function showScreen(id){
+  SCREENS.forEach(s=>{const el=document.getElementById(s);if(el){el.classList.remove('active');el.classList.add('hidden');}});
+  const t=document.getElementById(id);
+  if(t){t.classList.remove('hidden');t.classList.add('active');}
+  window.scrollTo({top:document.getElementById('app').offsetTop,behavior:'smooth'});
+}
+
+// ===================== HERO ANIMACIONES =====================
+(function(){
+  const slogans=[
+    {char:'Tanjiro',text:'"Sin importar cuántas veces me rompa, me volveré a levantar."'},
+    {char:'Rengoku',text:'"¡Pon todo tu corazón en llamas y avanza!"'},
+    {char:'Zenitsu',text:'"Aunque me muera del miedo, haré lo que deba hacer."'},
+    {char:'Inosuke',text:'"¡Nadie sabe el techo de mis capacidades más que yo!"'},
+    {char:'Shinobu',text:'"Sigo sonriendo porque hace mucho que aprendí a hacerlo."'},
+    {char:'Muzan',text:'"Los débiles no tienen derecho a tener sueños."'}
+  ];
+  const wrap=document.getElementById('hero-slogans');
+  let idx=0;
+  slogans.forEach((s,i)=>{
+    const el=document.createElement('p');
+    el.className='hero-slogan'+(i===0?' active':'');
+    el.innerHTML=`<span class="hs-name">${s.char}</span> — ${s.text}`;
+    wrap.appendChild(el);
+  });
+  const items=wrap.querySelectorAll('.hero-slogan');
+  setInterval(()=>{items[idx].classList.remove('active');idx=(idx+1)%items.length;items[idx].classList.add('active');},3800);
+  // Contadores
+  const obs=new IntersectionObserver((entries,o)=>{
+    if(entries[0].isIntersecting){
+      document.querySelectorAll('.hero-stat-num[data-target]').forEach(el=>{
+        const target=+el.dataset.target;let t0=performance.now();
+        (function tick(now){const p=Math.min((now-t0)/1800,1);el.textContent=Math.round((1-Math.pow(1-p,3))*target);if(p<1)requestAnimationFrame(tick);else el.textContent=target+(el.dataset.suffix||'');})(t0);
+      });
+      o.disconnect();
+    }
+  },{threshold:.4});
+  obs.observe(document.getElementById('hero'));
+})();
+
+// ===================== DATOS: RESPIRACIÓN =====================
+const RESPIRACION_QUESTIONS=[
+  {question:'Ante un obstáculo imposible, ¿qué hacés?',options:[
+    {text:'Lo analizo con calma y busco la ruta más eficiente',points:{Agua:3,Fuego:0,Trueno:0,Bestia:0,Insecto:1}},
+    {text:'Me lanzo de frente con toda mi fuerza',points:{Agua:0,Fuego:3,Trueno:0,Bestia:2,Insecto:0}},
+    {text:'Entro en pánico pero actúo igual porque no queda otra',points:{Agua:0,Fuego:0,Trueno:3,Bestia:0,Insecto:1}},
+    {text:'Lo ignoro y busco mi propio camino salvaje',points:{Agua:0,Fuego:1,Trueno:0,Bestia:3,Insecto:0}},
+    {text:'Uso la astucia y un método poco convencional',points:{Agua:1,Fuego:0,Trueno:1,Bestia:0,Insecto:3}}
+  ]},
+  {question:'¿Cuál es tu mayor fortaleza?',options:[
+    {text:'La adaptabilidad y la fluidez',points:{Agua:3,Fuego:0,Trueno:0,Bestia:1,Insecto:0}},
+    {text:'La determinación inquebrantable',points:{Agua:0,Fuego:3,Trueno:1,Bestia:0,Insecto:0}},
+    {text:'La velocidad extrema',points:{Agua:0,Fuego:0,Trueno:3,Bestia:0,Insecto:1}},
+    {text:'La fuerza bruta y el instinto animal',points:{Agua:0,Fuego:1,Trueno:0,Bestia:3,Insecto:0}},
+    {text:'La inteligencia táctica y la precisión',points:{Agua:1,Fuego:0,Trueno:0,Bestia:0,Insecto:3}}
+  ]},
+  {question:'¿Qué elemento te representa mejor?',options:[
+    {text:'El agua: fluida y constante',points:{Agua:3,Fuego:0,Trueno:0,Bestia:0,Insecto:1}},
+    {text:'El fuego: apasionado e intenso',points:{Agua:0,Fuego:3,Trueno:1,Bestia:0,Insecto:0}},
+    {text:'El rayo: veloz e impredecible',points:{Agua:0,Fuego:1,Trueno:3,Bestia:0,Insecto:0}},
+    {text:'La tierra salvaje: crudo e instintivo',points:{Agua:0,Fuego:0,Trueno:0,Bestia:3,Insecto:1}},
+    {text:'El viento: sutil y penetrante',points:{Agua:1,Fuego:0,Trueno:1,Bestia:0,Insecto:3}}
+  ]},
+  {question:'¿Cómo reaccionás bajo presión extrema?',options:[
+    {text:'Me mantengo sereno y pienso con claridad',points:{Agua:3,Fuego:0,Trueno:0,Bestia:0,Insecto:2}},
+    {text:'Me inflamo y peleo con todo mi ser',points:{Agua:0,Fuego:3,Trueno:0,Bestia:2,Insecto:0}},
+    {text:'Me bloqueo pero algo en mí actúa solo',points:{Agua:0,Fuego:0,Trueno:3,Bestia:1,Insecto:0}},
+    {text:'Me vuelvo más fiero y menos racional',points:{Agua:0,Fuego:1,Trueno:0,Bestia:3,Insecto:0}},
+    {text:'Sonrío y busco el punto débil del enemigo',points:{Agua:1,Fuego:0,Trueno:0,Bestia:0,Insecto:3}}
+  ]},
+  {question:'¿Cuál sería tu rol en un equipo?',options:[
+    {text:'El estratega tranquilo que guía al grupo',points:{Agua:3,Fuego:0,Trueno:0,Bestia:0,Insecto:2}},
+    {text:'El líder inspirador que motiva a todos',points:{Agua:0,Fuego:3,Trueno:0,Bestia:0,Insecto:1}},
+    {text:'El ejecutor rápido que actúa primero',points:{Agua:0,Fuego:1,Trueno:3,Bestia:0,Insecto:0}},
+    {text:'El guerrero solitario que pelea por instinto',points:{Agua:0,Fuego:0,Trueno:0,Bestia:3,Insecto:1}},
+    {text:'El soporte silencioso con un plan secreto',points:{Agua:1,Fuego:0,Trueno:1,Bestia:0,Insecto:3}}
+  ]},
+  {question:'¿Qué frase te identifica más?',options:[
+    {text:'"La perseverancia supera la fuerza"',points:{Agua:3,Fuego:1,Trueno:0,Bestia:0,Insecto:0}},
+    {text:'"¡Pon tu corazón en llamas!"',points:{Agua:0,Fuego:3,Trueno:1,Bestia:0,Insecto:0}},
+    {text:'"Temo, pero avanzo igual"',points:{Agua:0,Fuego:0,Trueno:3,Bestia:0,Insecto:1}},
+    {text:'"¡Nadie conoce mi potencial!"',points:{Agua:0,Fuego:1,Trueno:0,Bestia:3,Insecto:0}},
+    {text:'"Sigo sonriendo aunque por dentro llore"',points:{Agua:1,Fuego:0,Trueno:0,Bestia:0,Insecto:3}}
+  ]},
+  {question:'¿Cuál sería tu estilo de combate?',options:[
+    {text:'Fluido y defensive, esperando el momento exacto',points:{Agua:3,Fuego:0,Trueno:0,Bestia:0,Insecto:1}},
+    {text:'Agresivo y directo, sin retroceder jamás',points:{Agua:0,Fuego:3,Trueno:0,Bestia:2,Insecto:0}},
+    {text:'Velocidad máxima, un solo golpe definitivo',points:{Agua:0,Fuego:0,Trueno:3,Bestia:1,Insecto:0}},
+    {text:'Salvaje e impredecible, usando todo el cuerpo',points:{Agua:0,Fuego:1,Trueno:0,Bestia:3,Insecto:0}},
+    {text:'Técnico y preciso, apuntando a puntos vitales',points:{Agua:1,Fuego:0,Trueno:0,Bestia:0,Insecto:3}}
+  ]}
+];
+const RESPIRACION_RESULTS={
+  Agua:{name:'Respiración del Agua',img:'giyu.png',description:'Como el agua que fluye alrededor de los obstáculos, tu fuerza reside en la adaptabilidad y la perseverancia. Eres tranquilo en apariencia pero devastador en acción.',tags:['Sereno','Adaptable','Constante','Estratégico']},
+  Fuego:{name:'Respiración de las Llamas',img:'rengoku.png',description:'Tu espíritu arde como una llama inextinguible. Inspiras a quienes te rodean con tu determinación y pasión sin límites. ¡Pon tu corazón en llamas!',tags:['Apasionado','Líder','Valiente','Inspirador']},
+  Trueno:{name:'Respiración del Trueno',img:'zenitsu.png',description:'Aunque el miedo te paralice, algo en tu interior despierta y actúa con una velocidad sobrehumana. Tu poder más verdadero emerge cuando todo parece perdido.',tags:['Veloz','Instintivo','Sorprendente','Puro']},
+  Bestia:{name:'Respiración de la Bestia',img:'inosuke.png',description:'Tu espíritu salvaje y libre no sigue ninguna regla impuesta. Creaste tu propio camino con el cuerpo y los instintos como únicos maestros.',tags:['Salvaje','Independiente','Instintivo','Formidable']},
+  Insecto:{name:'Respiración del Insecto',img:'shinobu.png',description:'Tu inteligencia y precisión superan la fuerza bruta. Con una sonrisa elegante, encuentras el punto débil de cualquier enemigo y lo eliminas con gracia letal.',tags:['Inteligente','Preciso','Elegante','Letal']}
+};
+
+// ===================== DATOS: HASHIRA =====================
+const HASHIRA_QUESTIONS=[
+  {question:'¿Cuál es tu mayor virtud como guerrero?',options:[
+    {text:'La disciplina y la frialdad emocional',points:{Giyu:3,Rengoku:0,Shinobu:0,Uzui:0,Muichiro:1,Gyomei:0,Obanai:1,Sanemi:0,Mitsuri:0}},
+    {text:'El fuego interno que nunca se apaga',points:{Giyu:0,Rengoku:3,Shinobu:0,Uzui:1,Muichiro:0,Gyomei:0,Obanai:0,Sanemi:1,Mitsuri:1}},
+    {text:'La inteligencia y el ingenio táctico',points:{Giyu:0,Rengoku:0,Shinobu:3,Uzui:1,Muichiro:0,Gyomei:0,Obanai:1,Sanemi:0,Mitsuri:0}},
+    {text:'El estilo, el carisma y la extravagancia',points:{Giyu:0,Rengoku:0,Shinobu:1,Uzui:3,Muichiro:0,Gyomei:0,Obanai:0,Sanemi:0,Mitsuri:2}},
+    {text:'La concentración pura sin emociones',points:{Giyu:1,Rengoku:0,Shinobu:0,Uzui:0,Muichiro:3,Gyomei:0,Obanai:1,Sanemi:0,Mitsuri:0}}
+  ]},
+  {question:'¿Qué te impulsa a seguir luchando?',options:[
+    {text:'Proteger a los inocentes en silencio',points:{Giyu:3,Rengoku:0,Shinobu:1,Uzui:0,Muichiro:0,Gyomei:0,Obanai:0,Sanemi:0,Mitsuri:1}},
+    {text:'El legado de los que me enseñaron',points:{Giyu:0,Rengoku:3,Shinobu:2,Uzui:0,Muichiro:0,Gyomei:1,Obanai:0,Sanemi:0,Mitsuri:0}},
+    {text:'Mi fe y devoción inquebrantable',points:{Giyu:0,Rengoku:0,Shinobu:0,Uzui:0,Muichiro:0,Gyomei:3,Obanai:2,Sanemi:0,Mitsuri:0}},
+    {text:'Vengar a los que perdí en el pasado',points:{Giyu:1,Rengoku:0,Shinobu:1,Uzui:0,Muichiro:0,Gyomei:0,Obanai:1,Sanemi:3,Mitsuri:0}},
+    {text:'El amor por mis compañeros y la humanidad',points:{Giyu:0,Rengoku:1,Shinobu:1,Uzui:1,Muichiro:0,Gyomei:1,Obanai:0,Sanemi:0,Mitsuri:3}}
+  ]},
+  {question:'¿Cuál es tu defecto más grande?',options:[
+    {text:'Soy demasiado frío e incomprendido',points:{Giyu:3,Rengoku:0,Shinobu:0,Uzui:0,Muichiro:1,Gyomei:0,Obanai:1,Sanemi:0,Mitsuri:0}},
+    {text:'Soy demasiado apasionado y directo',points:{Giyu:0,Rengoku:3,Shinobu:0,Uzui:1,Muichiro:0,Gyomei:0,Obanai:0,Sanemi:2,Mitsuri:0}},
+    {text:'Soy arrogante respecto a mi elegancia',points:{Giyu:0,Rengoku:0,Shinobu:0,Uzui:3,Muichiro:0,Gyomei:0,Obanai:0,Sanemi:0,Mitsuri:1}},
+    {text:'Soy obsesivo con mis objetivos',points:{Giyu:0,Rengoku:0,Shinobu:2,Uzui:0,Muichiro:1,Gyomei:0,Obanai:3,Sanemi:1,Mitsuri:0}},
+    {text:'Soy demasiado agresivo y hosco',points:{Giyu:0,Rengoku:0,Shinobu:0,Uzui:0,Muichiro:0,Gyomei:1,Obanai:0,Sanemi:3,Mitsuri:0}}
+  ]},
+  {question:'¿Cómo te comportás con tus aliados?',options:[
+    {text:'Los protejo pero me mantengo distante',points:{Giyu:3,Rengoku:0,Shinobu:0,Uzui:0,Muichiro:2,Gyomei:0,Obanai:1,Sanemi:0,Mitsuri:0}},
+    {text:'Los inspiro con palabras cargadas de emoción',points:{Giyu:0,Rengoku:3,Shinobu:0,Uzui:1,Muichiro:0,Gyomei:1,Obanai:0,Sanemi:0,Mitsuri:2}},
+    {text:'Los ayudo con estrategia y precisión',points:{Giyu:0,Rengoku:0,Shinobu:3,Uzui:1,Muichiro:0,Gyomei:0,Obanai:1,Sanemi:0,Mitsuri:0}},
+    {text:'Los trato duro para hacerlos más fuertes',points:{Giyu:0,Rengoku:0,Shinobu:0,Uzui:0,Muichiro:0,Gyomei:1,Obanai:1,Sanemi:3,Mitsuri:0}},
+    {text:'Los quiero con todo el corazón aunque no lo muestre',points:{Giyu:1,Rengoku:1,Shinobu:1,Uzui:0,Muichiro:0,Gyomei:2,Obanai:2,Sanemi:0,Mitsuri:3}}
+  ]},
+  {question:'¿Qué tipo de entrenamiento preferís?',options:[
+    {text:'Meditación y control de la respiración',points:{Giyu:2,Rengoku:0,Shinobu:1,Uzui:0,Muichiro:3,Gyomei:2,Obanai:1,Sanemi:0,Mitsuri:0}},
+    {text:'Ejercicios extremos que forjan el cuerpo',points:{Giyu:0,Rengoku:2,Shinobu:0,Uzui:2,Muichiro:0,Gyomei:2,Obanai:0,Sanemi:3,Mitsuri:1}},
+    {text:'Práctica técnica repetitiva hasta la perfección',points:{Giyu:2,Rengoku:1,Shinobu:2,Uzui:1,Muichiro:2,Gyomei:0,Obanai:2,Sanemi:0,Mitsuri:0}},
+    {text:'Combate libre y espontáneo',points:{Giyu:0,Rengoku:2,Shinobu:0,Uzui:3,Muichiro:0,Gyomei:0,Obanai:0,Sanemi:2,Mitsuri:2}},
+    {text:'Oración y fortaleza espiritual',points:{Giyu:0,Rengoku:0,Shinobu:0,Uzui:0,Muichiro:0,Gyomei:3,Obanai:2,Sanemi:0,Mitsuri:1}}
+  ]}
+];
+const HASHIRA_RESULTS={
+  Giyu:{name:'Giyu Tomioka',img:'giyu.png',description:'El Pilar del Agua. Taciturno, solitario y tremendamente poderoso. Bajo esa fachada fría hay una lealtad profunda hacia quienes considera verdaderos guerreros.',tags:['Respiración del Agua','Solitario','Leal','Stoico']},
+  Rengoku:{name:'Kyojuro Rengoku',img:'rengoku.png',description:'El Pilar de la Llama. Exuberante, apasionado y con un corazón que arde por los demás. Su legado inspira a toda la generación de cazadores.',tags:['Respiración de la Llama','Apasionado','Líder','Legendario']},
+  Shinobu:{name:'Shinobu Kocho',img:'shinobu.png',description:'La Pilar del Insecto. Usa el veneno y la astucia donde la fuerza bruta fallaría. Detrás de su sonrisa eterna hay una herida que nunca cierra.',tags:['Respiración del Insecto','Inteligente','Elegante','Vengadora']},
+  Uzui:{name:'Tengen Uzui',img:'uzui.png',description:'El Pilar del Sonido. Extravagante, carismático y letal. Su estilo único en el combate es tan llamativo como efectivo.',tags:['Respiración del Sonido','Extravagante','Veloz','Estilizado']},
+  Muichiro:{name:'Muichiro Tokito',img:'muichiro.png',description:'El Pilar de la Niebla. El más joven de los Pilares, con un talento sin precedentes. Su frialdad es una armadura que esconde un pasado devastador.',tags:['Respiración de la Niebla','Prodigio','Frío','Misterioso']},
+  Gyomei:{name:'Gyomei Himejima',img:'gyomei.png',description:'El Pilar de la Piedra. El más poderoso de todos los Hashira. Su imponente presencia contrasta con su alma sensible y devota.',tags:['Respiración de la Piedra','El más fuerte','Devoto','Bondadoso']},
+  Obanai:{name:'Obanai Iguro',img:'obanai.png',description:'El Pilar de la Serpiente. Severo, obsesivo y misterioso. Detrás de la severidad hay un amor que jamás osó expresar en voz alta.',tags:['Respiración de la Serpiente','Severo','Leal','Secretamente romántico']},
+  Sanemi:{name:'Sanemi Shinazugawa',img:'sanemi.png',description:'El Pilar del Viento. Agresivo y hosco, con una intensidad que asusta a sus propios aliados. Pero esa fiereza nació para proteger a los que ama.',tags:['Respiración del Viento','Feroz','Protector','Incomprendido']},
+  Mitsuri:{name:'Mitsuri Kanroji',img:'mitsuri.png',description:'La Pilar del Amor. Emocional, bondadosa y con una fuerza física que desmiente su apariencia delicada. Su corazón es su mayor arma.',tags:['Respiración del Amor','Bondadosa','Poderosa','Emocional']}
+};
+
+// ===================== DATOS: LUNAS =====================
+const LUNA_QUESTIONS=[
+  {question:'¿Qué buscarías como demonio?',options:[
+    {text:'El combate puro y la batalla perfecta',points:{Akaza:3,Doma:0,Kokushibo:1,Daki:0,Gyutaro:0,Gyokko:0,Hantengu:0}},
+    {text:'La inmortalidad a través de mis seguidores',points:{Akaza:0,Doma:3,Kokushibo:0,Daki:0,Gyutaro:0,Gyokko:0,Hantengu:0}},
+    {text:'La perfección marcial y la inmortalidad eterna',points:{Akaza:1,Doma:0,Kokushibo:3,Daki:0,Gyutaro:0,Gyokko:0,Hantengu:0}},
+    {text:'El lujo, la fama y el placer superficial',points:{Akaza:0,Doma:0,Kokushibo:0,Daki:3,Gyutaro:0,Gyokko:1,Hantengu:0}},
+    {text:'Proteger a alguien que me importa aunque sea a costa de todo',points:{Akaza:0,Doma:0,Kokushibo:0,Daki:0,Gyutaro:3,Gyokko:0,Hantengu:0}},
+    {text:'Crear arte con la materia misma de los cuerpos',points:{Akaza:0,Doma:0,Kokushibo:0,Daki:0,Gyutaro:0,Gyokko:3,Hantengu:0}},
+    {text:'Huir de todo conflicto y esconder mi poder real',points:{Akaza:0,Doma:0,Kokushibo:0,Daki:0,Gyutaro:0,Gyokko:0,Hantengu:3}}
+  ]},
+  {question:'¿Cuál es tu mayor temor?',options:[
+    {text:'Morir sin haber encontrado un rival digno',points:{Akaza:3,Doma:0,Kokushibo:1,Daki:0,Gyutaro:0,Gyokko:0,Hantengu:0}},
+    {text:'Quedarme sin seguidores que me adoren',points:{Akaza:0,Doma:3,Kokushibo:0,Daki:1,Gyutaro:0,Gyokko:0,Hantengu:0}},
+    {text:'Ser superado por alguien más joven y talentoso',points:{Akaza:0,Doma:0,Kokushibo:3,Daki:0,Gyutaro:0,Gyokko:1,Hantengu:0}},
+    {text:'Perder mi belleza o mi posición de poder',points:{Akaza:0,Doma:0,Kokushibo:0,Daki:3,Gyutaro:0,Gyokko:2,Hantengu:0}},
+    {text:'Que le pase algo a la persona que protejo',points:{Akaza:0,Doma:0,Kokushibo:0,Daki:0,Gyutaro:3,Gyokko:0,Hantengu:0}},
+    {text:'Que alguien no aprecie mi arte',points:{Akaza:0,Doma:0,Kokushibo:0,Daki:0,Gyutaro:0,Gyokko:3,Hantengu:0}},
+    {text:'Sentir dolor o ser lastimado',points:{Akaza:0,Doma:1,Kokushibo:0,Daki:0,Gyutaro:0,Gyokko:0,Hantengu:3}}
+  ]},
+  {question:'¿Cuál es tu filosofía de vida?',options:[
+    {text:'"Solo el más fuerte merece existir"',points:{Akaza:3,Doma:0,Kokushibo:1,Daki:0,Gyutaro:0,Gyokko:0,Hantengu:0}},
+    {text:'"El sufrimiento es una ilusión, yo traigo la paz"',points:{Akaza:0,Doma:3,Kokushibo:0,Daki:0,Gyutaro:0,Gyokko:0,Hantengu:1}},
+    {text:'"La perfección es el único camino digno"',points:{Akaza:0,Doma:0,Kokushibo:3,Daki:0,Gyutaro:0,Gyokko:2,Hantengu:0}},
+    {text:'"La belleza y el placer son todo lo que importa"',points:{Akaza:0,Doma:0,Kokushibo:0,Daki:3,Gyutaro:0,Gyokko:1,Hantengu:0}},
+    {text:'"Haré lo que sea por proteger a quien amo"',points:{Akaza:0,Doma:0,Kokushibo:0,Daki:0,Gyutaro:3,Gyokko:0,Hantengu:0}},
+    {text:'"El arte debe trascender incluso la muerte"',points:{Akaza:0,Doma:0,Kokushibo:0,Daki:0,Gyutaro:0,Gyokko:3,Hantengu:0}},
+    {text:'"Esconde tu fuerza hasta el último momento"',points:{Akaza:0,Doma:0,Kokushibo:1,Daki:0,Gyutaro:0,Gyokko:0,Hantengu:3}}
+  ]},
+  {question:'¿Qué tipo de poder elegirías?',options:[
+    {text:'Fuerza física y habilidades marciales inigualables',points:{Akaza:3,Doma:0,Kokushibo:1,Daki:0,Gyutaro:0,Gyokko:0,Hantengu:0}},
+    {text:'Manipulación mental y absorción de almas',points:{Akaza:0,Doma:3,Kokushibo:0,Daki:0,Gyutaro:0,Gyokko:0,Hantengu:1}},
+    {text:'Arte marcial elevado a nivel sobrehumano',points:{Akaza:1,Doma:0,Kokushibo:3,Daki:0,Gyutaro:0,Gyokko:0,Hantengu:0}},
+    {text:'Regeneración perfecta y cintas de seda letal',points:{Akaza:0,Doma:0,Kokushibo:0,Daki:3,Gyutaro:0,Gyokko:0,Hantengu:0}},
+    {text:'Veneno extremadamente potente',points:{Akaza:0,Doma:0,Kokushibo:0,Daki:0,Gyutaro:3,Gyokko:0,Hantengu:0}},
+    {text:'Control del agua y transformación de cuerpos en arte',points:{Akaza:0,Doma:0,Kokushibo:0,Daki:0,Gyutaro:0,Gyokko:3,Hantengu:0}},
+    {text:'Múltiples poderes según el estado emocional',points:{Akaza:0,Doma:1,Kokushibo:0,Daki:0,Gyutaro:0,Gyokko:0,Hantengu:3}}
+  ]},
+  {question:'¿Cómo tratarías a los humanos?',options:[
+    {text:'Solo como rivales dignos o como basura',points:{Akaza:3,Doma:0,Kokushibo:0,Daki:0,Gyutaro:0,Gyokko:1,Hantengu:0}},
+    {text:'Como almas que debo "salvar" a mi manera',points:{Akaza:0,Doma:3,Kokushibo:0,Daki:0,Gyutaro:0,Gyokko:0,Hantengu:1}},
+    {text:'Con desdén, son criaturas efímeras e inferiores',points:{Akaza:0,Doma:0,Kokushibo:3,Daki:0,Gyutaro:0,Gyokko:1,Hantengu:0}},
+    {text:'Como herramientas para mi placer y beneficio',points:{Akaza:0,Doma:1,Kokushibo:0,Daki:3,Gyutaro:0,Gyokko:0,Hantengu:0}},
+    {text:'Mayormente como alimento, salvo uno muy especial',points:{Akaza:0,Doma:0,Kokushibo:0,Daki:0,Gyutaro:3,Gyokko:0,Hantengu:0}},
+    {text:'Como materia prima para mi arte',points:{Akaza:0,Doma:0,Kokushibo:0,Daki:0,Gyutaro:0,Gyokko:3,Hantengu:0}},
+    {text:'Como amenazas potenciales que debo evitar',points:{Akaza:0,Doma:0,Kokushibo:0,Daki:0,Gyutaro:0,Gyokko:0,Hantengu:3}}
+  ]}
+];
+const LUNA_RESULTS={
+  Akaza:{name:'Akaza — Luna Superior 3',img:'akaza.png',description:'El guerrero eterno. Vives para el combate perfecto, despreciando la debilidad y buscando siempre un rival que te iguale. Tu fuerza de voluntad es absoluta.',tags:['Luna Superior 3','Respiración Marcial','Sed de batalla','Desdén por los débiles']},
+  Doma:{name:'Doma — Luna Superior 2',img:'doma.png',description:'El falso iluminado. Predicás la salvación mientras vacías las almas de tus seguidores. Tu total ausencia de emociones te hace el más aterrador.',tags:['Luna Superior 2','Sin emociones','Manipulador','Fanáticos seguidores']},
+  Kokushibo:{name:'Kokushibo — Luna Superior 1',img:'kokushibo.png',description:'El más poderoso entre las Lunas. La envidia y la ambición de un guerrero que renunció a su humanidad para alcanzar la perfección marcial eterna.',tags:['Luna Superior 1','El más poderoso','Arte marcial supremo','Envidia eterna']},
+  Daki:{name:'Daki — Luna Superior 6',img:'daki.png',description:'La belleza letal. Vanidosa y cruel, pero con un vínculo fraternal que revela la única grieta en su armadura de soberbia. Detrás hay una niña rota.',tags:['Luna Superior 6','Belleza letal','Vanidosa','Vínculo fraternal']},
+  Gyutaro:{name:'Gyutaro — Luna Superior 6',img:'daki.png',description:'El complemento oscuro. Naciste en la miseria y la transformaste en odio puro. Tu amor por tu hermana es lo único real en tu existencia de resentimiento.',tags:['Luna Superior 6','Veneno letal','Resentimiento','Amor fraternal']},
+  Gyokko:{name:'Gyokko — Luna Superior 5',img:'gyokko.png',description:'El artista demoniaco. Transformás los cuerpos humanos en obras maestras retorcidas. Tu obsesión con la belleza es tan extrema como tu crueldad.',tags:['Luna Superior 5','Artista macabro','Control del agua','Obsesión estética']},
+  Hantengu:{name:'Hantengu — Luna Superior 4',img:'hantengu.png',description:'El cobarde poderoso. Aunque jamás aceptes responsabilidad por nada, cada emoción tuya genera un clon devastador. Tu miedo es en sí mismo un arma.',tags:['Luna Superior 4','Cobarde','Múltiples emociones','Peligrosamente impredecible']}
+};
+
+// ===================== PERSONALITY QUIZ ENGINE =====================
+let quizState={mode:null,questions:[],currentIdx:0,personalityPoints:{}};
+
+function startPersonalityQuiz(mode){
+  quizState={mode,currentIdx:0,personalityPoints:{},questions:[]};
+  const maps={
+    respiracion:{q:RESPIRACION_QUESTIONS,cats:Object.keys(RESPIRACION_RESULTS)},
+    hashira:{q:HASHIRA_QUESTIONS,cats:Object.keys(HASHIRA_RESULTS)},
+    luna:{q:LUNA_QUESTIONS,cats:Object.keys(LUNA_RESULTS)}
+  };
+  maps[mode].cats.forEach(c=>quizState.personalityPoints[c]=0);
+  quizState.questions=shuffleArray(maps[mode].q);
+  showScreen('quiz-screen');
+  renderPersonalityQuestion();
+}
+
+function renderPersonalityQuestion(){
+  const q=quizState.questions[quizState.currentIdx];
+  const total=quizState.questions.length;
+  const idx=quizState.currentIdx;
+  const modeLabel={respiracion:'💧 Respiración',hashira:'⚔️ Hashira',luna:'🌙 Luna Demoníaca'};
+  const screen=document.getElementById('quiz-screen');
+  screen.innerHTML=`
+    <div class="quiz-container">
+      <div class="quiz-header">
+        <button class="btn-back" id="pq-back">← Menú</button>
+        <div class="quiz-meta">
+          <span class="mode-label">${modeLabel[quizState.mode]}</span>
+          <span class="progress-text" id="pq-prog">${idx+1} / ${total}</span>
         </div>
       </div>
-      <footer class="menu-footer">「 無限の力を示せ 」</footer>
-    </section>
+      <div class="progress-bar-container"><div class="progress-bar-fill" style="width:${(idx/total)*100}%"></div></div>
+      <div class="question-area">
+        <div class="question-number">Pregunta ${idx+1}</div>
+        <div class="question-text">${q.question}</div>
+      </div>
+      <div class="options-grid" id="pq-options"></div>
+    </div>`;
+  document.getElementById('pq-back').onclick=()=>showScreen('menu-screen');
+  const letters=['A','B','C','D','E','F','G'];
+  const optsDiv=document.getElementById('pq-options');
+  q.options.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.setAttribute('data-letter',letters[i]);
+    btn.textContent=opt.text;
+    btn.onclick=()=>{
+      optsDiv.querySelectorAll('.option-btn').forEach(b=>{b.disabled=true;});
+      btn.classList.add('correct');
+      Object.entries(opt.points).forEach(([cat,pts])=>{
+        if(quizState.personalityPoints[cat]!==undefined) quizState.personalityPoints[cat]+=pts;
+      });
+      setTimeout(()=>{
+        quizState.currentIdx++;
+        if(quizState.currentIdx<quizState.questions.length) renderPersonalityQuestion();
+        else showPersonalityResult();
+      },600);
+    };
+    optsDiv.appendChild(btn);
+  });
+}
 
-    <!-- PANTALLAS GENÉRICAS -->
-    <section id="quiz-screen" class="screen hidden"></section>
-    <section id="result-screen" class="screen hidden"></section>
-    <section id="hangman-screen" class="screen hidden"></section>
-    <section id="tateti-screen" class="screen hidden"></section>
-    <section id="katana-screen" class="screen hidden"></section>
-    <section id="trivia-arcos-screen" class="screen hidden"></section>
-  </main>
+function showPersonalityResult(){
+  const maps={respiracion:RESPIRACION_RESULTS,hashira:HASHIRA_RESULTS,luna:LUNA_RESULTS};
+  const pts=quizState.personalityPoints;
+  const winner=Object.keys(pts).reduce((a,b)=>pts[a]>pts[b]?a:b);
+  const data=maps[quizState.mode][winner];
+  const catLabel={respiracion:'✨ Tu Respiración es',hashira:'🏯 Tu Pilar es',luna:'🌙 Tu Luna Demoníaca es'};
+  const screen=document.getElementById('result-screen');
+  screen.innerHTML=`
+    <div class="result-container">
+      <div class="result-image-wrapper">
+        <img class="result-img" src="${data.img||'tanjiro.png'}" alt="${data.name}" onerror="this.classList.add('hidden');this.nextElementSibling.classList.remove('hidden')">
+        <div class="result-img-fallback hidden" style="background:rgba(192,57,43,.1)">${data.name}</div>
+      </div>
+      <div class="result-content">
+        <div class="result-category">${catLabel[quizState.mode]}</div>
+        <h2 class="result-name">${data.name}</h2>
+        <p class="result-description">${data.description}</p>
+        <div class="result-tags">${data.tags.map(t=>`<span class="result-tag">${t}</span>`).join('')}</div>
+      </div>
+      <div class="result-actions">
+        <button class="btn-primary" id="r-replay">Repetir test</button>
+        <button class="btn-secondary" id="r-menu">← Menú</button>
+      </div>
+    </div>`;
+  document.getElementById('r-replay').onclick=()=>startPersonalityQuiz(quizState.mode);
+  document.getElementById('r-menu').onclick=()=>showScreen('menu-screen');
+  showScreen('result-screen');
+}
 
-  <!-- OVERLAY TANJIRO SORPRENDIDO -->
-  <div id="tanjiro-surprised-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center;">
-    <img src="tanjirosorprendido.png" alt="Tanjiro sorprendido" style="max-width:70vw; max-height:70vh;">
-  </div>
+// ===================== TRIVIA ARCOS =====================
+const ARCOS=[
+  {id:'monte',nombre:'⛰️ Monte Sabiduría',dificultad:'Iniciado',ptsBase:100,color:'#2E86AB',preguntas:[
+    {p:'¿Quién entrena a Tanjiro en el Monte Sabiduría?',o:['Sakonji Urokodaki','Giyu Tomioka','Jigoro Kuwajima','Tengen Uzui'],c:0},
+    {p:'¿De qué color es la espada Nichirin de Tanjiro?',o:['Negra','Roja','Azul oscuro','Verde'],c:0},
+    {p:'¿Qué Respiración usa Giyu Tomioka?',o:['Del Agua','Del Fuego','De la Niebla','Del Viento'],c:0},
+    {p:'¿Cómo se convirtió Nezuko en demonio?',o:['Fue atacada por Muzan','Eligió serlo','Nació así','Entrenó con demonios'],c:0},
+    {p:'¿Qué regla rompió Giyu al dejar vivir a Nezuko?',o:['Matar a todos los demonios','No cooperar con humanos','Reportar al Maestro Kagaya','Ninguna regla'],c:0},
+    {p:'¿Cuántos años tardó Tanjiro en superar la prueba final de Urokodaki?',o:['2 años','1 año','6 meses','3 años'],c:0},
+    {p:'¿En qué consiste la Selección Final de los Cazadores de Demonios?',o:['Sobrevivir 7 noches en el monte Fujikasane','Matar a 10 demonios','Derrotar a un Hashira','Completar 100 misiones'],c:0}
+  ]},
+  {id:'tren',nombre:'🚂 Tren Mugen',dificultad:'Cazador',ptsBase:150,color:'#E74C3C',preguntas:[
+    {p:'¿Contra quién se enfrenta Rengoku en el Tren Mugen?',o:['Akaza','Doma','Enmu','Kokushibo'],c:0},
+    {p:'¿Cuál es el poder especial de Enmu?',o:['Manipular sueños','Control del fuego','Veneno mortal','Multiplicar cuerpos'],c:0},
+    {p:'¿Cuántas personas viajaban en el Tren Mugen?',o:['200','150','300','50'],c:0},
+    {p:'¿Qué Respiración usa Rengoku Kyojuro?',o:['De la Llama','Del Fuego','Del Sol','De la Explosión'],c:0},
+    {p:'¿Qué le dice Rengoku a Tanjiro antes de morir?',o:['Que llame llama en su corazón','Que se convierta en Hashira','Que cuide a Nezuko','Que busque a Muzan'],c:0},
+    {p:'¿Cómo derrota finalmente Tanjiro al núcleo de Enmu?',o:['Cortándole la cabeza del cuello en la locomotora','Con Respiración del Sol','Usando el veneno de Shinobu','Con ayuda de Inosuke'],c:0},
+    {p:'¿Qué Luna Inferior era Enmu?',o:['Luna Inferior 1','Luna Inferior 6','Luna Inferior 3','Luna Inferior 2'],c:0}
+  ]},
+  {id:'distrito',nombre:'🏮 Distrito del Entretenimiento',dificultad:'Élite',ptsBase:200,color:'#8E44AD',preguntas:[
+    {p:'¿Quién es el Pilar asignado a la misión del Distrito del Entretenimiento?',o:['Tengen Uzui','Shinobu Kocho','Giyu Tomioka','Sanemi Shinazugawa'],c:0},
+    {p:'¿Qué Luna Superior habita el Distrito del Entretenimiento?',o:['Daki y Gyutaro (Luna Superior 6)','Gyokko (Luna Superior 5)','Akaza (Luna Superior 3)','Hantengu (Luna Superior 4)'],c:0},
+    {p:'¿Cuál es la relación entre Daki y Gyutaro?',o:['Son hermanos','Son amantes','Son rivales','No tienen relación'],c:0},
+    {p:'¿Qué forma de disfraz toman Tanjiro, Zenitsu e Inosuke para infiltrarse?',o:['Mujeres con kimonos','Músicos ambulantes','Guardias del distrito','Comerciantes de sake'],c:0},
+    {p:'¿Cuál es la habilidad especial de Gyutaro?',o:['Veneno en su sangre','Cintas de seda cortantes','Manipulación del fuego','Regeneración infinita'],c:0},
+    {p:'¿Qué técnica usa Uzui en la batalla final?',o:['Respiración del Sonido: Partitura del Festival Máximo','Partitura del Trueno Resonante','Melodía del Caos','Primera Forma: Rugido Sónico'],c:0},
+    {p:'¿Qué le ocurre a Uzui al final de la batalla?',o:['Pierde un ojo y un brazo','Muere','Se retira sin heridas','Pierde la audición completamente'],c:0}
+  ]},
+  {id:'aldea',nombre:'⚒️ Aldea de los Herreros',dificultad:'Hashira',ptsBase:250,color:'#F39C12',preguntas:[
+    {p:'¿Para qué va Tanjiro a la Aldea de los Herreros?',o:['Reparar su espada y aprender técnicas ancestrales','Reclutar herreros','Buscar a Muzan','Reunirse con Gyomei'],c:0},
+    {p:'¿Qué Luna Superior ataca la Aldea de los Herreros?',o:['Hantengu y Gyokko','Akaza y Doma','Kokushibo y Doma','Gyutaro y Daki'],c:0},
+    {p:'¿Cuál es el poder de Hantengu?',o:['Generar clones de sus emociones','Controlar el hielo','Absorber almas','Manipular madera'],c:0},
+    {p:'¿Qué espada especial encuentra Tanjiro en la Aldea?',o:['La espada del Sol Radiante heredada','La espada de Yoriichi','La katana de Kokushibo','La espada de Rengoku'],c:0},
+    {p:'¿Qué Pilar ayuda a Tanjiro contra Gyokko?',o:['Muichiro Tokito','Giyu Tomioka','Sanemi Shinazugawa','Mitsuri Kanroji'],c:0},
+    {p:'¿Qué habilidad especial tiene Gyokko?',o:['Transportarse dentro de vasijas y controlar el agua','Crear arte con cuerpos','Absorber técnicas','Controlar la tierra'],c:0},
+    {p:'¿Qué marca aparece en Tanjiro durante esta batalla?',o:['La Marca del Cazador','La Marca del Fuego Solar','La Marca de Yoriichi','La Marca de la Luna'],c:0}
+  ]},
+  {id:'final',nombre:'🌑 Batalla Final',dificultad:'Legendario',ptsBase:350,color:'#C0392B',preguntas:[
+    {p:'¿Cómo se llama el castillo infinito de Muzan?',o:['Castillo del Infinito','Castillo Dimensional','Fortaleza Demoníaca','Palacio de la Oscuridad'],c:0},
+    {p:'¿Quién es Yoriichi Tsugikuni?',o:['El más poderoso cazador de demonios de la historia','El hermano de Muzan','El fundador de los Hashira','El primer demonio'],c:0},
+    {p:'¿Cuál es la debilidad fundamental de Muzan?',o:['El Wisteria (glicina) y la luz solar','El agua bendita','El fuego especial','La Respiración del Sol directa'],c:0},
+    {p:'¿Qué técnica ancestral intenta recuperar Tanjiro?',o:['Danza del Dios del Fuego — Respiración del Sol','Doce formas del Agua','Arte marcial de Yoriichi','Danza de la Llama'],c:0},
+    {p:'¿Qué le sucede a Tanjiro al final del anime?',o:['Se convierte temporalmente en demonio','Se vuelve Hashira','Muere en combate','Se retira como cazador'],c:0},
+    {p:'¿Cuánto tiempo dura la batalla final contra Muzan?',o:['Hasta el amanecer — deben aguantar toda la noche','3 días y 3 noches','Hasta que Tanjiro usa la Respiración del Sol completa','Un solo combate al mediodía'],c:0},
+    {p:'¿Qué le sucede a los demonios cuando sale el sol?',o:['Se desintegran y mueren','Solo se debilitan','Pueden sobrevivir si se cubren','Se vuelven más fuertes'],c:0}
+  ]}
+];
 
-  <!-- SCRIPTS COMPLETOS -->
-  <script>
-    // ==================== UTILIDADES ====================
-    function shuffleArray(arr) { const a=[...arr]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
-    function mostrarTanjiroSorprendido(cb){ const o=document.getElementById('tanjiro-surprised-overlay'); o.style.display='flex'; o.querySelector('img').style.animation='shake 0.5s'; setTimeout(()=>{ o.style.display='none'; if(cb)cb(); },1500); }
+let arcoState={arcoActual:0,preguntaActual:0,vidas:3,puntaje:0,racha:0,timer:null,tiempoInicio:0,juegoTerminado:false,arcosCompletados:[]};
 
-    // ==================== ROUTER ====================
-    const SCREENS = ['menu-screen','quiz-screen','result-screen','hangman-screen','tateti-screen','katana-screen','trivia-arcos-screen'];
-    function showScreen(id) { SCREENS.forEach(s=>{ const el=document.getElementById(s); if(el){ el.classList.remove('active'); el.classList.add('hidden'); } }); const t=document.getElementById(id); if(t){ t.classList.remove('hidden'); t.classList.add('active'); } window.scrollTo({top:0,behavior:'smooth'}); }
+function limpiarTimer(){if(arcoState.timer){clearInterval(arcoState.timer);arcoState.timer=null;}}
 
-    // ==================== HERO ANIMACIONES ====================
-    (function(){
-      const slogans=[{char:'Tanjiro',text:'"Sin importar cuántas veces me rompa, me volveré a levantar."'},{char:'Rengoku',text:'"¡Pon todo tu corazón en llamas y avanza!"'},{char:'Zenitsu',text:'"Aunque me muera del miedo, haré lo que deba hacer."'},{char:'Inosuke',text:'"¡Nadie sabe el techo de mis capacidades más que yo!"'},{char:'Shinobu',text:'"Sigo sonriendo porque hace mucho que aprendí a hacerlo."'}];
-      const wrap=document.getElementById('hero-slogans');
-      let idx=0;
-      slogans.forEach((s,i)=>{ const el=document.createElement('p'); el.className='hero-slogan'+(i===0?' active':''); el.innerHTML=`<span class="hs-name">${s.char}</span> — ${s.text}`; wrap.appendChild(el); });
-      const items=wrap.querySelectorAll('.hero-slogan');
-      setInterval(()=>{ items[idx].classList.remove('active'); idx=(idx+1)%items.length; items[idx].classList.add('active'); },3800);
-      // Contadores animados
-      const obs=new IntersectionObserver((entries,o)=>{ if(entries[0].isIntersecting){ document.querySelectorAll('.hero-stat-num[data-target]').forEach(el=>{ const target=+el.dataset.target; let t0=performance.now(); (function tick(now){ const p=Math.min((now-t0)/1800,1); el.textContent=Math.round((1-Math.pow(1-p,3))*target); if(p<1)requestAnimationFrame(tick); else el.textContent=target; })(t0); }); o.disconnect(); } },{threshold:0.4});
-      obs.observe(document.getElementById('hero'));
-    })();
-
-    // ==================== DATOS DE PREGUNTAS ====================
-    const RESPIRACION_QUESTIONS = [ /* preguntas con points como antes */ ];
-    const HASHIRA_QUESTIONS = [ /* ... */ ];
-    const LUNA_QUESTIONS = [ /* ... */ ];
-    const RESPIRACION_RESULTS = { /* ... */ };
-    const HASHIRA_RESULTS = { /* ... */ };
-    const LUNA_RESULTS = { /* ... */ };
-    // (Debido a espacio, no se copian completos, pero en el archivo final estarán completos como en tu original)
-
-    // ==================== PERSONALITY QUIZ ENGINE ====================
-    let quizState = { mode:null, questions:[], currentIdx:0, personalityPoints:{} };
-    function startPersonalityQuiz(mode){
-      quizState.mode=mode; quizState.currentIdx=0; quizState.personalityPoints={};
-      const map={ respiracion:RESPIRACION_QUESTIONS, hashira:HASHIRA_QUESTIONS, luna:LUNA_QUESTIONS };
-      const initPoints={ respiracion:['Agua','Fuego','Trueno','Bestia','Insecto'], hashira:Object.keys(HASHIRA_RESULTS), luna:Object.keys(LUNA_RESULTS) };
-      initPoints[mode].forEach(c=> quizState.personalityPoints[c]=0);
-      quizState.questions=shuffleArray(map[mode]);
-      showScreen('quiz-screen');
-      renderPersonalityQuestion();
+function mostrarHubArcos(){
+  limpiarTimer();
+  const screen=document.getElementById('trivia-arcos-screen');
+  screen.innerHTML=`
+    <div class="mini-container">
+      <div class="mini-header">
+        <button class="btn-back" id="arc-back">← Menú</button>
+        <h2 class="mini-title">🏯 Trivia por Arcos</h2>
+      </div>
+      <div class="arcos-hub" id="arcos-hub"></div>
+    </div>`;
+  document.getElementById('arc-back').onclick=()=>showScreen('menu-screen');
+  const hub=document.getElementById('arcos-hub');
+  ARCOS.forEach((arco,i)=>{
+    const completado=arcoState.arcosCompletados.includes(i);
+    const bloqueado=i>arcoState.arcosCompletados.length;
+    const div=document.createElement('div');
+    div.className='arco-card'+(completado?' completed':'')+(bloqueado?' locked':'');
+    div.innerHTML=`
+      <div style="font-size:2rem">${['⛰️','🚂','🏮','⚒️','🌑'][i]}</div>
+      <div class="arco-info">
+        <div class="arco-nombre">${arco.nombre}</div>
+        <div class="arco-dif">${arco.dificultad} · ${arco.preguntas.length} preguntas</div>
+      </div>
+      <div class="arco-pts">${completado?'✅ Completado':bloqueado?'🔒 Bloqueado':arco.ptsBase+' pts/preg'}</div>`;
+    if(!bloqueado&&!completado){
+      div.style.cursor='pointer';
+      div.onclick=()=>{arcoState.arcoActual=i;iniciarArco();};
     }
-    function renderPersonalityQuestion(){
-      const q=quizState.questions[quizState.currentIdx];
-      document.getElementById('quiz-screen').innerHTML=`
-        <div class="mini-container">
-          <button class="btn-back" id="back-personality">← Menú</button>
-          <div class="progress-bar-container"><div class="progress-bar-fill" style="width:${(quizState.currentIdx/quizState.questions.length)*100}%"></div></div>
-          <h2>${q.question}</h2>
-          <div id="options"></div>
-        </div>`;
-      document.getElementById('back-personality').onclick=()=>showScreen('menu-screen');
-      const optsDiv=document.getElementById('options');
-      q.options.forEach((opt,i)=>{
-        const btn=document.createElement('button'); btn.className='option-btn'; btn.textContent=opt.text;
-        btn.onclick=()=>{
-          Object.entries(opt.points).forEach(([cat,pts])=>{ if(quizState.personalityPoints[cat]!==undefined) quizState.personalityPoints[cat]+=pts; });
-          quizState.currentIdx++;
-          if(quizState.currentIdx<quizState.questions.length) renderPersonalityQuestion();
-          else showPersonalityResult();
-        };
-        optsDiv.appendChild(btn);
+    hub.appendChild(div);
+  });
+}
+
+function iniciarArco(){
+  arcoState.preguntaActual=0;arcoState.vidas=3;arcoState.puntaje=0;arcoState.racha=0;arcoState.juegoTerminado=false;
+  renderPreguntaArco();
+}
+
+function renderPreguntaArco(){
+  limpiarTimer();
+  const arco=ARCOS[arcoState.arcoActual];
+  const q=arco.preguntas[arcoState.preguntaActual];
+  const screen=document.getElementById('trivia-arcos-screen');
+  screen.innerHTML=`
+    <div class="quiz-container">
+      <div class="quiz-header">
+        <button class="btn-back" id="arc-back2">← Hub</button>
+        <div class="quiz-meta">
+          <span class="mode-label">${arco.nombre}</span>
+          <span class="progress-text">${arcoState.preguntaActual+1}/${arco.preguntas.length}</span>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;">
+        <span style="font-size:1.2rem">${'❤️'.repeat(arcoState.vidas)}</span>
+        <span style="font-family:var(--font-display);color:var(--gold)">Puntaje: ${arcoState.puntaje}</span>
+        <span id="arc-timer" style="font-family:var(--font-display);color:var(--red);font-size:1.2rem;font-weight:700">15s</span>
+      </div>
+      <div class="timer-bar-container"><div class="timer-bar" id="arc-timerbar" style="width:100%"></div></div>
+      <div class="question-area">
+        <div class="question-number">Arco ${arcoState.arcoActual+1} — Pregunta ${arcoState.preguntaActual+1}</div>
+        <div class="question-text">${q.p}</div>
+      </div>
+      <div class="options-grid" id="arc-opts"></div>
+    </div>`;
+  document.getElementById('arc-back2').onclick=()=>{limpiarTimer();mostrarHubArcos();};
+  let tiempo=15;
+  const timerEl=document.getElementById('arc-timer');
+  const timerBar=document.getElementById('arc-timerbar');
+  arcoState.tiempoInicio=Date.now();
+  arcoState.timer=setInterval(()=>{
+    tiempo--;
+    timerEl.textContent=tiempo+'s';
+    timerBar.style.width=(tiempo/15*100)+'%';
+    if(tiempo<=0){limpiarTimer();mostrarTanjiroSorprendido(()=>perderVidaArco());}
+  },1000);
+  const letters=['A','B','C','D'];
+  const optsDiv=document.getElementById('arc-opts');
+  shuffleArray([...q.o.map((o,i)=>({text:o,correct:i===q.c}))]).forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.setAttribute('data-letter',letters[i]);
+    btn.textContent=opt.text;
+    btn.onclick=()=>respuestaArco(opt.correct,btn,optsDiv);
+    optsDiv.appendChild(btn);
+  });
+}
+
+function respuestaArco(esCorrecta,btn,optsDiv){
+  limpiarTimer();
+  optsDiv.querySelectorAll('.option-btn').forEach(b=>{b.disabled=true;});
+  if(esCorrecta){
+    btn.classList.add('correct');
+    arcoState.racha++;
+    const elapsed=(Date.now()-arcoState.tiempoInicio)/1000;
+    let bonus=elapsed<4?50:elapsed<8?20:0;
+    let mult=arcoState.racha>=3?1.5:1;
+    arcoState.puntaje+=Math.round((ARCOS[arcoState.arcoActual].ptsBase+bonus)*mult);
+    setTimeout(()=>{avanzarArco();},800);
+  } else {
+    btn.classList.add('incorrect');
+    // Mostrar correcta
+    optsDiv.querySelectorAll('.option-btn').forEach(b=>{
+      // No hay forma directa de saber cuál es correcta aquí, pero marcamos la incorrecta
+    });
+    arcoState.racha=0;
+    mostrarTanjiroSorprendido(()=>perderVidaArco());
+  }
+}
+
+function avanzarArco(){
+  arcoState.preguntaActual++;
+  if(arcoState.preguntaActual>=ARCOS[arcoState.arcoActual].preguntas.length) arcoCompletado();
+  else renderPreguntaArco();
+}
+
+function perderVidaArco(){
+  arcoState.vidas--;
+  if(arcoState.vidas<=0){
+    const screen=document.getElementById('trivia-arcos-screen');
+    screen.innerHTML=`<div class="mini-container" style="align-items:center;text-align:center"><h2 style="font-family:var(--font-display);font-size:2rem;color:var(--red)">💀 Sin Vidas</h2><p style="color:var(--text-muted);margin:.5rem 0">Puntaje final: <strong style="color:var(--gold)">${arcoState.puntaje}</strong></p><div class="result-actions" style="margin-top:1rem"><button class="btn-primary" id="arc-retry">Reintentar</button><button class="btn-secondary" id="arc-hub">← Hub</button></div></div>`;
+    document.getElementById('arc-retry').onclick=()=>iniciarArco();
+    document.getElementById('arc-hub').onclick=()=>mostrarHubArcos();
+  } else {
+    avanzarArco();
+  }
+}
+
+function arcoCompletado(){
+  if(!arcoState.arcosCompletados.includes(arcoState.arcoActual)) arcoState.arcosCompletados.push(arcoState.arcoActual);
+  const esUltimo=arcoState.arcoActual>=ARCOS.length-1;
+  const screen=document.getElementById('trivia-arcos-screen');
+  screen.innerHTML=`<div class="mini-container" style="align-items:center;text-align:center"><h2 style="font-family:var(--font-display);font-size:2rem;color:var(--gold)">🎉 ¡Arco Completado!</h2><p style="color:var(--text-muted);margin:.5rem 0">Puntaje: <strong style="color:var(--gold)">${arcoState.puntaje}</strong></p><div class="result-actions" style="margin-top:1rem">${!esUltimo?`<button class="btn-primary" id="arc-next">Siguiente Arco →</button>`:`<button class="btn-primary" id="arc-fin">🏆 ¡Completaste todos!</button>`}<button class="btn-secondary" id="arc-hub2">← Hub</button></div></div>`;
+  if(!esUltimo) document.getElementById('arc-next').onclick=()=>{arcoState.arcoActual++;iniciarArco();};
+  else document.getElementById('arc-fin').onclick=()=>showScreen('menu-screen');
+  document.getElementById('arc-hub2').onclick=()=>mostrarHubArcos();
+}
+
+// ===================== AHORCADO =====================
+const Hangman=(function(){
+  const WORDS=[
+    {word:'TANJIRO',hint:'El protagonista'},
+    {word:'NEZUKO',hint:'Su hermana demonio'},
+    {word:'ZENITSU',hint:'Trueno dormido'},
+    {word:'INOSUKE',hint:'La máscara de jabalí'},
+    {word:'RENGOKU',hint:'Pilar de la Llama'},
+    {word:'SHINOBU',hint:'Pilar del Insecto'},
+    {word:'MUZAN',hint:'El rey demonio'},
+    {word:'AKAZA',hint:'Luna Superior 3'},
+    {word:'GIYU',hint:'Pilar del Agua'},
+    {word:'HASHIRA',hint:'Los pilares'},
+    {word:'NICHIRIN',hint:'Las espadas de los cazadores'},
+    {word:'WISTERIA',hint:'La flor que repele demonios'},
+    {word:'UROKODAKI',hint:'El maestro de Tanjiro'},
+    {word:'KOKUSHIBO',hint:'Luna Superior 1'},
+    {word:'YORIICHI',hint:'El cazador más poderoso de la historia'},
+    {word:'KANAO',hint:'Discípula de Shinobu'},
+    {word:'MITSURI',hint:'Pilar del Amor'},
+    {word:'GYOMEI',hint:'Pilar de la Piedra'},
+    {word:'UZUI',hint:'Pilar del Sonido'},
+    {word:'SANEMI',hint:'Pilar del Viento'}
+  ];
+  const MAX_ERR=7;
+  let state={};
+
+  function drawHangman(canvas,errors){
+    const ctx=canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.strokeStyle='rgba(192,57,43,0.8)';ctx.lineWidth=3;ctx.lineCap='round';
+    // Estructura
+    ctx.beginPath();ctx.moveTo(20,170);ctx.lineTo(150,170);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(60,170);ctx.lineTo(60,20);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(60,20);ctx.lineTo(110,20);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(110,20);ctx.lineTo(110,40);ctx.stroke();
+    if(errors<1)return;
+    // Cabeza
+    ctx.beginPath();ctx.arc(110,54,14,0,Math.PI*2);ctx.stroke();
+    if(errors<2)return;
+    // Cuerpo
+    ctx.beginPath();ctx.moveTo(110,68);ctx.lineTo(110,115);ctx.stroke();
+    if(errors<3)return;
+    // Brazo izq
+    ctx.beginPath();ctx.moveTo(110,80);ctx.lineTo(85,100);ctx.stroke();
+    if(errors<4)return;
+    // Brazo der
+    ctx.beginPath();ctx.moveTo(110,80);ctx.lineTo(135,100);ctx.stroke();
+    if(errors<5)return;
+    // Pierna izq
+    ctx.beginPath();ctx.moveTo(110,115);ctx.lineTo(85,145);ctx.stroke();
+    if(errors<6)return;
+    // Pierna der
+    ctx.beginPath();ctx.moveTo(110,115);ctx.lineTo(135,145);ctx.stroke();
+    if(errors<7)return;
+    // Cara triste
+    ctx.strokeStyle='rgba(231,76,60,0.9)';
+    ctx.beginPath();ctx.arc(104,50,2,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.arc(116,50,2,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.arc(110,62,5,0,Math.PI,false);ctx.stroke();
+  }
+
+  function init(){
+    const screen=document.getElementById('hangman-screen');
+    const entry=WORDS[Math.floor(Math.random()*WORDS.length)];
+    state={word:entry.word,hint:entry.hint,guessed:new Set(),errors:0,gameOver:false,won:false};
+    render(screen);
+  }
+
+  function render(screen){
+    screen.innerHTML=`
+      <div class="mini-container">
+        <div class="mini-header">
+          <button class="btn-back" id="hm-back">← Menú</button>
+          <h2 class="mini-title">🪢 Ahorcado del Cazador</h2>
+        </div>
+        <div class="hm-layout">
+          <div class="hm-left">
+            <canvas class="hm-canvas" id="hm-canvas" width="170" height="180"></canvas>
+            <div class="hm-hint">Pista: ${state.hint}</div>
+            <div class="hm-errors" id="hm-errors">Errores: ${state.errors}/${MAX_ERR}</div>
+          </div>
+          <div class="hm-right">
+            <div class="hm-word-row" id="hm-word"></div>
+            <div class="hm-status" id="hm-status"></div>
+            <div class="hm-keyboard" id="hm-keyboard"></div>
+            <button class="btn-secondary" id="hm-restart" style="align-self:center;margin-top:.5rem">Nueva palabra</button>
+          </div>
+        </div>
+      </div>`;
+    document.getElementById('hm-back').onclick=()=>showScreen('menu-screen');
+    document.getElementById('hm-restart').onclick=()=>init();
+    drawHangman(document.getElementById('hm-canvas'),state.errors);
+    updateWord();
+    buildKeyboard();
+  }
+
+  function updateWord(){
+    const el=document.getElementById('hm-word');
+    if(!el)return;
+    el.innerHTML=state.word.split('').map(c=>`<span class="hm-letter${state.guessed.has(c)?' revealed':''}">${state.guessed.has(c)?c:'_'}</span>`).join('');
+  }
+
+  function buildKeyboard(){
+    const el=document.getElementById('hm-keyboard');
+    if(!el)return;
+    const rows=['QWERTYUIOP','ASDFGHJKL','ZXCVBNM'];
+    rows.forEach(row=>{
+      const rowDiv=document.createElement('div');rowDiv.className='hm-kb-row';
+      row.split('').forEach(l=>{
+        const btn=document.createElement('button');
+        btn.className='hm-key';btn.textContent=l;
+        if(state.guessed.has(l)){
+          btn.disabled=true;
+          btn.classList.add(state.word.includes(l)?'correct':'wrong');
+        }
+        btn.onclick=()=>guess(l);
+        rowDiv.appendChild(btn);
+      });
+      el.appendChild(rowDiv);
+    });
+  }
+
+  function guess(letter){
+    if(state.gameOver||state.guessed.has(letter))return;
+    state.guessed.add(letter);
+    if(!state.word.includes(letter)){
+      state.errors++;
+      drawHangman(document.getElementById('hm-canvas'),state.errors);
+      document.getElementById('hm-errors').textContent=`Errores: ${state.errors}/${MAX_ERR}`;
+    }
+    updateWord();
+    const allRevealed=state.word.split('').every(c=>state.guessed.has(c));
+    const statusEl=document.getElementById('hm-status');
+    if(allRevealed){
+      state.gameOver=true;state.won=true;
+      statusEl.className='hm-status win';
+      statusEl.innerHTML=`✅ ¡Correcto! Era <strong>${state.word}</strong>`;
+      document.getElementById('hm-keyboard').querySelectorAll('.hm-key:not(:disabled)').forEach(b=>b.disabled=true);
+    } else if(state.errors>=MAX_ERR){
+      state.gameOver=true;
+      statusEl.className='hm-status lose';
+      statusEl.innerHTML=`💀 Perdiste. Era <strong>${state.word}</strong>`;
+      state.word.split('').forEach(c=>{if(!state.guessed.has(c))state.guessed.add(c);});
+      updateWord();
+      document.getElementById('hm-keyboard').querySelectorAll('.hm-key:not(:disabled)').forEach(b=>b.disabled=true);
+    }
+    // Redibujar teclado con estados actualizados
+    const kb=document.getElementById('hm-keyboard');
+    kb.querySelectorAll('.hm-key').forEach(btn=>{
+      const l=btn.textContent;
+      if(state.guessed.has(l)&&!btn.disabled){
+        btn.disabled=true;
+        btn.classList.add(state.word.includes(l)?'correct':'wrong');
+      }
+    });
+  }
+
+  return{init};
+})();
+
+// ===================== TATETI =====================
+const Tateti=(function(){
+  let board,playerSymbol,aiSymbol,screen,gameOver;
+  const WIN_LINES=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+  function checkWinner(b){
+    for(const [a,c,d] of WIN_LINES){if(b[a]&&b[a]===b[c]&&b[a]===b[d])return b[a];}
+    if(b.every(c=>c))return'draw';
+    return null;
+  }
+
+  function minimax(b,isMax){
+    const w=checkWinner(b);
+    if(w===aiSymbol)return 10;
+    if(w===playerSymbol)return -10;
+    if(w==='draw')return 0;
+    const scores=[];
+    b.forEach((c,i)=>{
+      if(!c){b[i]=isMax?aiSymbol:playerSymbol;scores.push(minimax(b,!isMax));b[i]=null;}
+    });
+    return isMax?Math.max(...scores):Math.min(...scores);
+  }
+
+  function bestMove(){
+    let best=-Infinity,idx=0;
+    board.forEach((c,i)=>{
+      if(!c){board[i]=aiSymbol;const s=minimax(board,false);board[i]=null;if(s>best){best=s;idx=i;}}
+    });
+    return idx;
+  }
+
+  function renderBoard(statusText,statusClass){
+    const st=document.getElementById('tt-status');
+    if(st){st.textContent=statusText;st.className='tt-status'+(statusClass?' '+statusClass:'');}
+    const cells=document.querySelectorAll('.tt-cell');
+    cells.forEach((cell,i)=>{
+      cell.textContent=board[i]||(gameOver?'':'');
+      cell.classList.toggle('taken',!!board[i]);
+    });
+  }
+
+  function startGame(pSym){
+    playerSymbol=pSym;aiSymbol=pSym==='🔥'?'🌸':'🔥';
+    board=Array(9).fill(null);gameOver=false;
+    screen.innerHTML=`
+      <div class="mini-container">
+        <div class="mini-header">
+          <button class="btn-back" id="tt-back">← Menú</button>
+          <h2 class="mini-title">♟️ Tateti</h2>
+        </div>
+        <div class="tt-game-layout">
+          <div class="tt-legend">
+            <div style="display:flex;align-items:center;gap:.4rem">${playerSymbol} <span>Tú</span></div>
+            <span style="color:var(--red)">VS</span>
+            <div style="display:flex;align-items:center;gap:.4rem">${aiSymbol} <span>IA</span></div>
+          </div>
+          <div class="tt-status" id="tt-status">Tu turno (${playerSymbol})</div>
+          <div class="tt-board" id="tt-board">
+            ${Array(9).fill(0).map((_,i)=>`<div class="tt-cell" data-i="${i}"></div>`).join('')}
+          </div>
+          <div class="tt-actions">
+            <button class="btn-secondary" id="tt-restart">Reiniciar</button>
+            <button class="btn-secondary" id="tt-change">Cambiar bando</button>
+          </div>
+        </div>
+      </div>`;
+    document.getElementById('tt-back').onclick=()=>showScreen('menu-screen');
+    document.getElementById('tt-restart').onclick=()=>startGame(playerSymbol);
+    document.getElementById('tt-change').onclick=()=>init();
+    document.querySelectorAll('.tt-cell').forEach(cell=>{
+      cell.onclick=()=>{
+        const i=+cell.dataset.i;
+        if(gameOver||board[i])return;
+        board[i]=playerSymbol;
+        const w=checkWinner(board);
+        if(w){endGame(w);return;}
+        renderBoard(`Turno de la IA (${aiSymbol})...`);
+        setTimeout(()=>{
+          board[bestMove()]=aiSymbol;
+          const w2=checkWinner(board);
+          if(w2){endGame(w2);return;}
+          renderBoard(`Tu turno (${playerSymbol})`);
+        },400);
+      };
+    });
+    renderBoard(`Tu turno (${playerSymbol})`);
+  }
+
+  function endGame(winner){
+    gameOver=true;
+    let msg,cls;
+    if(winner==='draw'){msg='¡Empate! Honor a ambos guerreros.';cls='draw';}
+    else if(winner===playerSymbol){msg=`¡${playerSymbol} Ganaste! ¡Itadaki!`;cls='win';}
+    else{msg=`¡${aiSymbol} La IA gana esta vez...`;cls='lose';}
+    renderBoard(msg,cls);
+    const w=checkWinner(board);
+    if(w&&w!=='draw'){
+      WIN_LINES.forEach(([a,b,c])=>{
+        if(board[a]===w&&board[b]===w&&board[c]===w){
+          [a,b,c].forEach(i=>document.querySelector(`[data-i="${i}"]`).classList.add('winning-cell'));
+        }
       });
     }
-    function showPersonalityResult(){
-      const mapResults={ respiracion:RESPIRACION_RESULTS, hashira:HASHIRA_RESULTS, luna:LUNA_RESULTS };
-      const points=quizState.personalityPoints;
-      const winner=Object.keys(points).reduce((a,b)=>points[a]>points[b]?a:b);
-      const data=mapResults[quizState.mode][winner];
-      document.getElementById('result-screen').innerHTML=`
-        <div class="result-container">
-          <img src="${data.img||'tanjiro.png'}" class="result-img" onerror="this.style.display='none'">
-          <div class="japanese-title" style="font-size:1rem">${quizState.mode==='respiracion'?'✨ Tu Respiración':quizState.mode==='hashira'?'🏯 Tu Pilar':'🌙 Tu Luna Demoníaca'}</div>
-          <h2 class="result-name">${data.name}</h2>
-          <p class="result-description">${data.description}</p>
-          <div class="result-tags">${data.tags.map(t=>`<span class="result-tag">${t}</span>`).join('')}</div>
-          <button class="btn-primary" id="replay-personality">Repetir test</button>
-          <button class="btn-secondary" id="menu-from-result">← Menú</button>
-        </div>`;
-      document.getElementById('replay-personality').onclick=()=>startPersonalityQuiz(quizState.mode);
-      document.getElementById('menu-from-result').onclick=()=>showScreen('menu-screen');
-      showScreen('result-screen');
-    }
+  }
 
-    // ==================== TRIVIA POR ARCOS ====================
-    const ARCOS = [
-      { id:'monte', nombre:'⛰️ Monte Sabiduría', dificultad:'Iniciado', ptsBase:100, color:'#2E86AB', preguntas:[
-        { pregunta:'¿Quién entrena a Tanjiro?', opciones:['Urokodaki','Rengoku','Giyu','Shinobu'], correcta:0 },
-        { pregunta:'¿Qué color tiene la hoja de Tanjiro?', opciones:['Negra','Roja','Azul','Amarilla'], correcta:0 },
-      ]},
-      { id:'tren', nombre:'🚂 Tren Mugen', dificultad:'Cazador', ptsBase:150, color:'#E74C3C', preguntas:[
-        { pregunta:'¿Contra quién lucha Rengoku en el tren?', opciones:['Akaza','Doma','Enmu','Kokushibo'], correcta:0 },
-      ]},
-      { id:'distrito', nombre:'🏮 Distrito del Entretenimiento', dificultad:'Élite', ptsBase:200, color:'#8E44AD', preguntas:[] },
-      { id:'aldea', nombre:'⚒️ Aldea de los Herreros', dificultad:'Hashira', ptsBase:250, color:'#F39C12', preguntas:[] },
-      { id:'final', nombre:'🌑 Batalla Final', dificultad:'Legendario', ptsBase:350, color:'#C0392B', preguntas:[] }
-    ];
-    // Llenar preguntas de arcos (completos en el archivo real)
-    let arcoState = { arcoActual:0, preguntaActual:0, vidas:3, puntaje:0, racha:0, timer:null, tiempoInicio:0, juegoTerminado:false, arcosCompletados:[] };
-    function iniciarArco(){
-      arcoState.preguntaActual=0; arcoState.vidas=3; arcoState.puntaje=0; arcoState.racha=0; arcoState.juegoTerminado=false;
-      showScreen('trivia-arcos-screen');
-      renderPreguntaArco();
-    }
-    function renderPreguntaArco(){
-      const arco=ARCOS[arcoState.arcoActual], q=arco.preguntas[arcoState.preguntaActual];
-      document.getElementById('trivia-arcos-screen').innerHTML=`
-        <div class="mini-container">
-          <button class="btn-back" onclick="showScreen('menu-screen')">← Menú</button>
-          <div style="display:flex; justify-content:space-between; margin-bottom:1rem;">
-            <span>❤️${'❤️'.repeat(arcoState.vidas)}</span>
-            <span>Puntaje: ${arcoState.puntaje}</span>
-            <span>${arcoState.preguntaActual+1}/${arco.preguntas.length}</span>
+  function init(){
+    screen=document.getElementById('tateti-screen');
+    screen.innerHTML=`
+      <div class="mini-container">
+        <div class="mini-header">
+          <button class="btn-back" id="tt-sel-back">← Menú</button>
+          <h2 class="mini-title">♟️ Elige tu Bando</h2>
+        </div>
+        <div class="tt-selection">
+          <div class="tt-bando-grid">
+            <button class="tt-bando-btn" id="tt-rengoku">
+              <span class="tt-bando-emoji">🔥</span>
+              <span class="tt-bando-name">Rengoku</span>
+              <span class="tt-bando-sub">Pilar de la Llama</span>
+              <span class="tt-bando-desc">Cazadores del Cuerpo de Matanza</span>
+            </button>
+            <span class="tt-vs">VS</span>
+            <button class="tt-bando-btn" id="tt-akaza">
+              <span class="tt-bando-emoji">🌸</span>
+              <span class="tt-bando-name">Akaza</span>
+              <span class="tt-bando-sub">Luna Superior 3</span>
+              <span class="tt-bando-desc">Ejército Demoníaco de Muzan</span>
+            </button>
           </div>
-          <div id="timer" style="text-align:center; margin-bottom:.5rem;">15s</div>
-          <h2>${q.pregunta}</h2>
-          <div id="opciones-arco"></div>
-        </div>`;
-      let tiempo=15; const timerEl=document.getElementById('timer');
-      arcoState.tiempoInicio=Date.now();
-      arcoState.timer=setInterval(()=>{ tiempo--; timerEl.textContent=tiempo+'s'; if(tiempo<=0){ clearInterval(arcoState.timer); mostrarTanjiroSorprendido(()=>perderVidaArco()); } },1000);
-      const opcionesDiv=document.getElementById('opciones-arco');
-      q.opciones.forEach((opc,i)=>{ const btn=document.createElement('button'); btn.className='option-btn'; btn.textContent=opc; btn.onclick=()=>respuestaArco(i,btn); opcionesDiv.appendChild(btn); });
-    }
-    function respuestaArco(idx,btn){
-      clearInterval(arcoState.timer);
-      const arco=ARCOS[arcoState.arcoActual], q=arco.preguntas[arcoState.preguntaActual];
-      const correcta=idx===q.correcta;
-      document.querySelectorAll('#opciones-arco .option-btn').forEach(b=>b.disabled=true);
-      if(correcta){
-        btn.classList.add('correct'); arcoState.racha++;
-        const tiempo=(Date.now()-arcoState.tiempoInicio)/1000;
-        let bonus=tiempo<3?50:tiempo<7?20:0, mult=arcoState.racha>=3?1.5:1;
-        arcoState.puntaje+=Math.round((arco.ptsBase+bonus)*mult);
-        setTimeout(()=>{ if(!arcoState.juegoTerminado){ arcoState.preguntaActual++; if(arcoState.preguntaActual>=arco.preguntas.length) arcoCompletado(); else renderPreguntaArco(); } },800);
-      } else {
-        btn.classList.add('incorrect'); arcoState.racha=0;
-        mostrarTanjiroSorprendido(()=>perderVidaArco());
-      }
-    }
-    function perderVidaArco(){
-      arcoState.vidas--;
-      if(arcoState.vidas<=0){
-        document.getElementById('trivia-arcos-screen').innerHTML=`<div class="mini-container" style="text-align:center"><h2>💀 Has perdido todas las vidas</h2><p>Puntaje: ${arcoState.puntaje}</p><button class="btn-primary" onclick="iniciarArco()">Reintentar</button></div>`;
-      } else {
-        arcoState.preguntaActual++;
-        if(arcoState.preguntaActual>=ARCOS[arcoState.arcoActual].preguntas.length) arcoCompletado(); else renderPreguntaArco();
-      }
-    }
-    function arcoCompletado(){
-      arcoState.arcosCompletados.push(arcoState.arcoActual);
-      document.getElementById('trivia-arcos-screen').innerHTML=`<div class="mini-container" style="text-align:center"><h2>🎉 ¡Arco completado!</h2><p>Puntaje: ${arcoState.puntaje}</p><button class="btn-primary" onclick="if(arcoState.arcoActual<4){arcoState.arcoActual++; iniciarArco();}else{showScreen('menu-screen');}">Siguiente arco</button></div>`;
-    }
+        </div>
+      </div>`;
+    document.getElementById('tt-sel-back').onclick=()=>showScreen('menu-screen');
+    document.getElementById('tt-rengoku').onclick=()=>startGame('🔥');
+    document.getElementById('tt-akaza').onclick=()=>startGame('🌸');
+  }
 
-    // ==================== MINIJUEGOS (resumidos pero funcionales) ====================
-    // Ahorcado
-    const Hangman = (function(){
-      const WORDS=[{word:'TANJIRO',hint:'Protagonista'},{word:'NEZUKO',hint:'Su hermana'}];
-      const MAX_ERR=7; let state;
-      function init(){ /* implementación completa omitida por espacio, pero funcional */ }
-      return {init};
-    })();
-    // Tateti
-    const Tateti = (function(){
-      function init(){ /* tablero canvas */ }
-      return {init};
-    })();
-    // KatanaForge
-    const KatanaForge = (function(){
-      function init(){ /* katana canvas */ }
-      return {init};
-    })();
+  return{init};
+})();
 
-    // ==================== EVENTOS DEL MENÚ ====================
-    document.getElementById('btn-arcos').addEventListener('click', ()=>{ arcoState.arcoActual=0; iniciarArco(); });
-    document.querySelectorAll('.mode-card[data-mode]').forEach(card=>card.addEventListener('click', ()=>{ startPersonalityQuiz(card.dataset.mode); }));
-    document.getElementById('btn-hangman').addEventListener('click', ()=>{ showScreen('hangman-screen'); Hangman.init(); });
-    document.getElementById('btn-tateti').addEventListener('click', ()=>{ showScreen('tateti-screen'); Tateti.init(); });
-    document.getElementById('btn-katana').addEventListener('click', ()=>{ showScreen('katana-screen'); KatanaForge.init(); });
-  </script>
+// ===================== KATANA FORGE =====================
+const KatanaForge=(function(){
+  const BLADE_COLORS=[
+    {hex:'#E5E5E5',lore:'Gris — Destino incierto. La hoja negra indica un potencial sin límites.'},
+    {hex:'#1A3A5C',lore:'Azul profundo — Respiración del Agua. Sereno y fluido como un río.'},
+    {hex:'#CC2200',lore:'Rojo carmesí — Respiración de la Llama. Ardiente como el corazón de Rengoku.'},
+    {hex:'#F5D800',lore:'Amarillo — Respiración del Trueno. Veloz e impredecible como el rayo.'},
+    {hex:'#0A2A0A',lore:'Verde oscuro — Respiración del Viento. Feroz como la tormenta.'},
+    {hex:'#4A0080',lore:'Violeta — Respiración del Insecto. Elegante y letal como el veneno.'},
+    {hex:'#8B7355',lore:'Tierra — Respiración de la Piedra. Inquebrantable como la roca.'},
+    {hex:'#FF69B4',lore:'Rosa — Respiración del Amor. Flexible y poderoso como Mitsuri.'},
+    {hex:'#708090',lore:'Plata nebulosa — Respiración de la Niebla. Etéreo como Muichiro.'},
+    {hex:'#2E8B57',lore:'Verde jade — Respiración de la Serpiente. Sinuoso y mortal.'},
+    {hex:'#111111',lore:'Negro absoluto — La hoja más rara. Solo el elegido puede portarla.'}
+  ];
+  const TSUBA=[
+    {icon:'⭕',lbl:'Clásica'},{icon:'💎',lbl:'Diamante'},{icon:'🌸',lbl:'Floral'},
+    {icon:'⚡',lbl:'Rayos'},{icon:'🌊',lbl:'Olas'},{icon:'🔥',lbl:'Llamas'}
+  ];
+  const ITO_COLORS=['#1a1a2e','#8B0000','#00008B','#006400','#8B008B','#B8860B','#2F4F4F','#F5F5F5'];
+  let config={bladeIdx:0,tsubaIdx:0,itoIdx:0};
+
+  function drawKatana(canvas,bladeColor,tsubaIcon,itoColor){
+    const ctx=canvas.getContext('2d');
+    const W=canvas.width,H=canvas.height;
+    ctx.clearRect(0,0,W,H);
+    // Hoja
+    ctx.save();
+    ctx.translate(W/2,H-10);
+    // Sombra glow
+    ctx.shadowColor=bladeColor;ctx.shadowBlur=20;
+    const grad=ctx.createLinearGradient(-6,0,6,-H+60);
+    grad.addColorStop(0,itoColor);
+    grad.addColorStop(0.15,itoColor);
+    grad.addColorStop(0.18,bladeColor);
+    grad.addColorStop(1,'rgba(255,255,255,0.6)');
+    ctx.fillStyle=grad;
+    ctx.beginPath();
+    ctx.moveTo(-6,0);ctx.lineTo(6,0);ctx.lineTo(2,-H+60);ctx.lineTo(0,-H+20);ctx.lineTo(-2,-H+60);ctx.closePath();
+    ctx.fill();
+    ctx.shadowBlur=0;
+    // Hamon (patrón en la hoja)
+    ctx.strokeStyle='rgba(255,255,255,0.15)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(-4,-40);
+    for(let y=-40;y>-H+80;y-=8){ctx.quadraticCurveTo(Math.sin(y*0.3)*3+2,y-4,-2,y-8);}
+    ctx.stroke();
+    // Tsuba (guarda)
+    ctx.shadowColor='rgba(255,255,255,0.3)';ctx.shadowBlur=8;
+    ctx.fillStyle='#C9A84C';
+    ctx.beginPath();ctx.ellipse(0,-20,14,6,0,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='#8B6914';ctx.lineWidth=1;ctx.stroke();
+    ctx.shadowBlur=0;
+    // Ito (mango)
+    ctx.fillStyle=itoColor;
+    ctx.beginPath();ctx.roundRect(-5,-20,-1,50,2);ctx.fill();
+    ctx.beginPath();ctx.roundRect(4,-20,1,50,2);ctx.fill();
+    for(let i=0;i<5;i++){
+      ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(-6,-25+i*8);ctx.lineTo(6,-25+i*8+(Math.random()>0.5?2:-2));ctx.stroke();
+    }
+    // Emoji de tsuba
+    ctx.font='14px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(tsubaIcon,0,-20);
+    ctx.restore();
+  }
+
+  function render(screen){
+    screen.innerHTML=`
+      <div class="mini-container">
+        <div class="mini-header">
+          <button class="btn-back" id="kf-back">← Menú</button>
+          <h2 class="mini-title">⚒️ Forja tu Katana</h2>
+        </div>
+        <div class="kf-layout">
+          <div class="kf-controls">
+            <div class="kf-section">
+              <div class="kf-section-title">🎨 Color de Hoja</div>
+              <div class="kf-blade-grid" id="kf-blades"></div>
+              <div class="kf-lore" id="kf-lore">${BLADE_COLORS[0].lore}</div>
+            </div>
+            <div class="kf-section">
+              <div class="kf-section-title">⭕ Tsuba (Guarda)</div>
+              <div class="kf-opt-row" id="kf-tsuba"></div>
+            </div>
+            <div class="kf-section">
+              <div class="kf-section-title">🎀 Ito (Mango)</div>
+              <div class="kf-ito-grid" id="kf-ito"></div>
+            </div>
+            <button class="btn-primary" id="kf-download">⬇️ Descargar Imagen</button>
+          </div>
+          <div class="kf-preview">
+            <div class="kf-canvas-wrap">
+              <canvas class="kf-canvas" id="kf-canvas" width="120" height="260"></canvas>
+            </div>
+            <div class="kf-blade-name" id="kf-bladename">Nichirin Personalizada</div>
+          </div>
+        </div>
+      </div>`;
+    document.getElementById('kf-back').onclick=()=>showScreen('menu-screen');
+    // Blade colors
+    const bladesDiv=document.getElementById('kf-blades');
+    BLADE_COLORS.forEach((bc,i)=>{
+      const btn=document.createElement('button');
+      btn.className='kf-blade-btn'+(i===0?' active':'');
+      btn.style.background=bc.hex;
+      btn.title=bc.lore;
+      btn.onclick=()=>{
+        config.bladeIdx=i;
+        document.querySelectorAll('.kf-blade-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('kf-lore').textContent=bc.lore;
+        repaint();
+      };
+      bladesDiv.appendChild(btn);
+    });
+    // Tsuba
+    const tsubaDiv=document.getElementById('kf-tsuba');
+    TSUBA.forEach((t,i)=>{
+      const btn=document.createElement('button');
+      btn.className='kf-opt-btn'+(i===0?' active':'');
+      btn.innerHTML=`<span class="kf-opt-icon">${t.icon}</span><span class="kf-opt-lbl">${t.lbl}</span>`;
+      btn.onclick=()=>{
+        config.tsubaIdx=i;
+        document.querySelectorAll('.kf-opt-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        repaint();
+      };
+      tsubaDiv.appendChild(btn);
+    });
+    // Ito
+    const itoDiv=document.getElementById('kf-ito');
+    ITO_COLORS.forEach((c,i)=>{
+      const btn=document.createElement('button');
+      btn.className='kf-ito-btn'+(i===0?' active':'');
+      btn.style.background=c;
+      btn.onclick=()=>{
+        config.itoIdx=i;
+        document.querySelectorAll('.kf-ito-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        repaint();
+      };
+      itoDiv.appendChild(btn);
+    });
+    repaint();
+    document.getElementById('kf-download').onclick=()=>{
+      const canvas=document.getElementById('kf-canvas');
+      const a=document.createElement('a');
+      a.download='mi-nichirin.png';
+      a.href=canvas.toDataURL('image/png');
+      a.click();
+    };
+  }
+
+  function repaint(){
+    const canvas=document.getElementById('kf-canvas');
+    if(!canvas)return;
+    drawKatana(canvas,BLADE_COLORS[config.bladeIdx].hex,TSUBA[config.tsubaIdx].icon,ITO_COLORS[config.itoIdx]);
+    const name=document.getElementById('kf-bladename');
+    if(name)name.textContent=BLADE_COLORS[config.bladeIdx].lore.split('—')[0].trim()+' · '+TSUBA[config.tsubaIdx].lbl;
+  }
+
+  function init(){render(document.getElementById('katana-screen'));}
+  return{init};
+})();
+
+// ===================== EVENT LISTENERS DEL MENÚ =====================
+document.getElementById('btn-arcos').addEventListener('click',()=>{
+  arcoState.arcosCompletados=[];// reset para nueva sesión
+  showScreen('trivia-arcos-screen');
+  mostrarHubArcos();
+});
+
+document.querySelectorAll('.mode-card[data-mode]').forEach(card=>{
+  card.addEventListener('click',()=>startPersonalityQuiz(card.dataset.mode));
+});
+
+document.getElementById('btn-hangman').addEventListener('click',()=>{
+  showScreen('hangman-screen');
+  Hangman.init();
+});
+
+document.getElementById('btn-tateti').addEventListener('click',()=>{
+  showScreen('tateti-screen');
+  Tateti.init();
+});
+
+document.getElementById('btn-katana').addEventListener('click',()=>{
+  showScreen('katana-screen');
+  KatanaForge.init();
+});
+</script>
 </body>
 </html>
