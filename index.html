@@ -159,8 +159,8 @@
     /* ====== CARTAS NICHIRIN 3D ====== */
     .cn-counter{font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.12em;color:var(--text-muted,#8A7A6A);}
     .cn-counter strong{color:var(--gold,#C9A84C);}
-    .cn-board{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:580px;margin:1rem auto;}
-    .cn-scene{aspect-ratio:2/3;cursor:pointer;perspective:700px;border-radius:12px;}
+    .cn-board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:680px;margin:1rem auto;}
+    .cn-scene{aspect-ratio:2/3;cursor:pointer;perspective:1400px;border-radius:12px;}
     .cn-scene.done{cursor:default;}
     .cn-card{width:100%;height:100%;transform-style:preserve-3d;position:relative;border-radius:12px;will-change:transform;}
     .cn-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:12px;overflow:hidden;}
@@ -444,46 +444,112 @@
     // ==================== TRIVIA POR ARCOS ====================
     const ARCOS = [
       { id:'monte', nombre:'⛰️ Monte Sabiduría', dificultad:'Iniciado', ptsBase:100, color:'#2E86AB', preguntas:[
-        { pregunta:'¿Quién entrena a Tanjiro?', opciones:['Urokodaki','Rengoku','Giyu','Shinobu'], correcta:0 },
-        { pregunta:'¿Qué color tiene la hoja de Tanjiro?', opciones:['Negra','Roja','Azul','Amarilla'], correcta:0 },
+        { pregunta:'¿Quién entrena a Tanjiro en la montaña?', opciones:['Sakonji Urokodaki','Rengoku Kyojuro','Tomioka Giyu','Shinobu Kocho'], correcta:0 },
+        { pregunta:'¿Qué color tiene la hoja Nichirin de Tanjiro al inicio?', opciones:['Negra','Roja','Azul','Verde'], correcta:0 },
+        { pregunta:'¿Cuánto tiempo dura el entrenamiento de Tanjiro con Urokodaki?', opciones:['2 años','6 meses','1 año','3 años'], correcta:0 },
+        { pregunta:'¿Cómo se llama el examen para convertirse en Cazador?', opciones:['Selección Final','Prueba del Pilar','Examen Hashira','Torneo Nichirin'], correcta:0 },
+        { pregunta:'¿En qué montaña ocurre la Selección Final?', opciones:['Monte Fujikasane','Monte Natagumo','Monte Sabiduría','Monte Sagiri'], correcta:0 },
+        { pregunta:'¿Qué demonio mató a la familia de Tanjiro?', opciones:['Muzan Kibutsuji','Rui','Akaza','Enmu'], correcta:0 },
+        { pregunta:'¿Qué Respiración enseña Urokodaki a Tanjiro?', opciones:['Respiración del Agua','Respiración del Fuego','Respiración de la Llama','Respiración de la Bestia'], correcta:0 },
+        { pregunta:'¿Qué forma de la Respiración del Agua usa Tanjiro más seguido?', opciones:['Primera Forma: Danza del Agua','Décima Forma: Constante Lluvia','Sexta Forma: Lluvia de Tortugas','Cuarta Forma: Corriente Tranquila'], correcta:0 },
+        { pregunta:'¿Qué rango obtiene Tanjiro al unirse al Cuerpo de Cazadores?', opciones:['Kanoe','Kinoe','Hinoe','Tsuchinoto'], correcta:0 },
+        { pregunta:'¿Cuál fue el primer demonio que Tanjiro derrotó solo?', opciones:['El demonio del pantano','Rui','Susamaru','Yahaba'], correcta:0 },
+        { pregunta:'¿Qué porte lleva la máscara de Urokodaki?', opciones:['Forma de zorro','Forma de tengu','Forma de oni','Forma de kitsune'], correcta:0 },
+        { pregunta:'¿Cómo se llama el amigo fantasma de Tanjiro que apareció en la Selección Final?', opciones:['Sabito','Makomo','Genya','Kanao'], correcta:0 },
       ]},
       { id:'tren', nombre:'🚂 Tren Mugen', dificultad:'Cazador', ptsBase:150, color:'#E74C3C', preguntas:[
         { pregunta:'¿Contra quién lucha Rengoku en el tren?', opciones:['Akaza','Doma','Enmu','Kokushibo'], correcta:0 },
+        { pregunta:'¿Qué Luna Inferior causó los sueños dentro del tren?', opciones:['Enmu','Rui','Daki','Gyutaro'], correcta:0 },
+        { pregunta:'¿Cuántos pasajeros aproximados llevaba el Tren Mugen?', opciones:['200','300','100','400'], correcta:1 },
+        { pregunta:'¿Cuál es el rango de Rengoku Kyojuro?', opciones:['Pilar de la Llama','Pilar del Agua','Pilar del Trueno','Pilar del Viento'], correcta:0 },
+        { pregunta:'¿Qué frase icónica dice Rengoku durante la batalla?', opciones:['¡Pon tu corazón en llamas!','¡La llama nunca se apaga!','¡Soy el dios del fuego!','¡Arde hasta el cielo!'], correcta:0 },
+        { pregunta:'¿Cuál es la técnica final de Rengoku contra Akaza?', opciones:['Novena Forma: Suprema Llama Universo','Primera Forma: Llama Indómita','Octava Forma: Espejo de Llamas','Tercera Forma: Columna de Llamas'], correcta:0 },
+        { pregunta:'¿Quién mandó a Enmu a abordar el tren?', opciones:['Muzan Kibutsuji','Kokushibo','Akaza','Doma'], correcta:0 },
+        { pregunta:'¿Qué habilidad usa Enmu para dominar a los pasajeros?', opciones:['Manipulación del sueño','Control mental','Ilusiones de sangre','Tentáculos de hueso'], correcta:0 },
+        { pregunta:'¿Cómo derrota Tanjiro a Enmu finalmente?', opciones:['Cortándole el cuello con la locomotora','Usando la Respiración del Sol','Con ayuda de Inosuke','Con una trampa de Zenitsu'], correcta:0 },
+        { pregunta:'¿Qué arma característica tiene Inosuke en su estilo de combate?', opciones:['Dos katanas dentadas','Una lanza','Un hacha doble','Un garrote'], correcta:0 },
+        { pregunta:'¿En qué estado queda Tanjiro tras la batalla del tren?', opciones:['Gravemente herido','Ileso','Muerto temporalmente','Sin memoria'], correcta:0 },
+        { pregunta:'¿Qué le propone Akaza a Rengoku antes de pelear?', opciones:['Que se convierta en demonio','Que huya del tren','Que entregue a los civiles','Que luche junto a él'], correcta:0 },
       ]},
-      { id:'distrito', nombre:'🏮 Distrito del Entretenimiento', dificultad:'Élite', ptsBase:200, color:'#8E44AD', preguntas:[] },
-      { id:'aldea', nombre:'⚒️ Aldea de los Herreros', dificultad:'Hashira', ptsBase:250, color:'#F39C12', preguntas:[] },
-      { id:'final', nombre:'🌑 Batalla Final', dificultad:'Legendario', ptsBase:350, color:'#C0392B', preguntas:[] }
+      { id:'distrito', nombre:'🏮 Distrito del Entretenimiento', dificultad:'Élite', ptsBase:200, color:'#8E44AD', preguntas:[
+        { pregunta:'¿Quién es el Pilar del Sonido?', opciones:['Tengen Uzui','Obanai Iguro','Mitsuri Kanroji','Muichiro Tokito'], correcta:0 },
+        { pregunta:'¿Cuántas esposas tiene Tengen Uzui?', opciones:['3','2','4','1'], correcta:0 },
+        { pregunta:'¿Cuáles son los demonios gemelos del Distrito?', opciones:['Daki y Gyutaro','Rui y Enmu','Doma y Akaza','Mukago y Rokuro'], correcta:0 },
+        { pregunta:'¿Qué rango de Luna Superior es Daki?', opciones:['Luna Superior 6','Luna Superior 5','Luna Superior 4','Luna Superior 3'], correcta:0 },
+        { pregunta:'¿Qué habilidad especial usa Daki?', opciones:['Cintas de seda demoníacas','Huesos explosivos','Sombras asesinas','Veneno paralizante'], correcta:0 },
+        { pregunta:'¿Qué veneno usa Gyutaro en sus hoces?', opciones:['Veneno hemolítico','Veneno paralizante','Veneno corrosivo','Veneno hipnótico'], correcta:0 },
+        { pregunta:'¿Dónde vive realmente Gyutaro?', opciones:['Dentro del cuerpo de Daki','En un palacio subterráneo','En las sombras','En el cuello de Daki'], correcta:0 },
+        { pregunta:'¿Qué Respiración usa Tengen Uzui?', opciones:['Respiración del Sonido','Respiración del Rayo','Respiración del Agua','Respiración de la Bestia'], correcta:0 },
+        { pregunta:'¿Quién le corta el cuello a Gyutaro finalmente?', opciones:['Tanjiro','Zenitsu','Inosuke','Tengen'], correcta:0 },
+        { pregunta:'¿Dónde trabajan las esposas de Tengen como infiltradas?', opciones:['Casas de geishas del Distrito','En el cuartel del Cuerpo de Cazadores','En el tren de Enmu','En el monte Sabiduría'], correcta:0 },
+        { pregunta:'¿Qué pierde Tengen Uzui durante la batalla?', opciones:['Un ojo y un brazo','Una pierna','Los dos ojos','Solo una mano'], correcta:0 },
+        { pregunta:'¿Cómo supera Nezuko el veneno de Gyutaro?', opciones:['Quemándolo con su fuego demoníaco','Siendo curada por Shinobu','Su regeneración pasiva','El antídoto de Tengen'], correcta:0 },
+      ]},
+      { id:'aldea', nombre:'⚒️ Aldea de los Herreros', dificultad:'Hashira', ptsBase:250, color:'#F39C12', preguntas:[
+        { pregunta:'¿Qué Pilar cuida la Aldea de los Herreros?', opciones:['Muichiro Tokito','Mitsuri Kanroji','Obanai Iguro','Gyomei Himejima'], correcta:0 },
+        { pregunta:'¿Qué arma especial entrena Tanjiro en la aldea?', opciones:['La muñeca Yoriichi Tipo Cero','El hacha de Inosuke','La lanza de la Respiración','El mayal de Gyomei'], correcta:0 },
+        { pregunta:'¿Quién es el maestro herrero de Tanjiro?', opciones:['Hotaru Haganezuka','Kozo Kanamori','Masamune','Tetsuido'], correcta:0 },
+        { pregunta:'¿Qué Lunas Superiores aparecen en la aldea?', opciones:['Hantengu y Gyokko','Daki y Gyutaro','Akaza y Doma','Kokushibo y Doma'], correcta:0 },
+        { pregunta:'¿Cuántos clones emocionales genera Hantengu?', opciones:['4','2','3','6'], correcta:0 },
+        { pregunta:'¿Cuál es la habilidad de Gyokko?', opciones:['Emerge de vasijas y crea monstruos de agua','Controla el fuego','Manipula metales','Crea ilusiones'], correcta:0 },
+        { pregunta:'¿Qué Respiración domina Muichiro Tokito?', opciones:['Respiración de la Niebla','Respiración del Agua','Respiración del Viento','Respiración del Trueno'], correcta:0 },
+        { pregunta:'¿Cuántos años tiene Muichiro Tokito?', opciones:['14','16','12','18'], correcta:0 },
+        { pregunta:'¿Qué memoria recupera Muichiro durante esta batalla?', opciones:['La muerte de su hermano gemelo','El entrenamiento con Kokushibo','Su primera batalla','El día que perdió su katana'], correcta:0 },
+        { pregunta:'¿Qué técnica ancestral comienza a dominar Tanjiro en este arco?', opciones:['Respiración del Sol','Respiración de la Bestia','Respiración del Amor','Respiración del Trueno'], correcta:0 },
+        { pregunta:'¿Qué le ocurre a la katana de Tanjiro entrenando con la muñeca?', opciones:['Se rompe','La pierde en el lago','La roba Gyokko','La funde un demonio'], correcta:0 },
+        { pregunta:'¿Qué rango de Luna es Gyokko?', opciones:['Luna Superior 5','Luna Superior 4','Luna Superior 6','Luna Superior 3'], correcta:0 },
+      ]},
+      { id:'final', nombre:'🌑 Batalla Final', dificultad:'Legendario', ptsBase:350, color:'#C0392B', preguntas:[
+        { pregunta:'¿Dónde tiene lugar la batalla final contra Muzan?', opciones:['Castillo del Infinito','Palacio Demoníaco','Guarida de las Lunas','Dominio Oscuro'], correcta:0 },
+        { pregunta:'¿Quiénes derrotan a Kokushibo (Luna Superior 1)?', opciones:['Muichiro, Genya y Sanemi','Giyu y Tanjiro','Obanai y Mitsuri','Gyomei solo'], correcta:0 },
+        { pregunta:'¿Qué hace Muzan con Tanjiro cerca del final?', opciones:['Lo convierte en demonio','Lo mata definitivamente','Lo hace su sucesor','Le roba la Respiración del Sol'], correcta:0 },
+        { pregunta:'¿Quién fue el creador original de la Respiración del Sol?', opciones:['Yoriichi Tsugikuni','Michikatsu Tsugikuni','Urokodaki','Kokushibo'], correcta:0 },
+        { pregunta:'¿Quiénes matan a Doma (Luna Superior 2)?', opciones:['Kanao e Inosuke','Shinobu sola','Tanjiro y Giyu','Mitsuri y Obanai'], correcta:0 },
+        { pregunta:'¿Qué le ocurre a Shinobu al pelear contra Doma?', opciones:['Es absorbida y muere','Es herida gravemente','Escapa con vida','Derrota a Doma sola'], correcta:0 },
+        { pregunta:'¿Cuántas formas tiene la Respiración del Sol?', opciones:['13','12','10','15'], correcta:0 },
+        { pregunta:'¿Cómo muere Muzan finalmente?', opciones:['Expuesto a la luz del sol al amanecer','Lo mata Tanjiro con la decimotercera forma','Giyu le corta la cabeza','Se destruye a sí mismo'], correcta:0 },
+        { pregunta:'¿Qué le sucede a Tanjiro inmediatamente después de derrotar a Muzan?', opciones:['Se convierte en demonio brevemente','Muere permanentemente','Se convierte en Pilar del Sol','Pierde la vista para siempre'], correcta:0 },
+        { pregunta:'¿Cómo se llama el antepasado de Tanjiro que aparece en los flashbacks?', opciones:['Sumiyoshi','Yoriichi','Tanjuro','Sabito'], correcta:0 },
+        { pregunta:'¿Qué pierde Tanjiro en la batalla final?', opciones:['Un ojo y el uso de un brazo','Las dos piernas','La memoria completa','El olfato'], correcta:0 },
+        { pregunta:'¿Qué tipo de demonio era Nezuko comparado con otros?', opciones:['Podía soportar la luz del sol','Era inmortal','Podía hablar normalmente','Nunca comió humanos'], correcta:0 },
+      ]}
     ];
-    // Llenar preguntas de arcos (completos en el archivo real)
-    let arcoState = { arcoActual:0, preguntaActual:0, vidas:3, puntaje:0, racha:0, timer:null, tiempoInicio:0, juegoTerminado:false, arcosCompletados:[] };
+    let arcoState = { arcoActual:0, preguntaActual:0, preguntasActuales:[], vidas:3, puntaje:0, racha:0, timer:null, tiempoInicio:0, juegoTerminado:false, arcosCompletados:[] };
     function iniciarArco(){
       arcoState.preguntaActual=0; arcoState.vidas=3; arcoState.puntaje=0; arcoState.racha=0; arcoState.juegoTerminado=false;
+      arcoState.preguntasActuales=shuffleArray([...ARCOS[arcoState.arcoActual].preguntas]).slice(0,10);
       showScreen('trivia-arcos-screen');
       renderPreguntaArco();
     }
     function renderPreguntaArco(){
-      const arco=ARCOS[arcoState.arcoActual], q=arco.preguntas[arcoState.preguntaActual];
+      const arco=ARCOS[arcoState.arcoActual], q=arcoState.preguntasActuales[arcoState.preguntaActual];
       document.getElementById('trivia-arcos-screen').innerHTML=`
         <div class="mini-container">
-          <button class="btn-back" onclick="showScreen('menu-screen')">← Menú</button>
-          <div style="display:flex; justify-content:space-between; margin-bottom:1rem;">
-            <span>❤️${'❤️'.repeat(arcoState.vidas)}</span>
-            <span>Puntaje: ${arcoState.puntaje}</span>
-            <span>${arcoState.preguntaActual+1}/${arco.preguntas.length}</span>
+          <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;">
+            <button class="btn-back" id="arco-back">← Menú</button>
+            <span style="font-family:'Cinzel',serif;font-size:.8rem;color:${arco.color};flex:1;text-align:center;">${arco.nombre}</span>
+            <span style="font-family:'Cinzel',serif;font-size:.75rem;color:var(--text-muted);">${arco.dificultad}</span>
           </div>
-          <div id="timer" style="text-align:center; margin-bottom:.5rem;">15s</div>
-          <h2>${q.pregunta}</h2>
+          <div style="display:flex;justify-content:space-between;margin-bottom:.8rem;font-family:'Cinzel',serif;font-size:.8rem;">
+            <span>${'❤️'.repeat(arcoState.vidas)}</span>
+            <span>⭐ ${arcoState.puntaje}</span>
+            <span>${arcoState.preguntaActual+1} / ${arcoState.preguntasActuales.length}</span>
+          </div>
+          <div class="progress-bar-container"><div class="progress-bar-fill" style="width:${(arcoState.preguntaActual/arcoState.preguntasActuales.length)*100}%;background:${arco.color};"></div></div>
+          <div id="timer" style="text-align:center;font-family:'Cinzel',serif;font-size:1.1rem;margin:.6rem 0;color:var(--gold);">15s</div>
+          <h2 style="margin-bottom:1rem;font-size:1.1rem;line-height:1.4;">${q.pregunta}</h2>
           <div id="opciones-arco"></div>
         </div>`;
+      document.getElementById('arco-back').addEventListener('click',()=>{ clearInterval(arcoState.timer); showScreen('menu-screen'); });
       let tiempo=15; const timerEl=document.getElementById('timer');
       arcoState.tiempoInicio=Date.now();
-      arcoState.timer=setInterval(()=>{ tiempo--; timerEl.textContent=tiempo+'s'; if(tiempo<=0){ clearInterval(arcoState.timer); mostrarTanjiroSorprendido(()=>perderVidaArco()); } },1000);
+      arcoState.timer=setInterval(()=>{ tiempo--; timerEl.textContent=tiempo+'s'; if(tiempo<=3) timerEl.style.color='#E74C3C'; if(tiempo<=0){ clearInterval(arcoState.timer); mostrarTanjiroSorprendido(()=>perderVidaArco()); } },1000);
       const opcionesDiv=document.getElementById('opciones-arco');
       q.opciones.forEach((opc,i)=>{ const btn=document.createElement('button'); btn.className='option-btn'; btn.textContent=opc; btn.onclick=()=>respuestaArco(i,btn); opcionesDiv.appendChild(btn); });
     }
     function respuestaArco(idx,btn){
       clearInterval(arcoState.timer);
-      const arco=ARCOS[arcoState.arcoActual], q=arco.preguntas[arcoState.preguntaActual];
+      const arco=ARCOS[arcoState.arcoActual], q=arcoState.preguntasActuales[arcoState.preguntaActual];
       const correcta=idx===q.correcta;
       document.querySelectorAll('#opciones-arco .option-btn').forEach(b=>b.disabled=true);
       if(correcta){
@@ -491,33 +557,169 @@
         const tiempo=(Date.now()-arcoState.tiempoInicio)/1000;
         let bonus=tiempo<3?50:tiempo<7?20:0, mult=arcoState.racha>=3?1.5:1;
         arcoState.puntaje+=Math.round((arco.ptsBase+bonus)*mult);
-        setTimeout(()=>{ if(!arcoState.juegoTerminado){ arcoState.preguntaActual++; if(arcoState.preguntaActual>=arco.preguntas.length) arcoCompletado(); else renderPreguntaArco(); } },800);
+        setTimeout(()=>{ if(!arcoState.juegoTerminado){ arcoState.preguntaActual++; if(arcoState.preguntaActual>=arcoState.preguntasActuales.length) arcoCompletado(); else renderPreguntaArco(); } },800);
       } else {
-        btn.classList.add('incorrect'); arcoState.racha=0;
+        btn.classList.add('incorrect');
+        document.querySelectorAll('#opciones-arco .option-btn')[q.correcta]?.classList.add('correct');
+        arcoState.racha=0;
         mostrarTanjiroSorprendido(()=>perderVidaArco());
       }
     }
     function perderVidaArco(){
       arcoState.vidas--;
       if(arcoState.vidas<=0){
-        document.getElementById('trivia-arcos-screen').innerHTML=`<div class="mini-container" style="text-align:center"><h2>💀 Has perdido todas las vidas</h2><p>Puntaje: ${arcoState.puntaje}</p><button class="btn-primary" onclick="iniciarArco()">Reintentar</button></div>`;
+        document.getElementById('trivia-arcos-screen').innerHTML=`<div class="mini-container" style="text-align:center;padding-top:3rem;"><h2 style="font-family:'Cinzel',serif;margin-bottom:1rem;">💀 Sin vidas</h2><p style="color:var(--text-muted);margin-bottom:1.5rem;">Puntaje final: <strong style="color:var(--gold);">${arcoState.puntaje}</strong></p><div style="display:flex;gap:.75rem;justify-content:center;"><button class="btn-primary" id="arco-retry">Reintentar arco</button><button class="btn-secondary" id="arco-menu2">← Menú</button></div></div>`;
+        document.getElementById('arco-retry').addEventListener('click',iniciarArco);
+        document.getElementById('arco-menu2').addEventListener('click',()=>showScreen('menu-screen'));
       } else {
         arcoState.preguntaActual++;
-        if(arcoState.preguntaActual>=ARCOS[arcoState.arcoActual].preguntas.length) arcoCompletado(); else renderPreguntaArco();
+        if(arcoState.preguntaActual>=arcoState.preguntasActuales.length) arcoCompletado(); else renderPreguntaArco();
       }
     }
     function arcoCompletado(){
       arcoState.arcosCompletados.push(arcoState.arcoActual);
-      document.getElementById('trivia-arcos-screen').innerHTML=`<div class="mini-container" style="text-align:center"><h2>🎉 ¡Arco completado!</h2><p>Puntaje: ${arcoState.puntaje}</p><button class="btn-primary" onclick="if(arcoState.arcoActual<4){arcoState.arcoActual++; iniciarArco();}else{showScreen('menu-screen');}">Siguiente arco</button></div>`;
+      const esUltimo=arcoState.arcoActual>=ARCOS.length-1;
+      document.getElementById('trivia-arcos-screen').innerHTML=`<div class="mini-container" style="text-align:center;padding-top:3rem;"><div style="font-size:3rem;margin-bottom:.8rem;">${esUltimo?'🏆':'🎉'}</div><h2 style="font-family:'Cinzel',serif;margin-bottom:.5rem;">${esUltimo?'¡Leyenda Completada!':'¡Arco Superado!'}</h2><p style="color:var(--text-muted);margin-bottom:.3rem;">${ARCOS[arcoState.arcoActual].nombre}</p><p style="color:var(--gold);font-family:'Cinzel',serif;font-size:1.2rem;margin-bottom:1.5rem;">⭐ ${arcoState.puntaje} puntos</p><div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;">${esUltimo?'':'<button class="btn-primary" id="arco-next">Siguiente arco ⟶</button>'}<button class="btn-secondary" id="arco-menu">← Menú</button></div></div>`;
+      if(!esUltimo) document.getElementById('arco-next').addEventListener('click',()=>{ arcoState.arcoActual++; iniciarArco(); });
+      document.getElementById('arco-menu').addEventListener('click',()=>showScreen('menu-screen'));
     }
 
     // ==================== MINIJUEGOS (resumidos pero funcionales) ====================
     // Ahorcado
     const Hangman = (function(){
-      const WORDS=[{word:'TANJIRO',hint:'Protagonista'},{word:'NEZUKO',hint:'Su hermana'}];
-      const MAX_ERR=7; let state;
-      function init(){ /* implementación completa omitida por espacio, pero funcional */ }
-      return {init};
+      const WORDS=[
+        {word:'TANJIRO',hint:'El protagonista, Cazador de Demonios'},
+        {word:'NEZUKO',hint:'La hermana convertida en demonio'},
+        {word:'ZENITSU',hint:'El cobarde con el poder del rayo'},
+        {word:'INOSUKE',hint:'El que usa máscara de jabalí'},
+        {word:'RENGOKU',hint:'Pilar de la Llama'},
+        {word:'GIYU',hint:'Pilar del Agua'},
+        {word:'SHINOBU',hint:'Pilar del Insecto'},
+        {word:'MUZAN',hint:'El Rey de los Demonios'},
+        {word:'AKAZA',hint:'Luna Superior 3'},
+        {word:'KOKUSHIBO',hint:'Luna Superior 1, hermano de Yoriichi'},
+        {word:'DOMA',hint:'Luna Superior 2, come a sus fieles'},
+        {word:'TENGEN',hint:'Pilar del Sonido, tiene tres esposas'},
+        {word:'KANAO',hint:'Discípula de Shinobu'},
+        {word:'GENYA',hint:'Hermano de Sanemi, come demonios'},
+        {word:'OBANAI',hint:'Pilar de la Serpiente'},
+        {word:'MITSURI',hint:'Pilar del Amor'},
+        {word:'MUICHIRO',hint:'Pilar de la Niebla, 14 años'},
+        {word:'SANEMI',hint:'Pilar del Viento'},
+        {word:'GYOMEI',hint:'Pilar de la Roca, el más fuerte'},
+        {word:'YORIICHI',hint:'Creador de la Respiración del Sol'},
+        {word:'UROKODAKI',hint:'Maestro de Tanjiro en la montaña'},
+        {word:'SABITO',hint:'El amigo fantasma de la Selección Final'},
+        {word:'ENMU',hint:'Luna Inferior 1 del Tren Mugen'},
+        {word:'GYUTARO',hint:'El verdadero cuerpo de la Luna Superior 6'},
+        {word:'DAKI',hint:'Hermana de Gyutaro en el Distrito'},
+        {word:'HANTENGU',hint:'Luna Superior 4 con clones emocionales'},
+        {word:'GYOKKO',hint:'Luna Superior 5, obsesionado con el arte'},
+        {word:'KAGAYA',hint:'El amo del Cuerpo de Cazadores'},
+        {word:'NICHIRIN',hint:'El tipo de katana usada por los Cazadores'},
+        {word:'RESPIRACION',hint:'El sistema de combate de los Cazadores'},
+      ];
+      const MAX_ERR=6; let state={};
+
+      function drawHangman(ctx,errors){
+        ctx.clearRect(0,0,140,160);
+        ctx.strokeStyle='rgba(192,57,43,0.85)'; ctx.lineWidth=2.5; ctx.lineCap='round';
+        ctx.beginPath(); ctx.moveTo(10,155); ctx.lineTo(130,155); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(30,155); ctx.lineTo(30,10); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(30,10); ctx.lineTo(90,10); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(90,10); ctx.lineTo(90,30); ctx.stroke();
+        if(errors<1) return;
+        ctx.beginPath(); ctx.arc(90,42,12,0,Math.PI*2); ctx.stroke();
+        if(errors<2) return;
+        ctx.beginPath(); ctx.moveTo(90,54); ctx.lineTo(90,100); ctx.stroke();
+        if(errors<3) return;
+        ctx.beginPath(); ctx.moveTo(90,65); ctx.lineTo(65,85); ctx.stroke();
+        if(errors<4) return;
+        ctx.beginPath(); ctx.moveTo(90,65); ctx.lineTo(115,85); ctx.stroke();
+        if(errors<5) return;
+        ctx.beginPath(); ctx.moveTo(90,100); ctx.lineTo(65,130); ctx.stroke();
+        if(errors<6) return;
+        ctx.beginPath(); ctx.moveTo(90,100); ctx.lineTo(115,130); ctx.stroke();
+      }
+
+      function renderWord(){
+        const el=document.getElementById('hm-word');
+        if(!el) return;
+        el.innerHTML=state.word.split('').map(l=>`<span class="hm-letter${state.guessed.has(l)?' revealed':''}">${state.guessed.has(l)?l:'_'}</span>`).join('');
+      }
+
+      function renderKeyboard(ctx){
+        const kb=document.getElementById('hm-kb'); if(!kb) return;
+        const rows=['QWERTYUIOP','ASDFGHJKLÑ','ZXCVBNM'];
+        kb.innerHTML='';
+        rows.forEach(row=>{
+          const rd=document.createElement('div'); rd.className='hm-kb-row';
+          row.split('').forEach(l=>{
+            const btn=document.createElement('button'); btn.className='hm-key'; btn.textContent=l;
+            if(state.guessed.has(l)){ btn.disabled=true; btn.classList.add(state.word.includes(l)?'correct':'wrong'); }
+            btn.addEventListener('click',()=>guess(l,ctx));
+            rd.appendChild(btn);
+          });
+          kb.appendChild(rd);
+        });
+      }
+
+      function guess(letter,ctx){
+        if(state.over||state.guessed.has(letter)) return;
+        state.guessed.add(letter);
+        if(!state.word.includes(letter)){
+          state.errors++;
+          drawHangman(ctx,state.errors);
+          const errEl=document.getElementById('hm-errors');
+          if(errEl) errEl.textContent=`Errores: ${state.errors} / ${MAX_ERR}`;
+        }
+        renderWord(); renderKeyboard(ctx);
+        const allRevealed=state.word.split('').every(l=>state.guessed.has(l));
+        const stEl=document.getElementById('hm-status');
+        if(allRevealed){
+          state.over=true;
+          if(stEl) stEl.innerHTML='<span style="color:#27AE60;font-family:Cinzel,serif;">🔥 ¡Victoria! ¡Nezuko está a salvo!</span>';
+          setTimeout(()=>mostrarKatanadePremio('katana_tanjiro.jpg',false),900);
+        } else if(state.errors>=MAX_ERR){
+          state.over=true;
+          const wEl=document.getElementById('hm-word');
+          if(wEl) wEl.innerHTML=state.word.split('').map(l=>`<span class="hm-letter revealed">${l}</span>`).join('');
+          if(stEl) stEl.innerHTML=`<span style="color:#E74C3C;font-family:Cinzel,serif;">💀 El demonio venció. Era: <strong>${state.word}</strong></span>`;
+        }
+      }
+
+      function init(){
+        const entry=WORDS[Math.floor(Math.random()*WORDS.length)];
+        state={word:entry.word,hint:entry.hint,guessed:new Set(),errors:0,over:false};
+        const sc=document.getElementById('hangman-screen');
+        sc.innerHTML=`
+          <div class="mini-container">
+            <div style="display:flex;gap:1rem;align-items:center;margin-bottom:1.2rem;">
+              <button class="btn-back" id="hm-back">← Menú</button>
+              <span style="font-family:'Cinzel',serif;color:var(--gold);font-size:.85rem;flex:1;text-align:center;">⚔️ AHORCADO KIMETSU ⚔️</span>
+            </div>
+            <div class="hm-layout">
+              <div class="hm-left">
+                <canvas class="hm-canvas" id="hm-canvas" width="140" height="160"></canvas>
+                <p id="hm-errors" style="font-family:'Cinzel',serif;font-size:.75rem;color:var(--text-muted);margin-top:.4rem;text-align:center;">Errores: 0 / ${MAX_ERR}</p>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:.9rem;">
+                <p style="font-style:italic;color:var(--text-muted);font-size:.85rem;">Pista: <strong style="color:var(--gold);">${entry.hint}</strong></p>
+                <div class="hm-word-row" id="hm-word"></div>
+                <p id="hm-status" style="font-family:'Cinzel',serif;font-size:.85rem;min-height:1.4em;text-align:center;"></p>
+                <div class="hm-keyboard" id="hm-kb"></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:.75rem;justify-content:center;margin-top:1.2rem;">
+              <button class="btn-primary" id="hm-restart">Nueva palabra</button>
+            </div>
+          </div>`;
+        document.getElementById('hm-back').addEventListener('click',()=>showScreen('menu-screen'));
+        document.getElementById('hm-restart').addEventListener('click',init);
+        const ctx=document.getElementById('hm-canvas').getContext('2d');
+        drawHangman(ctx,0); renderWord(); renderKeyboard(ctx);
+      }
+      return{init};
     })();
     // Tateti
     const Tateti = (function(){
@@ -625,8 +827,143 @@
     })();
     // KatanaForge
     const KatanaForge = (function(){
-      function init(){ /* katana canvas */ }
-      return {init};
+      const BLADES=[
+        {name:'Agua',color:'#5DADE2'},{name:'Fuego',color:'#E74C3C'},{name:'Trueno',color:'#F4D03F'},
+        {name:'Viento',color:'#58D68D'},{name:'Niebla',color:'#AAB7B8'},{name:'Insecto',color:'#AF7AC5'},
+        {name:'Amor',color:'#F1948A'},{name:'Serpiente',color:'#1ABC9C'},{name:'Sonido',color:'#F0B27A'},
+        {name:'Sol',color:'#F39C12'},
+      ];
+      const TSUBAS=[
+        {name:'Circular',  draw:(c,x,y)=>{ c.beginPath();c.arc(x,y,20,0,Math.PI*2);c.stroke();c.beginPath();c.arc(x,y,13,0,Math.PI*2);c.stroke(); }},
+        {name:'Cuadrada',  draw:(c,x,y)=>{ c.strokeRect(x-18,y-18,36,36);c.strokeRect(x-11,y-11,22,22); }},
+        {name:'Floral',    draw:(c,x,y)=>{ for(let i=0;i<6;i++){const a=i*Math.PI/3;c.beginPath();c.ellipse(x+Math.cos(a)*13,y+Math.sin(a)*13,7,4,a,0,Math.PI*2);c.stroke();} }},
+        {name:'Hexagonal', draw:(c,x,y)=>{ c.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3-Math.PI/6;c[i?'lineTo':'moveTo'](x+Math.cos(a)*20,y+Math.sin(a)*20);}c.closePath();c.stroke();c.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3-Math.PI/6;c[i?'lineTo':'moveTo'](x+Math.cos(a)*12,y+Math.sin(a)*12);}c.closePath();c.stroke(); }},
+      ];
+      const ITOS=['#C0392B','#2980B9','#1ABC9C','#F39C12','#8E44AD','#2C3E50','#ECF0F1','#27AE60'];
+      let sel={blade:0,tsuba:0,ito:0};
+
+      function drawKatana(canvas){
+        const ctx=canvas.getContext('2d'), W=canvas.width, H=canvas.height;
+        ctx.clearRect(0,0,W,H);
+        const bc=BLADES[sel.blade].color, ic=ITOS[sel.ito];
+        // Resplandor de fondo
+        const glow=ctx.createRadialGradient(W*.62,H*.32,5,W*.62,H*.32,W*.42);
+        glow.addColorStop(0,bc+'33'); glow.addColorStop(1,'transparent');
+        ctx.fillStyle=glow; ctx.fillRect(0,0,W,H);
+        // Hoja principal
+        const bx1=W*.82,by1=H*.08,bx2=W*.44,by2=H*.56;
+        const bg=ctx.createLinearGradient(bx1,by1,bx2,by2);
+        bg.addColorStop(0,'#F5F5F5'); bg.addColorStop(0.25,bc); bg.addColorStop(1,'rgba(0,0,0,.05)');
+        ctx.strokeStyle=bg; ctx.lineWidth=8; ctx.lineCap='round';
+        ctx.beginPath(); ctx.moveTo(bx1,by1); ctx.lineTo(bx2,by2); ctx.stroke();
+        // Filo secundario (borde)
+        ctx.strokeStyle='rgba(255,255,255,.3)'; ctx.lineWidth=2;
+        ctx.beginPath(); ctx.moveTo(bx1-1,by1+4); ctx.lineTo(bx2-1,by2+4); ctx.stroke();
+        // Hamon (línea de temple)
+        ctx.strokeStyle='rgba(255,255,255,.5)'; ctx.lineWidth=1; ctx.setLineDash([3,5]);
+        ctx.beginPath(); ctx.moveTo(bx1-3,by1+6); ctx.lineTo(bx2-3,by2+6); ctx.stroke();
+        ctx.setLineDash([]);
+        // Tsuba
+        ctx.strokeStyle=ic; ctx.lineWidth=2.5;
+        TSUBAS[sel.tsuba].draw(ctx,W*.44,H*.575);
+        // Mango (tsuka)
+        const hx1=W*.44,hy1=H*.59,hx2=W*.17,hy2=H*.92;
+        ctx.strokeStyle=ic; ctx.lineWidth=11; ctx.lineCap='round';
+        ctx.beginPath(); ctx.moveTo(hx1,hy1); ctx.lineTo(hx2,hy2); ctx.stroke();
+        // Ito (envoltorio)
+        ctx.strokeStyle='rgba(255,255,255,.4)'; ctx.lineWidth=1.8;
+        for(let i=0;i<=9;i++){
+          const t=i/9, mx=hx1+(hx2-hx1)*t, my=hy1+(hy2-hy1)*t, p=6;
+          ctx.beginPath(); ctx.moveTo(mx-p,my-p); ctx.lineTo(mx+p,my+p); ctx.stroke();
+        }
+        // Kashira (remate del mango)
+        ctx.strokeStyle=ic; ctx.fillStyle=ic+'55'; ctx.lineWidth=2.5;
+        ctx.beginPath(); ctx.arc(hx2,hy2,7,0,Math.PI*2); ctx.fill(); ctx.stroke();
+      }
+
+      function updateLabel(){
+        const el=document.getElementById('kf-label');
+        if(el) el.textContent=`Respiración del ${BLADES[sel.blade].name} — Tsuba ${TSUBAS[sel.tsuba].name}`;
+      }
+
+      function rebuildSelectors(){
+        // Blades
+        document.querySelectorAll('#kf-blades .kf-blade-btn').forEach((b,j)=>b.classList.toggle('active',j===sel.blade));
+        // Tsubas
+        document.querySelectorAll('#kf-tsubas button').forEach((b,j)=>{
+          b.style.background=j===sel.tsuba?'rgba(201,168,76,.25)':'var(--bg-card)';
+          b.style.borderColor=j===sel.tsuba?'var(--gold)':'var(--border)';
+          b.style.color=j===sel.tsuba?'var(--gold)':'var(--text-muted)';
+        });
+        // Itos
+        document.querySelectorAll('#kf-itos button').forEach((b,j)=>b.style.outlineColor=j===sel.ito?'#fff':'transparent');
+      }
+
+      function init(){
+        const sc=document.getElementById('katana-screen');
+        sc.innerHTML=`
+          <div class="mini-container" style="max-width:720px;">
+            <div style="display:flex;gap:1rem;align-items:center;margin-bottom:1.2rem;">
+              <button class="btn-back" id="kf-back">← Menú</button>
+              <span style="font-family:'Cinzel',serif;color:var(--gold);font-size:.85rem;flex:1;text-align:center;">⚒️ FORJA TU NICHIRIN ⚒️</span>
+            </div>
+            <div class="kf-layout">
+              <div>
+                <p style="font-family:'Cinzel',serif;font-size:.72rem;color:var(--text-muted);letter-spacing:.12em;margin-bottom:.5rem;">COLOR DE HOJA (RESPIRACIÓN)</p>
+                <div class="kf-blade-grid" id="kf-blades"></div>
+                <p style="font-family:'Cinzel',serif;font-size:.72rem;color:var(--text-muted);letter-spacing:.12em;margin:.9rem 0 .5rem;">FORMA DEL TSUBA</p>
+                <div style="display:flex;gap:.5rem;flex-wrap:wrap;" id="kf-tsubas"></div>
+                <p style="font-family:'Cinzel',serif;font-size:.72rem;color:var(--text-muted);letter-spacing:.12em;margin:.9rem 0 .5rem;">COLOR DEL ITO (MANGO)</p>
+                <div style="display:flex;gap:.5rem;flex-wrap:wrap;" id="kf-itos"></div>
+                <div style="margin-top:1.1rem;">
+                  <p style="font-family:'Cinzel',serif;font-size:.72rem;color:var(--text-muted);letter-spacing:.1em;margin-bottom:.3rem;">TU NICHIRIN</p>
+                  <p id="kf-label" style="font-family:'Cinzel',serif;font-size:.95rem;color:var(--gold);"></p>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+                <canvas id="kf-canvas" width="220" height="350" style="background:radial-gradient(ellipse at 40% 28%,#1a1a2e,#08080e);border:1px solid rgba(201,168,76,.2);border-radius:14px;"></canvas>
+                <button class="btn-primary" id="kf-download">⬇ Descargar katana</button>
+              </div>
+            </div>
+          </div>`;
+        document.getElementById('kf-back').addEventListener('click',()=>showScreen('menu-screen'));
+        // Blades
+        const bd=document.getElementById('kf-blades');
+        BLADES.forEach((b,i)=>{
+          const btn=document.createElement('button');
+          btn.className='kf-blade-btn'+(i===sel.blade?' active':'');
+          btn.style.background=b.color; btn.title=b.name;
+          btn.addEventListener('click',()=>{ sel.blade=i; rebuildSelectors(); updateLabel(); drawKatana(document.getElementById('kf-canvas')); });
+          bd.appendChild(btn);
+        });
+        // Tsubas
+        const td=document.getElementById('kf-tsubas');
+        TSUBAS.forEach((t,i)=>{
+          const btn=document.createElement('button');
+          btn.style.cssText=`padding:.35rem .7rem;background:${i===sel.tsuba?'rgba(201,168,76,.25)':'var(--bg-card)'};border:1px solid ${i===sel.tsuba?'var(--gold)':'var(--border)'};color:${i===sel.tsuba?'var(--gold)':'var(--text-muted)'};border-radius:6px;cursor:pointer;font-size:.75rem;font-family:'Cinzel',serif;transition:.2s;`;
+          btn.textContent=t.name;
+          btn.addEventListener('click',()=>{ sel.tsuba=i; rebuildSelectors(); updateLabel(); drawKatana(document.getElementById('kf-canvas')); });
+          td.appendChild(btn);
+        });
+        // Itos
+        const id=document.getElementById('kf-itos');
+        ITOS.forEach((c,i)=>{
+          const btn=document.createElement('button');
+          btn.style.cssText=`width:28px;height:28px;border-radius:50%;background:${c};border:none;outline:2px solid ${i===sel.ito?'#fff':'transparent'};outline-offset:2px;cursor:pointer;transition:.2s;`;
+          btn.title=`Color ${i+1}`;
+          btn.addEventListener('click',()=>{ sel.ito=i; rebuildSelectors(); updateLabel(); drawKatana(document.getElementById('kf-canvas')); });
+          id.appendChild(btn);
+        });
+        // Download
+        document.getElementById('kf-download').addEventListener('click',()=>{
+          const a=document.createElement('a');
+          a.download=`nichirin-${BLADES[sel.blade].name.toLowerCase()}.png`;
+          a.href=document.getElementById('kf-canvas').toDataURL('image/png');
+          a.click();
+        });
+        updateLabel(); drawKatana(document.getElementById('kf-canvas'));
+      }
+      return{init};
     })();
 
     // ==================== CARTAS NICHIRIN 3D ====================
@@ -738,8 +1075,8 @@
             const rect=wrap.getBoundingClientRect();
             const x=(e.clientX-rect.left)/rect.width-0.5;
             const y=(e.clientY-rect.top)/rect.height-0.5;
-            s.tiltY=x*(s.flipped?8:26);
-            s.tiltX=-y*(s.flipped?6:20);
+            s.tiltY=x*(s.flipped?5:14);
+            s.tiltX=-y*(s.flipped?4:10);
             applyTransform(wrap,s,false);
           });
           wrap.addEventListener('mouseleave',()=>{
