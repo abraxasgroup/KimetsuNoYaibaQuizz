@@ -258,11 +258,11 @@
           <div class="card-body"><h2>Tateti</h2><p>Rengoku vs Akaza.</p></div>
           <div class="card-badge">Minijuego</div>
         </div>
-        <div class="mode-card" id="btn-katana">
-          <div class="card-glow" style="background:radial-gradient(ellipse at top right, rgba(192,57,43,.14), transparent 70%);"></div>
-          <div class="card-icon">⚒️</div>
-          <div class="card-body"><h2>Forja tu Katana</h2><p>Diseña tu Nichirin.</p></div>
-          <div class="card-badge">Creativo</div>
+        <div class="mode-card" id="btn-puntuaciones">
+          <div class="card-glow" style="background:radial-gradient(ellipse at top right, rgba(201,168,76,.22), transparent 70%);"></div>
+          <div class="card-icon">🏆</div>
+          <div class="card-body"><h2>Puntuaciones</h2><p>Ranking de los mejores cazadores.</p></div>
+          <div class="card-badge">Ranking</div>
         </div>
         <div class="mode-card" id="btn-cartas">
           <div class="card-glow" style="background:radial-gradient(ellipse at top right, rgba(201,168,76,.22), transparent 70%);"></div>
@@ -279,7 +279,7 @@
     <section id="result-screen" class="screen hidden"></section>
     <section id="hangman-screen" class="screen hidden"></section>
     <section id="tateti-screen" class="screen hidden"></section>
-    <section id="katana-screen" class="screen hidden"></section>
+    <section id="puntuaciones-screen" class="screen hidden"></section>
     <section id="trivia-arcos-screen" class="screen hidden"></section>
     <section id="cartas-screen" class="screen hidden"></section>
   </main>
@@ -363,7 +363,7 @@
     }
 
     // ==================== ROUTER ====================
-    const SCREENS = ['menu-screen','quiz-screen','result-screen','hangman-screen','tateti-screen','katana-screen','trivia-arcos-screen','cartas-screen'];
+    const SCREENS = ['menu-screen','quiz-screen','result-screen','hangman-screen','tateti-screen','puntuaciones-screen','trivia-arcos-screen','cartas-screen'];
     function showScreen(id) { SCREENS.forEach(s=>{ const el=document.getElementById(s); if(el){ el.classList.remove('active'); el.classList.add('hidden'); } }); const t=document.getElementById(id); if(t){ t.classList.remove('hidden'); t.classList.add('active'); } window.scrollTo({top:0,behavior:'smooth'}); }
 
     // ==================== HERO ANIMACIONES ====================
@@ -380,13 +380,179 @@
     })();
 
     // ==================== DATOS DE PREGUNTAS ====================
-    const RESPIRACION_QUESTIONS = [ /* preguntas con points como antes */ ];
-    const HASHIRA_QUESTIONS = [ /* ... */ ];
-    const LUNA_QUESTIONS = [ /* ... */ ];
-    const RESPIRACION_RESULTS = { /* ... */ };
-    const HASHIRA_RESULTS = { /* ... */ };
-    const LUNA_RESULTS = { /* ... */ };
-    // (Debido a espacio, no se copian completos, pero en el archivo final estarán completos como en tu original)
+    const RESPIRACION_QUESTIONS = [
+      { question:'¿Cómo reaccionás ante un peligro inesperado?', options:[
+        {text:'Me calmo y analizo la situación', points:{Agua:3,Fuego:1,Trueno:0,Bestia:0,Insecto:1}},
+        {text:'Me lanzo de frente con todo', points:{Agua:0,Fuego:3,Trueno:1,Bestia:2,Insecto:0}},
+        {text:'Me paralizo del miedo pero actúo igual', points:{Agua:1,Fuego:0,Trueno:3,Bestia:0,Insecto:1}},
+        {text:'Observo y encuentro la debilidad del enemigo', points:{Agua:1,Fuego:0,Trueno:0,Bestia:1,Insecto:3}},
+      ]},
+      { question:'¿Cuál es tu mayor fortaleza?', options:[
+        {text:'La adaptabilidad, fluyo ante cualquier obstáculo', points:{Agua:3,Fuego:0,Trueno:1,Bestia:0,Insecto:1}},
+        {text:'La pasión y el poder puro que llevo dentro', points:{Agua:0,Fuego:3,Trueno:1,Bestia:2,Insecto:0}},
+        {text:'La velocidad y el instinto en el momento clave', points:{Agua:0,Fuego:1,Trueno:3,Bestia:1,Insecto:1}},
+        {text:'La paciencia y la precisión milimétrica', points:{Agua:1,Fuego:0,Trueno:0,Bestia:0,Insecto:3}},
+      ]},
+      { question:'¿Qué elemento te representa mejor?', options:[
+        {text:'El agua: fluye, se adapta, todo lo penetra', points:{Agua:3,Fuego:0,Trueno:0,Bestia:0,Insecto:1}},
+        {text:'El fuego: calienta, ilumina, consume', points:{Agua:0,Fuego:3,Trueno:1,Bestia:1,Insecto:0}},
+        {text:'El rayo: instantáneo, devastador, impredecible', points:{Agua:0,Fuego:1,Trueno:3,Bestia:2,Insecto:0}},
+        {text:'La naturaleza salvaje: instintiva y sin reglas', points:{Agua:0,Fuego:1,Trueno:1,Bestia:3,Insecto:1}},
+      ]},
+      { question:'¿Cuál es tu estilo de entrenamiento?', options:[
+        {text:'Constante y metódico, cada día sin excepción', points:{Agua:3,Fuego:1,Trueno:0,Bestia:0,Insecto:2}},
+        {text:'Intenso y sin límites, hasta romperme', points:{Agua:0,Fuego:3,Trueno:1,Bestia:3,Insecto:0}},
+        {text:'Sigo mi instinto y pruebo cosas nuevas', points:{Agua:0,Fuego:1,Trueno:2,Bestia:3,Insecto:0}},
+        {text:'Analítico, enfocado en técnica perfecta', points:{Agua:1,Fuego:0,Trueno:0,Bestia:0,Insecto:3}},
+      ]},
+      { question:'¿Cómo lidiás con el dolor?', options:[
+        {text:'Lo acepto y sigo adelante sin mostrar nada', points:{Agua:3,Fuego:2,Trueno:0,Bestia:0,Insecto:2}},
+        {text:'Lo transformo en combustible para seguir', points:{Agua:0,Fuego:3,Trueno:2,Bestia:1,Insecto:0}},
+        {text:'El miedo me supera pero actúo de todas formas', points:{Agua:0,Fuego:0,Trueno:3,Bestia:0,Insecto:0}},
+        {text:'Lo analizo para eliminar la causa de raíz', points:{Agua:1,Fuego:0,Trueno:0,Bestia:0,Insecto:3}},
+      ]},
+      { question:'¿Qué buscás en una batalla?', options:[
+        {text:'Proteger a los inocentes sin importar el costo', points:{Agua:3,Fuego:2,Trueno:1,Bestia:1,Insecto:1}},
+        {text:'La victoria gloriosa y el honor', points:{Agua:0,Fuego:3,Trueno:1,Bestia:2,Insecto:0}},
+        {text:'Demostrar que soy el más fuerte', points:{Agua:0,Fuego:1,Trueno:2,Bestia:3,Insecto:0}},
+        {text:'Eliminar la amenaza con el mínimo daño colateral', points:{Agua:1,Fuego:0,Trueno:0,Bestia:0,Insecto:3}},
+      ]},
+      { question:'¿Cuál es tu mayor miedo?', options:[
+        {text:'No ser suficientemente fuerte para proteger a otros', points:{Agua:3,Fuego:1,Trueno:1,Bestia:0,Insecto:1}},
+        {text:'Que mis aliados sean heridos por mi culpa', points:{Agua:2,Fuego:3,Trueno:1,Bestia:0,Insecto:1}},
+        {text:'El miedo en sí mismo — la parálisis', points:{Agua:0,Fuego:0,Trueno:3,Bestia:0,Insecto:0}},
+        {text:'Que el enemigo sea más inteligente que yo', points:{Agua:0,Fuego:0,Trueno:0,Bestia:1,Insecto:3}},
+      ]},
+      { question:'¿Qué harías para proteger a alguien importante?', options:[
+        {text:'Mantener la calma y no cometer errores', points:{Agua:3,Fuego:0,Trueno:0,Bestia:0,Insecto:2}},
+        {text:'Interponerme sin dudar, cueste lo que cueste', points:{Agua:2,Fuego:3,Trueno:1,Bestia:2,Insecto:0}},
+        {text:'Usar todo mi poder aunque me lastime', points:{Agua:1,Fuego:2,Trueno:3,Bestia:1,Insecto:0}},
+        {text:'Elaborar un plan para neutralizar la amenaza', points:{Agua:2,Fuego:0,Trueno:0,Bestia:0,Insecto:3}},
+      ]},
+    ];
+    const RESPIRACION_RESULTS = {
+      Agua:    { name:'Respiración del Agua',    img:'giyu.png',    description:'Sos tranquilo, adaptable y profundo. Como el agua, fluís ante los obstáculos y encontrás el camino. Protegés a quienes te importan con una calma que desconcierta al enemigo.',      tags:['Adaptable','Protector','Sereno','Constante'] },
+      Fuego:   { name:'Respiración de la Llama', img:'rengoku.png', description:'Tu corazón arde con una pasión incontenible. Inspirás a quienes te rodean y te lanzás al frente sin dudar. Pon todo tu corazón en llamas.',                                          tags:['Apasionado','Líder','Valiente','Inspirador'] },
+      Trueno:  { name:'Respiración del Trueno',  img:'tanjiro.png', description:'Sos más fuerte de lo que creés. Aunque el miedo te paralice, cuando llega el momento actuás con una velocidad y determinación que nadie espera.',                                        tags:['Rápido','Determinado','Sorprendente','Leal'] },
+      Bestia:  { name:'Respiración de la Bestia',img:'tanjiro.png', description:'Seguís tu instinto por encima de todo. Sos impredecible, salvaje y libre. Tu estilo único confunde al enemigo y tu fuerza bruta supera cualquier obstáculo.',                             tags:['Instintivo','Libre','Feroz','Original'] },
+      Insecto: { name:'Respiración del Insecto', img:'tanjiro.png', description:'Sos preciso y paciente. No necesitás fuerza bruta — la inteligencia y la estrategia son tus armas más letales. Sonreís aun en los momentos más oscuros.',                               tags:['Estratega','Preciso','Paciente','Letal'] },
+    };
+    const HASHIRA_QUESTIONS = [
+      { question:'¿Cómo celebrarías una victoria importante?', options:[
+        {text:'En silencio, con gratitud interior', points:{Giyu:3,Rengoku:0,Shinobu:1,Tengen:0,Muichiro:2,Sanemi:0}},
+        {text:'Con gritos de euforia motivando a todos', points:{Giyu:0,Rengoku:3,Shinobu:0,Tengen:2,Muichiro:0,Sanemi:1}},
+        {text:'Con una sonrisa y un comentario irónico', points:{Giyu:0,Rengoku:0,Shinobu:3,Tengen:1,Muichiro:1,Sanemi:0}},
+        {text:'Extravagantemente — es una hazaña digna', points:{Giyu:0,Rengoku:1,Shinobu:0,Tengen:3,Muichiro:0,Sanemi:0}},
+      ]},
+      { question:'¿Qué cualidad es más importante en un guerrero?', options:[
+        {text:'La serenidad absoluta en combate', points:{Giyu:3,Rengoku:0,Shinobu:1,Tengen:0,Muichiro:3,Sanemi:0}},
+        {text:'El corazón ardiente y la determinación', points:{Giyu:0,Rengoku:3,Shinobu:0,Tengen:1,Muichiro:0,Sanemi:2}},
+        {text:'La inteligencia para superar al oponente', points:{Giyu:1,Rengoku:0,Shinobu:3,Tengen:1,Muichiro:1,Sanemi:0}},
+        {text:'La capacidad de intimidar y liderar', points:{Giyu:0,Rengoku:1,Shinobu:0,Tengen:3,Muichiro:0,Sanemi:2}},
+      ]},
+      { question:'¿Qué tipo de líder serías?', options:[
+        {text:'Lidero con el ejemplo, sin discursos', points:{Giyu:3,Rengoku:1,Shinobu:0,Tengen:0,Muichiro:2,Sanemi:1}},
+        {text:'Inspiro con palabras que encienden el alma', points:{Giyu:0,Rengoku:3,Shinobu:0,Tengen:2,Muichiro:0,Sanemi:0}},
+        {text:'Estratego que planea cada movimiento', points:{Giyu:0,Rengoku:0,Shinobu:3,Tengen:2,Muichiro:1,Sanemi:0}},
+        {text:'Intimidante que empuja a todos al límite', points:{Giyu:0,Rengoku:1,Shinobu:0,Tengen:1,Muichiro:0,Sanemi:3}},
+      ]},
+      { question:'¿Qué harías en tu tiempo libre?', options:[
+        {text:'Entrenar solo en silencio', points:{Giyu:3,Rengoku:0,Shinobu:0,Tengen:0,Muichiro:3,Sanemi:1}},
+        {text:'Comer y motivar a mis compañeros', points:{Giyu:0,Rengoku:3,Shinobu:0,Tengen:2,Muichiro:0,Sanemi:0}},
+        {text:'Preparar venenos o estudiar estrategias', points:{Giyu:0,Rengoku:0,Shinobu:3,Tengen:0,Muichiro:1,Sanemi:0}},
+        {text:'Algo extravagante y lujoso', points:{Giyu:0,Rengoku:0,Shinobu:1,Tengen:3,Muichiro:0,Sanemi:0}},
+      ]},
+      { question:'¿Cómo te relacionás con tus colegas?', options:[
+        {text:'Poco hablo pero cuido desde la distancia', points:{Giyu:3,Rengoku:0,Shinobu:0,Tengen:0,Muichiro:2,Sanemi:0}},
+        {text:'Abierto, los trato como familia', points:{Giyu:0,Rengoku:3,Shinobu:1,Tengen:2,Muichiro:0,Sanemi:0}},
+        {text:'Amable en la superficie, reservado en el fondo', points:{Giyu:1,Rengoku:0,Shinobu:3,Tengen:0,Muichiro:1,Sanemi:0}},
+        {text:'Directo y sin filtros, digo lo que pienso', points:{Giyu:0,Rengoku:1,Shinobu:0,Tengen:1,Muichiro:0,Sanemi:3}},
+      ]},
+      { question:'¿Qué te impulsa a seguir luchando?', options:[
+        {text:'Una promesa que guardé en silencio', points:{Giyu:3,Rengoku:0,Shinobu:1,Tengen:0,Muichiro:1,Sanemi:0}},
+        {text:'Proteger a los débiles con todo mi ser', points:{Giyu:1,Rengoku:3,Shinobu:0,Tengen:2,Muichiro:0,Sanemi:0}},
+        {text:'Vengar a quienes perdí y no olvidarlos', points:{Giyu:1,Rengoku:0,Shinobu:3,Tengen:0,Muichiro:0,Sanemi:2}},
+        {text:'Demostrar que nadie puede detenerme', points:{Giyu:0,Rengoku:1,Shinobu:0,Tengen:2,Muichiro:2,Sanemi:3}},
+      ]},
+      { question:'¿Cómo afrontás el miedo?', options:[
+        {text:'Lo congelo internamente y actúo igual', points:{Giyu:3,Rengoku:0,Shinobu:2,Tengen:0,Muichiro:3,Sanemi:0}},
+        {text:'Lo convierto en llama que me impulsa', points:{Giyu:0,Rengoku:3,Shinobu:0,Tengen:2,Muichiro:0,Sanemi:2}},
+        {text:'Sonrío para no mostrárselo al enemigo', points:{Giyu:0,Rengoku:0,Shinobu:3,Tengen:1,Muichiro:0,Sanemi:0}},
+        {text:'El orgullo es más grande que cualquier miedo', points:{Giyu:0,Rengoku:1,Shinobu:0,Tengen:1,Muichiro:0,Sanemi:3}},
+      ]},
+      { question:'¿Cuál es tu posesión más preciada?', options:[
+        {text:'Un recuerdo de alguien que ya no está', points:{Giyu:3,Rengoku:0,Shinobu:2,Tengen:0,Muichiro:1,Sanemi:1}},
+        {text:'El legado familiar que debo honrar', points:{Giyu:0,Rengoku:3,Shinobu:0,Tengen:0,Muichiro:0,Sanemi:2}},
+        {text:'Mi katana y las técnicas que perfeccioné', points:{Giyu:2,Rengoku:1,Shinobu:1,Tengen:0,Muichiro:3,Sanemi:1}},
+        {text:'Mi reputación y los que cuido', points:{Giyu:0,Rengoku:0,Shinobu:0,Tengen:3,Muichiro:0,Sanemi:0}},
+      ]},
+    ];
+    const HASHIRA_RESULTS = {
+      Giyu:     { name:'Tomioka Giyu — Pilar del Agua',    img:'giyu.png',    description:'Callado, distante y profundamente leal. No necesitás palabras para inspirar — tus actos lo dicen todo. Guardás heridas que nadie ve pero tu fuerza es real.',         tags:['Silencioso','Leal','Misterioso','Poderoso'] },
+      Rengoku:  { name:'Rengoku Kyojuro — Pilar de la Llama', img:'rengoku.png', description:'Tu corazón arde sin apagarse. Ponés todo en cada cosa que hacés y tu entusiasmo es contagioso. Vivís para proteger y para inspirar.',                              tags:['Apasionado','Líder','Generoso','Incansable'] },
+      Shinobu:  { name:'Shinobu Kocho — Pilar del Insecto',   img:'tanjiro.png', description:'Detrás de tu sonrisa hay determinación y un dolor que pocos comprenden. Sos brillante, estratega y más peligrosa de lo que aparentás.',                           tags:['Inteligente','Estratega','Tenaz','Enigmático'] },
+      Tengen:   { name:'Tengen Uzui — Pilar del Sonido',      img:'tanjiro.png', description:'Todo lo que hacés tiene que ser extravagante. No te conformás con ganar — tenés que hacerlo con estilo. Carismático, protector y extremadamente hábil.',            tags:['Extravagante','Carismático','Protector','Formidable'] },
+      Muichiro: { name:'Muichiro Tokito — Pilar de la Niebla', img:'tanjiro.png', description:'Un genio que procesa el mundo a su propio ritmo. Desprendido de lo superfluo, enfocado en lo esencial. Cuando recordás por qué luchás, sos imparable.',           tags:['Genio','Sereno','Enfocado','Imparable'] },
+      Sanemi:   { name:'Sanemi Shinazugawa — Pilar del Viento', img:'tanjiro.png', description:'Rudo, directo y más protector de lo que mostrás. Tu dureza es una coraza que cuida un corazón que ha sufrido demasiado. Nadie te dobla.',                          tags:['Feroz','Directo','Resistente','Protector'] },
+    };
+    const LUNA_QUESTIONS = [
+      { question:'¿Qué te motivaría a convertirte en demonio?', options:[
+        {text:'El poder absoluto y la inmortalidad', points:{Kokushibo:3,Doma:0,Akaza:2,Hantengu:0,Gyokko:0,Daki:1}},
+        {text:'Una filosofía donde el sufrimiento no existe', points:{Kokushibo:0,Doma:3,Akaza:0,Hantengu:1,Gyokko:0,Daki:0}},
+        {text:'Vengar a quien amé y perdí', points:{Kokushibo:0,Doma:0,Akaza:3,Hantengu:0,Gyokko:0,Daki:1}},
+        {text:'Escapar del miedo a la muerte', points:{Kokushibo:1,Doma:0,Akaza:0,Hantengu:3,Gyokko:1,Daki:0}},
+      ]},
+      { question:'¿Cuál es tu relación con los demás?', options:[
+        {text:'Los observo fríamente, pocos merecen mi respeto', points:{Kokushibo:3,Doma:0,Akaza:2,Hantengu:0,Gyokko:1,Daki:0}},
+        {text:'Los adoro a todos, aunque no lo sienta de verdad', points:{Kokushibo:0,Doma:3,Akaza:0,Hantengu:0,Gyokko:0,Daki:1}},
+        {text:'Valoro solo la fuerza, el débil no importa', points:{Kokushibo:1,Doma:0,Akaza:3,Hantengu:0,Gyokko:0,Daki:0}},
+        {text:'Los uso mientras me sirvan para mis fines', points:{Kokushibo:0,Doma:1,Akaza:0,Hantengu:0,Gyokko:3,Daki:3}},
+      ]},
+      { question:'¿Cómo afrontás una batalla difícil?', options:[
+        {text:'Con técnica perfecta producto de siglos de práctica', points:{Kokushibo:3,Doma:0,Akaza:1,Hantengu:0,Gyokko:0,Daki:0}},
+        {text:'Con indiferencia absoluta, nada me afecta', points:{Kokushibo:0,Doma:3,Akaza:0,Hantengu:0,Gyokko:1,Daki:0}},
+        {text:'Con una intensidad que crece cuanto más me lastiman', points:{Kokushibo:0,Doma:0,Akaza:3,Hantengu:1,Gyokko:0,Daki:1}},
+        {text:'Escapando y buscando ventaja desde la distancia', points:{Kokushibo:0,Doma:0,Akaza:0,Hantengu:3,Gyokko:0,Daki:0}},
+      ]},
+      { question:'¿Qué valoras por encima de todo?', options:[
+        {text:'El honor y la perfección en el arte de la guerra', points:{Kokushibo:3,Doma:0,Akaza:2,Hantengu:0,Gyokko:1,Daki:0}},
+        {text:'La belleza de existir más allá del bien y el mal', points:{Kokushibo:0,Doma:3,Akaza:0,Hantengu:0,Gyokko:2,Daki:0}},
+        {text:'La fuerza bruta que supera toda limitación', points:{Kokushibo:1,Doma:0,Akaza:3,Hantengu:0,Gyokko:0,Daki:0}},
+        {text:'El reconocimiento y la admiración de todos', points:{Kokushibo:0,Doma:1,Akaza:0,Hantengu:0,Gyokko:2,Daki:3}},
+      ]},
+      { question:'¿Cuál es tu mayor punto débil?', options:[
+        {text:'Un pasado que intento superar y no puedo', points:{Kokushibo:3,Doma:0,Akaza:3,Hantengu:0,Gyokko:0,Daki:0}},
+        {text:'La incapacidad de sentir emociones reales', points:{Kokushibo:1,Doma:3,Akaza:0,Hantengu:0,Gyokko:1,Daki:0}},
+        {text:'El miedo profundo que escondo detrás de todo', points:{Kokushibo:0,Doma:0,Akaza:0,Hantengu:3,Gyokko:1,Daki:1}},
+        {text:'La vanidad que me ciega en el momento clave', points:{Kokushibo:0,Doma:0,Akaza:0,Hantengu:0,Gyokko:3,Daki:3}},
+      ]},
+      { question:'¿Qué tipo de poder preferirías tener?', options:[
+        {text:'Dominar cualquier técnica de respiración siendo demonio', points:{Kokushibo:3,Doma:0,Akaza:2,Hantengu:0,Gyokko:0,Daki:0}},
+        {text:'Control sobre la mente y emociones ajenas', points:{Kokushibo:0,Doma:3,Akaza:0,Hantengu:1,Gyokko:0,Daki:1}},
+        {text:'Regeneración y fuerza sin límite aparente', points:{Kokushibo:1,Doma:0,Akaza:3,Hantengu:0,Gyokko:0,Daki:1}},
+        {text:'Duplicarme o transformar mi cuerpo', points:{Kokushibo:0,Doma:0,Akaza:0,Hantengu:3,Gyokko:2,Daki:2}},
+      ]},
+      { question:'¿Cómo tratás a quienes son más débiles?', options:[
+        {text:'Con desprecio frío — no merecen mi atención', points:{Kokushibo:3,Doma:0,Akaza:2,Hantengu:1,Gyokko:2,Daki:0}},
+        {text:'Con lástima fingida y sonrisas vacías', points:{Kokushibo:0,Doma:3,Akaza:0,Hantengu:0,Gyokko:1,Daki:1}},
+        {text:'Con indiferencia — si no son fuertes, no existen', points:{Kokushibo:1,Doma:1,Akaza:3,Hantengu:0,Gyokko:0,Daki:0}},
+        {text:'Los uso mientras me sirvan', points:{Kokushibo:0,Doma:0,Akaza:0,Hantengu:0,Gyokko:3,Daki:3}},
+      ]},
+      { question:'¿Qué harías si pudieras volver al pasado?', options:[
+        {text:'Cambiar la decisión que me condenó', points:{Kokushibo:3,Doma:0,Akaza:3,Hantengu:0,Gyokko:0,Daki:1}},
+        {text:'Nada — el pasado no me importa para nada', points:{Kokushibo:0,Doma:3,Akaza:0,Hantengu:1,Gyokko:1,Daki:0}},
+        {text:'Esconderme mejor para sobrevivir a todo', points:{Kokushibo:0,Doma:0,Akaza:0,Hantengu:3,Gyokko:0,Daki:0}},
+        {text:'Conseguir más reconocimiento y fama', points:{Kokushibo:0,Doma:0,Akaza:0,Hantengu:0,Gyokko:3,Daki:3}},
+      ]},
+    ];
+    const LUNA_RESULTS = {
+      Kokushibo: { name:'Kokushibo — Luna Superior 1',   img:'tanjiro.png', description:'Sos el ser más poderoso del reino demoníaco, consumido por la envidia y la perfección durante siglos. Tu técnica es insuperable pero tu corazón nunca sanó.',         tags:['Poderoso','Técnico','Atormentado','Legendario'] },
+      Doma:      { name:'Doma — Luna Superior 2',        img:'tanjiro.png', description:'Sonreís todo el tiempo pero no sentís nada. Encantador, peligroso e incapaz de amor real. Tu frialdad emocional es tu fortaleza y tu condena.',                       tags:['Carismático','Frío','Letal','Vacío'] },
+      Akaza:     { name:'Akaza — Luna Superior 3',       img:'akaza.png',   description:'Luchás con toda tu alma y despreciás la debilidad. Detrás de tu ferocidad hay un dolor enorme que olvidaste. Devastador en combate e implacable.',                    tags:['Feroz','Honorable','Poderoso','Atormentado'] },
+      Hantengu:  { name:'Hantengu — Luna Superior 4',    img:'tanjiro.png', description:'El miedo define cada uno de tus actos. Te desdoblás para sobrevivir y siempre buscás una salida. Sos más peligroso de lo que parece cuando te acorralan.',             tags:['Cobarde','Imprevisible','Astuto','Resiliente'] },
+      Gyokko:    { name:'Gyokko — Luna Superior 5',      img:'tanjiro.png', description:'Tu obsesión con el arte y tu vanidad te definen. Creés que sos incomprendido por un mundo que no merece tu genio. Letal y completamente impredecible.',                 tags:['Narcisista','Creativo','Peligroso','Egocéntrico'] },
+      Daki:      { name:'Daki — Luna Superior 6',        img:'tanjiro.png', description:'Orgulloso, caprichoso y extremadamente poderoso. Dependés de otros más de lo que admitís pero cuando te enojás, tu poder es aterrador.',                               tags:['Orgulloso','Caprichoso','Poderoso','Vanidoso'] },
+    };
 
     // ==================== PERSONALITY QUIZ ENGINE ====================
     let quizState = { mode:null, questions:[], currentIdx:0, personalityPoints:{} };
@@ -514,7 +680,7 @@
         { pregunta:'¿Qué tipo de demonio era Nezuko comparado con otros?', opciones:['Podía soportar la luz del sol','Era inmortal','Podía hablar normalmente','Nunca comió humanos'], correcta:0 },
       ]}
     ];
-    let arcoState = { arcoActual:0, preguntaActual:0, preguntasActuales:[], vidas:3, puntaje:0, racha:0, timer:null, tiempoInicio:0, juegoTerminado:false, arcosCompletados:[] };
+    let arcoState = { arcoActual:0, preguntaActual:0, preguntasActuales:[], vidas:3, puntaje:0, racha:0, juegoTerminado:false, arcosCompletados:[] };
     function iniciarArco(){
       arcoState.preguntaActual=0; arcoState.vidas=3; arcoState.puntaje=0; arcoState.racha=0; arcoState.juegoTerminado=false;
       arcoState.preguntasActuales=shuffleArray([...ARCOS[arcoState.arcoActual].preguntas]).slice(0,10);
@@ -536,27 +702,21 @@
             <span>${arcoState.preguntaActual+1} / ${arcoState.preguntasActuales.length}</span>
           </div>
           <div class="progress-bar-container"><div class="progress-bar-fill" style="width:${(arcoState.preguntaActual/arcoState.preguntasActuales.length)*100}%;background:${arco.color};"></div></div>
-          <div id="timer" style="text-align:center;font-family:'Cinzel',serif;font-size:1.1rem;margin:.6rem 0;color:var(--gold);">15s</div>
-          <h2 style="margin-bottom:1rem;font-size:1.1rem;line-height:1.4;">${q.pregunta}</h2>
+          <h2 style="margin-bottom:1rem;font-size:1.1rem;line-height:1.4;margin-top:.9rem;">${q.pregunta}</h2>
           <div id="opciones-arco"></div>
         </div>`;
-      document.getElementById('arco-back').addEventListener('click',()=>{ clearInterval(arcoState.timer); showScreen('menu-screen'); });
-      let tiempo=15; const timerEl=document.getElementById('timer');
-      arcoState.tiempoInicio=Date.now();
-      arcoState.timer=setInterval(()=>{ tiempo--; timerEl.textContent=tiempo+'s'; if(tiempo<=3) timerEl.style.color='#E74C3C'; if(tiempo<=0){ clearInterval(arcoState.timer); mostrarTanjiroSorprendido(()=>perderVidaArco()); } },1000);
+      document.getElementById('arco-back').addEventListener('click',()=>showScreen('menu-screen'));
       const opcionesDiv=document.getElementById('opciones-arco');
       q.opciones.forEach((opc,i)=>{ const btn=document.createElement('button'); btn.className='option-btn'; btn.textContent=opc; btn.onclick=()=>respuestaArco(i,btn); opcionesDiv.appendChild(btn); });
     }
     function respuestaArco(idx,btn){
-      clearInterval(arcoState.timer);
       const arco=ARCOS[arcoState.arcoActual], q=arcoState.preguntasActuales[arcoState.preguntaActual];
       const correcta=idx===q.correcta;
       document.querySelectorAll('#opciones-arco .option-btn').forEach(b=>b.disabled=true);
       if(correcta){
         btn.classList.add('correct'); arcoState.racha++;
-        const tiempo=(Date.now()-arcoState.tiempoInicio)/1000;
-        let bonus=tiempo<3?50:tiempo<7?20:0, mult=arcoState.racha>=3?1.5:1;
-        arcoState.puntaje+=Math.round((arco.ptsBase+bonus)*mult);
+        const mult=arcoState.racha>=3?1.5:arcoState.racha>=2?1.2:1;
+        arcoState.puntaje+=Math.round(arco.ptsBase*mult);
         setTimeout(()=>{ if(!arcoState.juegoTerminado){ arcoState.preguntaActual++; if(arcoState.preguntaActual>=arcoState.preguntasActuales.length) arcoCompletado(); else renderPreguntaArco(); } },800);
       } else {
         btn.classList.add('incorrect');
@@ -568,7 +728,10 @@
     function perderVidaArco(){
       arcoState.vidas--;
       if(arcoState.vidas<=0){
-        document.getElementById('trivia-arcos-screen').innerHTML=`<div class="mini-container" style="text-align:center;padding-top:3rem;"><h2 style="font-family:'Cinzel',serif;margin-bottom:1rem;">💀 Sin vidas</h2><p style="color:var(--text-muted);margin-bottom:1.5rem;">Puntaje final: <strong style="color:var(--gold);">${arcoState.puntaje}</strong></p><div style="display:flex;gap:.75rem;justify-content:center;"><button class="btn-primary" id="arco-retry">Reintentar arco</button><button class="btn-secondary" id="arco-menu2">← Menú</button></div></div>`;
+        const pts=arcoState.puntaje;
+        const arcoNombre=ARCOS[arcoState.arcoActual].nombre;
+        document.getElementById('trivia-arcos-screen').innerHTML=`<div class="mini-container" style="text-align:center;padding-top:3rem;"><h2 style="font-family:'Cinzel',serif;margin-bottom:1rem;">💀 Sin vidas</h2><p style="color:var(--text-muted);margin-bottom:1.5rem;">Puntaje final: <strong style="color:var(--gold);">⭐ ${pts}</strong></p><div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1.2rem;max-width:320px;margin-left:auto;margin-right:auto;"><input id="score-name" placeholder="Tu nombre" maxlength="20" style="flex:1;padding:.55rem .75rem;background:var(--bg-card);border:1px solid var(--border);color:#F0E6D3;border-radius:6px;font-family:'Cinzel',serif;font-size:.85rem;"><button class="btn-primary" id="score-save" style="padding:.55rem 1rem;font-size:.8rem;">Guardar ⭐</button></div><div style="display:flex;gap:.75rem;justify-content:center;"><button class="btn-primary" id="arco-retry">Reintentar arco</button><button class="btn-secondary" id="arco-menu2">← Menú</button></div></div>`;
+        document.getElementById('score-save').addEventListener('click',()=>{ const n=document.getElementById('score-name').value.trim()||'Anónimo'; Puntuaciones.save(n,pts,arcoNombre); document.getElementById('score-save').textContent='¡Guardado! ✓'; document.getElementById('score-save').disabled=true; });
         document.getElementById('arco-retry').addEventListener('click',iniciarArco);
         document.getElementById('arco-menu2').addEventListener('click',()=>showScreen('menu-screen'));
       } else {
@@ -579,7 +742,9 @@
     function arcoCompletado(){
       arcoState.arcosCompletados.push(arcoState.arcoActual);
       const esUltimo=arcoState.arcoActual>=ARCOS.length-1;
-      document.getElementById('trivia-arcos-screen').innerHTML=`<div class="mini-container" style="text-align:center;padding-top:3rem;"><div style="font-size:3rem;margin-bottom:.8rem;">${esUltimo?'🏆':'🎉'}</div><h2 style="font-family:'Cinzel',serif;margin-bottom:.5rem;">${esUltimo?'¡Leyenda Completada!':'¡Arco Superado!'}</h2><p style="color:var(--text-muted);margin-bottom:.3rem;">${ARCOS[arcoState.arcoActual].nombre}</p><p style="color:var(--gold);font-family:'Cinzel',serif;font-size:1.2rem;margin-bottom:1.5rem;">⭐ ${arcoState.puntaje} puntos</p><div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;">${esUltimo?'':'<button class="btn-primary" id="arco-next">Siguiente arco ⟶</button>'}<button class="btn-secondary" id="arco-menu">← Menú</button></div></div>`;
+      const pts=arcoState.puntaje, arcoNombre=ARCOS[arcoState.arcoActual].nombre;
+      document.getElementById('trivia-arcos-screen').innerHTML=`<div class="mini-container" style="text-align:center;padding-top:3rem;"><div style="font-size:3rem;margin-bottom:.8rem;">${esUltimo?'🏆':'🎉'}</div><h2 style="font-family:'Cinzel',serif;margin-bottom:.5rem;">${esUltimo?'¡Leyenda Completada!':'¡Arco Superado!'}</h2><p style="color:var(--text-muted);margin-bottom:.3rem;">${arcoNombre}</p><p style="color:var(--gold);font-family:'Cinzel',serif;font-size:1.2rem;margin-bottom:1.2rem;">⭐ ${pts} puntos</p><div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1.2rem;max-width:320px;margin-left:auto;margin-right:auto;"><input id="score-name" placeholder="Tu nombre" maxlength="20" style="flex:1;padding:.55rem .75rem;background:var(--bg-card);border:1px solid var(--border);color:#F0E6D3;border-radius:6px;font-family:'Cinzel',serif;font-size:.85rem;"><button class="btn-primary" id="score-save" style="padding:.55rem 1rem;font-size:.8rem;">Guardar ⭐</button></div><div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;">${esUltimo?'':'<button class="btn-primary" id="arco-next">Siguiente arco ⟶</button>'}<button class="btn-secondary" id="arco-menu">← Menú</button></div></div>`;
+      document.getElementById('score-save').addEventListener('click',()=>{ const n=document.getElementById('score-name').value.trim()||'Anónimo'; Puntuaciones.save(n,pts,arcoNombre); document.getElementById('score-save').textContent='¡Guardado! ✓'; document.getElementById('score-save').disabled=true; });
       if(!esUltimo) document.getElementById('arco-next').addEventListener('click',()=>{ arcoState.arcoActual++; iniciarArco(); });
       document.getElementById('arco-menu').addEventListener('click',()=>showScreen('menu-screen'));
     }
@@ -621,25 +786,63 @@
       ];
       const MAX_ERR=6; let state={};
 
-      function drawHangman(ctx,errors){
-        ctx.clearRect(0,0,140,160);
-        ctx.strokeStyle='rgba(192,57,43,0.85)'; ctx.lineWidth=2.5; ctx.lineCap='round';
-        ctx.beginPath(); ctx.moveTo(10,155); ctx.lineTo(130,155); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(30,155); ctx.lineTo(30,10); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(30,10); ctx.lineTo(90,10); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(90,10); ctx.lineTo(90,30); ctx.stroke();
+      function drawDemon(ctx,errors){
+        const W=160,H=200;
+        ctx.clearRect(0,0,W,H);
         if(errors<1) return;
-        ctx.beginPath(); ctx.arc(90,42,12,0,Math.PI*2); ctx.stroke();
+        // Etapa 1: Luna de sangre en el fondo
+        const aura=ctx.createRadialGradient(80,100,10,80,100,90);
+        aura.addColorStop(0,'rgba(100,0,0,.15)'); aura.addColorStop(1,'transparent');
+        ctx.fillStyle=aura; ctx.fillRect(0,0,W,H);
+        ctx.beginPath(); ctx.arc(80,22,18,0,Math.PI*2);
+        ctx.fillStyle='rgba(140,0,0,.4)'; ctx.fill();
+        ctx.beginPath(); ctx.arc(80,22,12,0,Math.PI*2);
+        ctx.fillStyle='rgba(180,0,0,.3)'; ctx.fill();
         if(errors<2) return;
-        ctx.beginPath(); ctx.moveTo(90,54); ctx.lineTo(90,100); ctx.stroke();
+        // Etapa 2: Cuerpo / silueta
+        ctx.fillStyle='rgba(38,0,52,.8)'; ctx.strokeStyle='rgba(142,68,173,.65)'; ctx.lineWidth=1.5;
+        ctx.beginPath(); ctx.moveTo(52,88); ctx.lineTo(36,168); ctx.lineTo(124,168); ctx.lineTo(108,88); ctx.closePath();
+        ctx.fill(); ctx.stroke();
+        ctx.strokeStyle='rgba(142,68,173,.5)'; ctx.lineWidth=2; ctx.lineCap='round';
+        ctx.beginPath(); ctx.moveTo(50,168); ctx.lineTo(40,196); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(110,168); ctx.lineTo(120,196); ctx.stroke();
         if(errors<3) return;
-        ctx.beginPath(); ctx.moveTo(90,65); ctx.lineTo(65,85); ctx.stroke();
+        // Etapa 3: Cabeza
+        ctx.fillStyle='rgba(42,0,60,.88)'; ctx.strokeStyle='rgba(142,68,173,.9)'; ctx.lineWidth=2;
+        ctx.beginPath(); ctx.ellipse(80,65,30,32,0,0,Math.PI*2); ctx.fill(); ctx.stroke();
         if(errors<4) return;
-        ctx.beginPath(); ctx.moveTo(90,65); ctx.lineTo(115,85); ctx.stroke();
+        // Etapa 4: Ojos rojos brillantes
+        [[64,60],[96,60]].forEach(([x,y])=>{
+          const g=ctx.createRadialGradient(x,y,0,x,y,10);
+          g.addColorStop(0,'#ff5555'); g.addColorStop(.5,'#bb0000'); g.addColorStop(1,'transparent');
+          ctx.fillStyle=g; ctx.beginPath(); ctx.ellipse(x,y,9,7,0,0,Math.PI*2); ctx.fill();
+          ctx.fillStyle='rgba(0,0,0,.85)'; ctx.beginPath(); ctx.ellipse(x,y,3,4,0,0,Math.PI*2); ctx.fill();
+        });
         if(errors<5) return;
-        ctx.beginPath(); ctx.moveTo(90,100); ctx.lineTo(65,130); ctx.stroke();
+        // Etapa 5: Boca con colmillos
+        ctx.strokeStyle='rgba(140,0,0,.9)'; ctx.lineWidth=1.8;
+        ctx.beginPath(); ctx.arc(80,80,13,0.15,Math.PI-.15); ctx.stroke();
+        ctx.fillStyle='rgba(235,225,210,.95)';
+        [[71,78,4,11],[80,76,4,12],[89,78,4,11]].forEach(([x,y,w,h])=>{
+          ctx.beginPath(); ctx.moveTo(x-w/2,y); ctx.lineTo(x,y+h); ctx.lineTo(x+w/2,y); ctx.closePath(); ctx.fill();
+        });
         if(errors<6) return;
-        ctx.beginPath(); ctx.moveTo(90,100); ctx.lineTo(115,130); ctx.stroke();
+        // Etapa 6: Cuernos + brazos — demonio completo
+        ctx.fillStyle='rgba(75,0,95,.9)'; ctx.strokeStyle='rgba(142,68,173,.9)'; ctx.lineWidth=2;
+        [[55,44,43,8,68,40],[105,44,117,8,92,40]].forEach(([x1,y1,x2,y2,x3,y3])=>{
+          ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.lineTo(x3,y3); ctx.closePath(); ctx.fill(); ctx.stroke();
+        });
+        ctx.strokeStyle='rgba(142,68,173,.75)'; ctx.lineWidth=3;
+        ctx.beginPath(); ctx.moveTo(52,102); ctx.lineTo(16,132); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(108,102); ctx.lineTo(144,132); ctx.stroke();
+        ctx.strokeStyle='rgba(220,210,200,.85)'; ctx.lineWidth=1.5;
+        [[-8,2],[-2,6],[5,2]].forEach(([dx,dy])=>{ ctx.beginPath(); ctx.moveTo(16+dx,132+dy); ctx.lineTo(16+dx-4,148+dy); ctx.stroke(); });
+        [[8,2],[2,6],[-5,2]].forEach(([dx,dy])=>{ ctx.beginPath(); ctx.moveTo(144+dx,132+dy); ctx.lineTo(144+dx+4,148+dy); ctx.stroke(); });
+        const fa=ctx.createRadialGradient(80,110,5,80,110,85);
+        fa.addColorStop(0,'transparent'); fa.addColorStop(.65,'rgba(142,68,173,.07)'); fa.addColorStop(1,'rgba(192,57,43,.1)');
+        ctx.fillStyle=fa; ctx.fillRect(0,0,W,H);
+        ctx.fillStyle='rgba(192,57,43,.75)'; ctx.font='bold 13px serif'; ctx.textAlign='center';
+        ctx.fillText('鬼',80,H-4);
       }
 
       function renderWord(){
@@ -669,9 +872,9 @@
         state.guessed.add(letter);
         if(!state.word.includes(letter)){
           state.errors++;
-          drawHangman(ctx,state.errors);
+          drawDemon(ctx,state.errors);
           const errEl=document.getElementById('hm-errors');
-          if(errEl) errEl.textContent=`Errores: ${state.errors} / ${MAX_ERR}`;
+          if(errEl) errEl.textContent=`Demonio: ${state.errors} / ${MAX_ERR}`;
         }
         renderWord(); renderKeyboard(ctx);
         const allRevealed=state.word.split('').every(l=>state.guessed.has(l));
@@ -700,8 +903,8 @@
             </div>
             <div class="hm-layout">
               <div class="hm-left">
-                <canvas class="hm-canvas" id="hm-canvas" width="140" height="160"></canvas>
-                <p id="hm-errors" style="font-family:'Cinzel',serif;font-size:.75rem;color:var(--text-muted);margin-top:.4rem;text-align:center;">Errores: 0 / ${MAX_ERR}</p>
+                <canvas class="hm-canvas" id="hm-canvas" width="160" height="200" style="width:160px;height:200px;"></canvas>
+                <p id="hm-errors" style="font-family:'Cinzel',serif;font-size:.75rem;color:var(--text-muted);margin-top:.4rem;text-align:center;">Demonio: 0 / ${MAX_ERR}</p>
               </div>
               <div style="flex:1;display:flex;flex-direction:column;gap:.9rem;">
                 <p style="font-style:italic;color:var(--text-muted);font-size:.85rem;">Pista: <strong style="color:var(--gold);">${entry.hint}</strong></p>
@@ -717,7 +920,7 @@
         document.getElementById('hm-back').addEventListener('click',()=>showScreen('menu-screen'));
         document.getElementById('hm-restart').addEventListener('click',init);
         const ctx=document.getElementById('hm-canvas').getContext('2d');
-        drawHangman(ctx,0); renderWord(); renderKeyboard(ctx);
+        drawDemon(ctx,0); renderWord(); renderKeyboard(ctx);
       }
       return{init};
     })();
@@ -825,7 +1028,50 @@
       }
       return{init};
     })();
-    // KatanaForge
+    // Puntuaciones
+    const Puntuaciones = (function(){
+      const KEY='kny_scores';
+      function load(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
+      function save(nombre,puntaje,arco){
+        const scores=load();
+        scores.push({nombre,puntaje,arco,fecha:new Date().toLocaleDateString('es-AR')});
+        scores.sort((a,b)=>b.puntaje-a.puntaje);
+        localStorage.setItem(KEY,JSON.stringify(scores.slice(0,25)));
+      }
+      function init(){
+        const scores=load();
+        const sc=document.getElementById('puntuaciones-screen');
+        const medals=['🥇','🥈','🥉'];
+        const borders=['rgba(201,168,76,.45)','rgba(200,200,200,.3)','rgba(200,120,50,.3)'];
+        const bgs=['rgba(201,168,76,.08)','rgba(200,200,200,.05)','rgba(200,120,50,.05)'];
+        sc.innerHTML=`
+          <div class="mini-container">
+            <div style="display:flex;gap:1rem;align-items:center;margin-bottom:1.5rem;">
+              <button class="btn-back" id="pts-back">← Menú</button>
+              <span style="font-family:'Cinzel',serif;color:var(--gold);font-size:.9rem;flex:1;text-align:center;">🏆 MEJORES PUNTUACIONES 🏆</span>
+              <button class="btn-secondary" id="pts-clear" style="font-size:.7rem;padding:.35rem .7rem;">Borrar todo</button>
+            </div>
+            ${scores.length===0
+              ? `<p style="text-align:center;color:var(--text-muted);font-style:italic;padding:3rem 1rem;">Aún no hay puntuaciones.<br>¡Completá un arco de Trivia para aparecer aquí!</p>`
+              : `<div style="display:flex;flex-direction:column;gap:.45rem;">
+                  ${scores.map((s,i)=>`
+                    <div style="display:flex;align-items:center;gap:.75rem;padding:.6rem 1rem;background:${bgs[i]||'var(--bg-card)'};border:1px solid ${borders[i]||'var(--border)'};border-radius:8px;">
+                      <span style="font-size:1.1rem;min-width:2rem;text-align:center;">${medals[i]||'<span style="font-family:Cinzel,serif;font-size:.8rem;color:var(--text-muted);">#'+(i+1)+'</span>'}</span>
+                      <div style="flex:1;min-width:0;">
+                        <div style="font-family:'Cinzel',serif;font-size:.88rem;color:${i<3?'var(--gold)':'#F0E6D3'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.nombre}</div>
+                        <div style="font-size:.72rem;color:var(--text-muted);">${s.arco} · ${s.fecha}</div>
+                      </div>
+                      <span style="font-family:'Cinzel',serif;font-size:.95rem;color:${i<3?'var(--gold)':'#F0E6D3'};white-space:nowrap;">⭐ ${s.puntaje}</span>
+                    </div>`).join('')}
+                </div>`
+            }
+          </div>`;
+        document.getElementById('pts-back').addEventListener('click',()=>showScreen('menu-screen'));
+        document.getElementById('pts-clear').addEventListener('click',()=>{ if(confirm('¿Borrar todas las puntuaciones?')){ localStorage.removeItem(KEY); init(); } });
+      }
+      return{init,save};
+    })();
+    // (KatanaForge removido — reemplazado por Puntuaciones)
     const KatanaForge = (function(){
       const BLADES=[
         {name:'Agua',color:'#5DADE2'},{name:'Fuego',color:'#E74C3C'},{name:'Trueno',color:'#F4D03F'},
@@ -1096,7 +1342,7 @@
     document.querySelectorAll('.mode-card[data-mode]').forEach(card=>card.addEventListener('click', ()=>{ startPersonalityQuiz(card.dataset.mode); }));
     document.getElementById('btn-hangman').addEventListener('click', ()=>{ showScreen('hangman-screen'); Hangman.init(); });
     document.getElementById('btn-tateti').addEventListener('click', ()=>{ showScreen('tateti-screen'); Tateti.init(); });
-    document.getElementById('btn-katana').addEventListener('click', ()=>{ showScreen('katana-screen'); KatanaForge.init(); });
+    document.getElementById('btn-puntuaciones').addEventListener('click', ()=>{ showScreen('puntuaciones-screen'); Puntuaciones.init(); });
     document.getElementById('btn-cartas').addEventListener('click', ()=>{ showScreen('cartas-screen'); CartasNichirin.init(); });
   </script>
 </body>
