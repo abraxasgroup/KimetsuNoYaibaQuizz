@@ -730,8 +730,10 @@
       if(arcoState.vidas<=0){
         const pts=arcoState.puntaje;
         const arcoNombre=ARCOS[arcoState.arcoActual].nombre;
-        document.getElementById('trivia-arcos-screen').innerHTML=`<div class="mini-container" style="text-align:center;padding-top:3rem;"><h2 style="font-family:'Cinzel',serif;margin-bottom:1rem;">💀 Sin vidas</h2><p style="color:var(--text-muted);margin-bottom:1.5rem;">Puntaje final: <strong style="color:var(--gold);">⭐ ${pts}</strong></p><div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1.2rem;max-width:320px;margin-left:auto;margin-right:auto;"><input id="score-name" placeholder="Tu nombre" maxlength="20" style="flex:1;padding:.55rem .75rem;background:var(--bg-card);border:1px solid var(--border);color:#F0E6D3;border-radius:6px;font-family:'Cinzel',serif;font-size:.85rem;"><button class="btn-primary" id="score-save" style="padding:.55rem 1rem;font-size:.8rem;">Guardar ⭐</button></div><div style="display:flex;gap:.75rem;justify-content:center;"><button class="btn-primary" id="arco-retry">Reintentar arco</button><button class="btn-secondary" id="arco-menu2">← Menú</button></div></div>`;
-        document.getElementById('score-save').addEventListener('click',()=>{ const n=document.getElementById('score-name').value.trim()||'Anónimo'; Puntuaciones.save(n,pts,arcoNombre); document.getElementById('score-save').textContent='¡Guardado! ✓'; document.getElementById('score-save').disabled=true; });
+        const prevName=Puntuaciones.lastName()||'Cazador';
+        const ts=Puntuaciones.save(prevName,pts,arcoNombre);
+        document.getElementById('trivia-arcos-screen').innerHTML=`<div class="mini-container" style="text-align:center;padding-top:3rem;"><h2 style="font-family:'Cinzel',serif;margin-bottom:1rem;">💀 Sin vidas</h2><p style="color:var(--text-muted);margin-bottom:.5rem;">Puntaje final: <strong style="color:var(--gold);">⭐ ${pts}</strong></p><p style="color:#27AE60;font-family:'Cinzel',serif;font-size:.72rem;margin-bottom:1rem;letter-spacing:.06em;">✓ Puntaje guardado</p><div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1.2rem;max-width:300px;margin-left:auto;margin-right:auto;"><input id="score-name" placeholder="Tu nombre" value="${prevName}" maxlength="20" style="flex:1;padding:.5rem .7rem;background:var(--bg-card);border:1px solid var(--border);color:#F0E6D3;border-radius:6px;font-family:'Cinzel',serif;font-size:.82rem;"><button class="btn-secondary" id="score-rename" style="padding:.5rem .8rem;font-size:.75rem;">✎</button></div><div style="display:flex;gap:.75rem;justify-content:center;"><button class="btn-primary" id="arco-retry">Reintentar arco</button><button class="btn-secondary" id="arco-menu2">← Menú</button></div></div>`;
+        if(ts) document.getElementById('score-rename').addEventListener('click',()=>{ const n=document.getElementById('score-name').value.trim()||prevName; Puntuaciones.rename(ts,n); document.getElementById('score-rename').textContent='✓'; document.getElementById('score-rename').disabled=true; });
         document.getElementById('arco-retry').addEventListener('click',iniciarArco);
         document.getElementById('arco-menu2').addEventListener('click',()=>showScreen('menu-screen'));
       } else {
@@ -743,8 +745,10 @@
       arcoState.arcosCompletados.push(arcoState.arcoActual);
       const esUltimo=arcoState.arcoActual>=ARCOS.length-1;
       const pts=arcoState.puntaje, arcoNombre=ARCOS[arcoState.arcoActual].nombre;
-      document.getElementById('trivia-arcos-screen').innerHTML=`<div class="mini-container" style="text-align:center;padding-top:3rem;"><div style="font-size:3rem;margin-bottom:.8rem;">${esUltimo?'🏆':'🎉'}</div><h2 style="font-family:'Cinzel',serif;margin-bottom:.5rem;">${esUltimo?'¡Leyenda Completada!':'¡Arco Superado!'}</h2><p style="color:var(--text-muted);margin-bottom:.3rem;">${arcoNombre}</p><p style="color:var(--gold);font-family:'Cinzel',serif;font-size:1.2rem;margin-bottom:1.2rem;">⭐ ${pts} puntos</p><div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1.2rem;max-width:320px;margin-left:auto;margin-right:auto;"><input id="score-name" placeholder="Tu nombre" maxlength="20" style="flex:1;padding:.55rem .75rem;background:var(--bg-card);border:1px solid var(--border);color:#F0E6D3;border-radius:6px;font-family:'Cinzel',serif;font-size:.85rem;"><button class="btn-primary" id="score-save" style="padding:.55rem 1rem;font-size:.8rem;">Guardar ⭐</button></div><div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;">${esUltimo?'':'<button class="btn-primary" id="arco-next">Siguiente arco ⟶</button>'}<button class="btn-secondary" id="arco-menu">← Menú</button></div></div>`;
-      document.getElementById('score-save').addEventListener('click',()=>{ const n=document.getElementById('score-name').value.trim()||'Anónimo'; Puntuaciones.save(n,pts,arcoNombre); document.getElementById('score-save').textContent='¡Guardado! ✓'; document.getElementById('score-save').disabled=true; });
+      const prevName=Puntuaciones.lastName()||'Cazador';
+      const ts=Puntuaciones.save(prevName,pts,arcoNombre);
+      document.getElementById('trivia-arcos-screen').innerHTML=`<div class="mini-container" style="text-align:center;padding-top:3rem;"><div style="font-size:3rem;margin-bottom:.8rem;">${esUltimo?'🏆':'🎉'}</div><h2 style="font-family:'Cinzel',serif;margin-bottom:.5rem;">${esUltimo?'¡Leyenda Completada!':'¡Arco Superado!'}</h2><p style="color:var(--text-muted);margin-bottom:.3rem;">${arcoNombre}</p><p style="color:var(--gold);font-family:'Cinzel',serif;font-size:1.2rem;margin-bottom:.5rem;">⭐ ${pts} puntos</p><p style="color:#27AE60;font-family:'Cinzel',serif;font-size:.72rem;margin-bottom:1rem;letter-spacing:.06em;">✓ Puntaje guardado</p><div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1.2rem;max-width:300px;margin-left:auto;margin-right:auto;"><input id="score-name" placeholder="Tu nombre" value="${prevName}" maxlength="20" style="flex:1;padding:.5rem .7rem;background:var(--bg-card);border:1px solid var(--border);color:#F0E6D3;border-radius:6px;font-family:'Cinzel',serif;font-size:.82rem;"><button class="btn-secondary" id="score-rename" style="padding:.5rem .8rem;font-size:.75rem;">✎</button></div><div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;">${esUltimo?'':'<button class="btn-primary" id="arco-next">Siguiente arco ⟶</button>'}<button class="btn-secondary" id="arco-menu">← Menú</button></div></div>`;
+      if(ts) document.getElementById('score-rename').addEventListener('click',()=>{ const n=document.getElementById('score-name').value.trim()||prevName; Puntuaciones.rename(ts,n); document.getElementById('score-rename').textContent='✓'; document.getElementById('score-rename').disabled=true; });
       if(!esUltimo) document.getElementById('arco-next').addEventListener('click',()=>{ arcoState.arcoActual++; iniciarArco(); });
       document.getElementById('arco-menu').addEventListener('click',()=>showScreen('menu-screen'));
     }
@@ -975,7 +979,6 @@
           st.textContent='🌙 ¡Akaza vence! La oscuridad triunfa';
           st.style.color='#E74C3C';
           KNYVoice.cpuWin();
-          setTimeout(()=>mostrarKatanadePremio('katana_tanjiro.jpg',false),1100);
         }
       }
 
@@ -1030,13 +1033,26 @@
     })();
     // Puntuaciones
     const Puntuaciones = (function(){
-      const KEY='kny_scores';
+      const KEY='kny_scores', LKEY='kny_last_name';
       function load(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
+      function lastName(){ return localStorage.getItem(LKEY)||''; }
       function save(nombre,puntaje,arco){
-        const scores=load();
-        scores.push({nombre,puntaje,arco,fecha:new Date().toLocaleDateString('es-AR')});
-        scores.sort((a,b)=>b.puntaje-a.puntaje);
-        localStorage.setItem(KEY,JSON.stringify(scores.slice(0,25)));
+        try{
+          const scores=load();
+          const ts=Date.now();
+          scores.push({nombre,puntaje,arco,fecha:new Date().toLocaleDateString('es-AR'),ts});
+          scores.sort((a,b)=>b.puntaje-a.puntaje);
+          localStorage.setItem(KEY,JSON.stringify(scores.slice(0,25)));
+          if(nombre&&nombre!=='Cazador') localStorage.setItem(LKEY,nombre);
+          return ts;
+        }catch(e){ return null; }
+      }
+      function rename(ts,nombre){
+        try{
+          const scores=load();
+          const e=scores.find(s=>s.ts===ts);
+          if(e){ e.nombre=nombre; localStorage.setItem(KEY,JSON.stringify(scores)); localStorage.setItem(LKEY,nombre); }
+        }catch(e){}
       }
       function init(){
         const scores=load();
@@ -1069,7 +1085,7 @@
         document.getElementById('pts-back').addEventListener('click',()=>showScreen('menu-screen'));
         document.getElementById('pts-clear').addEventListener('click',()=>{ if(confirm('¿Borrar todas las puntuaciones?')){ localStorage.removeItem(KEY); init(); } });
       }
-      return{init,save};
+      return{init,save,rename,lastName};
     })();
     // (KatanaForge removido — reemplazado por Puntuaciones)
     const KatanaForge = (function(){
